@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
+from flask_cors import CORS
 import os
 import json
 from werkzeug.utils import secure_filename
@@ -21,6 +22,8 @@ app.config['ADMIN_PASSWORD'] = os.getenv("ADMIN_PASSWORD")
 
 # Ensure upload directory exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+CORS(app, resources={r"/*": {"origins": ["https://ayushman-kar.netlify.app/", "http://localhost:5173"]}})
 
 # Helper functions for JSON data
 def load_data():
@@ -45,6 +48,10 @@ def save_data(data):
         json.dump(data, file, indent=4)
 
 # --- PUBLIC ROUTES ---
+@app.route('/')
+def home():
+    return {"status": "Backend is running!"}
+
 @app.route('/')
 def index():
     data = load_data()
