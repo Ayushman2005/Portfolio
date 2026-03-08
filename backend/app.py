@@ -23,7 +23,7 @@ app.config['ADMIN_PASSWORD'] = os.getenv("ADMIN_PASSWORD")
 # Ensure upload directory exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-CORS(app, resources={r"/*": {"origins": ["https://ayushman-kar.netlify.app/", "http://localhost:5173"]}})
+CORS(app, resources={r"/*": {"origins": ["https://ayushman-kar.netlify.app", "http://localhost:5173"]}})
 
 # Helper functions for JSON data
 def load_data():
