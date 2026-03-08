@@ -40,6 +40,3 @@ __pycache__/
 *.swp
 *.swo
 
-# Project Specific
-static/images/
-portfolio_data.json
