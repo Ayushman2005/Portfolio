@@ -11,7 +11,6 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import BackToTop from './components/BackToTop';
-import Chatbot from './components/Chatbot';
 
 function App() {
   const [data, setData] = useState(null);
@@ -20,7 +19,8 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/data');
+        const API_URL = import.meta.env.VITE_API_URL || '';
+        const response = await axios.get(`${API_URL}/api/data`);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -31,12 +31,11 @@ function App() {
 
     fetchData();
 
-    // Loading animation
     document.body.classList.add('loaded');
   }, []);
 
   if (loading) {
-    return <div className="loading-screen">Loading...</div>; // You can add a better loading screen
+    return <div className="loading-screen">Loading...</div>;
   }
 
   if (!data) {
@@ -56,7 +55,6 @@ function App() {
       <Contact data={data} />
       <Footer data={data} />
       <BackToTop />
-      <Chatbot />
     </div>
   );
 }
