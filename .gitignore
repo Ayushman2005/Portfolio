@@ -1,0 +1,45 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Next.js / Node.js
+**/node_modules/
+**/dist/
+**/build/
+**/.next/
+**/.nuxt/
+**/.vuepress/
+**/out/
+
+# Database files
+*.sqlite3
+
+# Logs
+*.log
+
+# Caching
+.eslintcache
+.stylelintcache
+
+# DS_Store / macOS
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project Specific
+static/images/
+portfolio_data.json

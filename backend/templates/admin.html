@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #6366f1;
+      --secondary-color: #8b5cf6;
+      --accent-color: #ec4899;
+      --bg-color: #000000;
+      --card-bg: #080808;
+      --border-color: #1f1f1f;
+      --input-bg: #121212;
+      --text-primary: #ffffff;
+      --text-muted: #94a3b8;
+      --success-color: #10b981;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      padding-bottom: 4rem;
+    }
+
+    /* Glassmorphic Navbar */
+    .admin-nav {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+      transform: scale(1.1);
+    }
+
+    .nav-links .logout:hover {
+      color: #ef4444;
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Success Message */
+    .flash-success {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success-color);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* Premium Card Design */
+    .admin-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Top Glow Line for Cards */
+    .admin-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-color, var(--primary-color));
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .card-header i {
+      font-size: 1.5rem;
+      color: var(--card-color, var(--primary-color));
+    }
+
+    .card-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    /* Grid Layout for Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.9rem 1.2rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--card-color, var(--primary-color));
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    input[type="file"].form-control {
+      padding: 0.75rem 1.2rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+      background: var(--border-color);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+
+    /* Premium Buttons */
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    /* Thematic Colors mapped via CSS Variables */
+    .theme-project {
+      --card-color: var(--primary-color);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.05);
+    }
+
+    .btn-project {
+      background: var(--primary-color);
+    }
+
+    .btn-project:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .theme-skill {
+      --card-color: var(--secondary-color);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.05);
+    }
+
+    .btn-skill {
+      background: var(--secondary-color);
+    }
+
+    .btn-skill:hover {
+      background: #7c3aed;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+    }
+
+    .theme-cert {
+      --card-color: var(--accent-color);
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.05);
+    }
+
+    .btn-cert {
+      background: var(--accent-color);
+    }
+
+    .btn-cert:hover {
+      background: #db2777;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .admin-nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .admin-card {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="admin-nav">
+    <div class="nav-brand">
+      <i class="fas fa-layer-group" style="color: var(--primary-color)"></i>
+      Dashboard
+    </div>
+    <div class="nav-links">
+      <a href="/" title="View Live Site"><i class="fas fa-globe"></i></a>
+      <a href="/logout" class="logout" title="Secure Logout"><i class="fas fa-power-off"></i></a>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="flash-success">
+      <i class="fas fa-check-circle"></i> {{ messages[0] }}
+    </div>
+    {% endif %} {% endwith %}
+
+    <div class="admin-card theme-project">
+      <div class="card-header">
+        <i class="fas fa-rocket"></i>
+        <h2>Deploy New Project</h2>
+      </div>
+      <form action="/admin/add_project" method="POST" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Project Title</label>
+            <input type="text" name="title" class="form-control" required />
+          </div>
+          <div class="form-group full-width">
+            <label>Description</label>
+            <textarea name="description" class="form-control" required></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label>Technologies (Comma separated)</label>
+            <input type="text" name="technologies" class="form-control" placeholder="e.g., Python, Flask, React"
+              required />
+          </div>
+          <div class="form-group full-width">
+            <label>Cover Image</label>
+            <input type="file" name="image" accept="image/*" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>GitHub Repository</label>
+            <input type="text" name="github" class="form-control" placeholder="https://github.com/..." />
+          </div>
+          <div class="form-group">
+            <label>Live URL</label>
+            <input type="text" name="demo" class="form-control" placeholder="https://..." />
+          </div>
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-project">
+              <i class="fas fa-cloud-upload-alt"></i> Publish Project
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="admin-card theme-skill">
+      <div class="card-header">
+        <i class="fas fa-bolt"></i>
+        <h2>Add Technical Skill</h2>
+      </div>
+      <form action="/admin/add_skill" method="POST">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Skill Name</label>
+            <input type="text" name="name" class="form-control" placeholder="e.g., Docker, AWS" required />
+          </div>
+          <div class="form-group full-width">
+            <label>Proficiency Level (0-100)</label>
+            <input type="number" name="level" min="0" max="100" class="form-control" required />
+          </div>
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-skill">
+              <i class="fas fa-plus-circle"></i> Add Skill
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="admin-card theme-cert">
+      <div class="card-header">
+        <i class="fas fa-medal"></i>
+        <h2>Log Certification</h2>
+      </div>
+      <form action="/admin/add_certification" method="POST">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Certification Title</label>
+            <input type="text" name="title" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Issuing Organization</label>
+            <input type="text" name="issuer" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Date Earned</label>
+            <input type="text" name="date" class="form-control" required />
+          </div>
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-cert">
+              <i class="fas fa-certificate"></i> Save Certification
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
