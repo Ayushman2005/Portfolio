@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const Projects = ({ projects }) => {
     useEffect(() => {
         // Reveal animation
@@ -64,7 +66,7 @@ const Projects = ({ projects }) => {
                         <div className="project-card reveal" key={index}>
                             <div className="project-image">
                                 <img
-                                    src={`/static/images/${project.image}`}
+                                    src={`${API_URL}/static/images/${project.image}`}
                                     alt={project.title}
                                     style={{ width: '100%', height: '250px', objectFit: 'cover' }}
                                     loading="lazy"

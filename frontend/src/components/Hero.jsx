@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 const Hero = ({ data }) => {
     const typewriterRef = useRef(null);
 
@@ -105,7 +107,7 @@ const Hero = ({ data }) => {
                             <span>View Work</span>
                             <i className="fas fa-briefcase"></i>
                         </a>
-                        <a href="/static/resume.pdf" className="btn btn-secondary" style={{ backgroundColor: '#10b981', color: 'white', borderColor: '#10b981' }} download="Ayushman_Kar_Resume.pdf" target="_blank" rel="noopener noreferrer">
+                        <a href={`${API_URL}/static/Resume.pdf`} className="btn btn-secondary" style={{ backgroundColor: '#10b981', color: 'white', borderColor: '#10b981' }} download="Ayushman_Kar_Resume.pdf" target="_blank" rel="noopener noreferrer">
                             <span>Resume</span>
                             <i className="fas fa-download"></i>
                         </a>
@@ -129,7 +131,7 @@ const Hero = ({ data }) => {
                     <div className="image-container">
                         <div className="image-placeholder">
                             <img
-                                src="/static/images/Profile.png"
+                                src={`${API_URL}/static/images/Profile.png`}
                                 alt="Profile Picture"
                                 style={{
                                     width: '310px',
