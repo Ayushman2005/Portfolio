@@ -1,162 +1,207 @@
-import React, { useEffect, useRef } from 'react';
-
-const API_URL = import.meta.env.VITE_API_URL || '';
+import React from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { Terminal, Database, Code2 } from 'lucide-react';
 
 const Hero = ({ data }) => {
-    const typewriterRef = useRef(null);
+    const words = ["Machine Learning Engineer.", "Full Stack Developer.", "Problem Solver."];
+    const [currentWord, setCurrentWord] = React.useState(0);
+    const [typedText, setTypedText] = React.useState('');
+    const [isDeleting, setIsDeleting] = React.useState(false);
 
-    useEffect(() => {
-        // Scroll reveal
-        const fadeElements = document.querySelectorAll('.fade-in');
-        fadeElements.forEach((element, index) => {
-            setTimeout(() => {
-                if (element) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }
-            }, index * 100);
-        });
+    // Parallax effect on scroll
+    const { scrollY } = useScroll();
+    const y1 = useTransform(scrollY, [0, 500], [0, 150]);
+    const y2 = useTransform(scrollY, [0, 500], [0, -100]);
+    const opacity1 = useTransform(scrollY, [0, 300], [1, 0]);
 
-        // Parallax
-        const handleScroll = () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.hero-particles');
+    // Floating Window Physics
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], ["10deg", "-10deg"]), { damping: 20 });
+    const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], ["-10deg", "10deg"]), { damping: 20 });
 
-            parallaxElements.forEach(element => {
-                if (element) {
-                    const speed = 0.5;
-                    element.style.transform = `translateY(${scrolled * speed}px)`;
-                }
-            });
-        };
+    function handleMouseMove(e) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const mouseXPos = e.clientX - rect.left;
+        const mouseYPos = e.clientY - rect.top;
+        mouseX.set((mouseXPos / width) - 0.5);
+        mouseY.set((mouseYPos / height) - 0.5);
+    }
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    function handleMouseLeave() {
+        mouseX.set(0);
+        mouseY.set(0);
+    }
 
-    useEffect(() => {
-        const roles = [
-            { text: "Full Stack Developer", color: "#6366f1" },
-            { text: "AI Engineer", color: "#8b5cf6" },
-            { text: "ML Engineer", color: "#ec4899" },
-            { text: "Hackathon Enthusiast", color: "#10b981" }
-        ];
+    React.useEffect(() => {
+        let timeout;
+        const typeSpeed = isDeleting ? 40 : 100;
 
-        let roleIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 50;
-        let timerId = null;
+        if (!isDeleting && typedText === words[currentWord]) {
+            timeout = setTimeout(() => setIsDeleting(true), 2500);
+        } else if (isDeleting && typedText === '') {
+            setIsDeleting(false);
+            setCurrentWord((prev) => (prev + 1) % words.length);
+            timeout = setTimeout(() => { }, 400);
+        } else {
+            const currentFullText = words[currentWord];
+            timeout = setTimeout(() => {
+                setTypedText(currentFullText.substring(0, typedText.length + (isDeleting ? -1 : 1)));
+            }, typeSpeed);
+        }
 
-        const type = () => {
-            if (!typewriterRef.current) return;
+        return () => clearTimeout(timeout);
+    }, [typedText, isDeleting, currentWord, words]);
 
-            const currentRole = roles[roleIndex];
-
-            typewriterRef.current.style.color = currentRole.color;
-
-            if (isDeleting) {
-                typewriterRef.current.textContent = currentRole.text.substring(0, charIndex - 1);
-                charIndex--;
-                typeSpeed = 30;
-            } else {
-                typewriterRef.current.textContent = currentRole.text.substring(0, charIndex + 1);
-                charIndex++;
-                typeSpeed = 60;
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1,
             }
+        }
+    };
 
-            if (!isDeleting && charIndex === currentRole.text.length) {
-                isDeleting = true;
-                typeSpeed = 1200;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                roleIndex = (roleIndex + 1) % roles.length;
-                typeSpeed = 300;
-            }
-
-            timerId = setTimeout(type, typeSpeed);
-        };
-
-        // Start animation
-        timerId = setTimeout(type, 100);
-
-        return () => clearTimeout(timerId);
-    }, []);
+    const itemVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { type: "spring", stiffness: 100, damping: 12 }
+        }
+    };
 
     return (
-        <section id="home" className="hero">
-            <div className="hero-particles"></div>
-            <div className="container">
-                <div className="hero-content">
-                    <h1 className="hero-title fade-in" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-                        <span className="wave">👋</span> Hi, I'm
-                        <span className="gradient-text" style={{ marginLeft: '10px' }}>{data.name}</span>
-                    </h1>
-                    <p className="hero-subtitle fade-in" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-                        <span id="typewriter" ref={typewriterRef}></span><span className="cursor-pipe">|</span>
-                    </p>
-                    <p className="hero-description fade-in" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-                        {data.bio}
-                    </p>
-                    <div className="hero-buttons fade-in" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-                        <a href="#contact" className="btn btn-primary">
-                            <span>Get In Touch</span>
-                            <i className="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="#projects" className="btn btn-secondary">
-                            <span>View Work</span>
-                            <i className="fas fa-briefcase"></i>
-                        </a>
-                        <a href={`${API_URL}/static/Resume.pdf`} className="btn btn-secondary" style={{ backgroundColor: '#10b981', color: 'white', borderColor: '#10b981' }} download="Ayushman_Kar_Resume.pdf" target="_blank" rel="noopener noreferrer">
-                            <span>Resume</span>
-                            <i className="fas fa-download"></i>
-                        </a>
+        <section id="hero" className="min-h-[90vh] flex flex-col md:flex-row items-center justify-between relative overflow-visible pt-10">
+            <motion.div
+                style={{ y: y1, opacity: opacity1 }}
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="space-y-6 max-w-3xl relative z-10 w-full"
+            >
+                <motion.p variants={itemVariants} className="inline-block px-4 py-1.5 rounded-full bg-neutral-100 text-neutral-600 font-mono text-sm tracking-wide font-bold shadow-sm mb-2 border border-neutral-200">
+                    <span className="text-cyan-600 mr-2">●</span> Welcome to my portfolio
+                </motion.p>
+
+                <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-neutral-900 leading-[1.1]">
+                    {data.name}.
+                </motion.h1>
+
+                <motion.h2 variants={itemVariants} className="text-2xl sm:text-4xl md:text-5xl font-bold text-neutral-500 min-h-[1.4em]">
+                    I'm a <br className="sm:hidden" />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600"> {typedText}</span>
+                    <motion.span
+                        animate={{ opacity: [1, 0] }}
+                        transition={{ repeat: Infinity, duration: 0.8 }}
+                        className="text-cyan-600 font-light"
+                    >|</motion.span>
+                </motion.h2>
+
+                <motion.p variants={itemVariants} className="text-lg sm:text-xl text-neutral-600 leading-relaxed max-w-xl mt-8 font-medium">
+                    {data.bio || "Computer Engineering student passionate about Machine Learning, Data Structures, and Web Development. Interested in building scalable systems and solving real-world problems."}
+                </motion.p>
+
+                <motion.div variants={itemVariants} className="flex flex-wrap gap-5 pt-10">
+                    <motion.a
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                        href="#projects"
+                        className="interactive px-8 py-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-2xl shadow-[0_10px_20px_-10px_rgba(6,182,212,0.6)] hover:shadow-[0_15px_30px_-10px_rgba(6,182,212,0.8)] transition-all flex items-center gap-2"
+                    >
+                        Explore Work
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </motion.a>
+
+                    <motion.a
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                        href="#contact"
+                        className="interactive px-8 py-4 bg-white border-2 border-neutral-200 hover:border-cyan-500 text-neutral-700 hover:text-cyan-600 font-bold rounded-2xl shadow-sm hover:shadow-lg transition-all"
+                    >
+                        Get in touch
+                    </motion.a>
+                </motion.div>
+            </motion.div>
+
+            {/* Dynamic 3D Floating Window Element */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.8, x: 50 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ duration: 1, delay: 0.8, type: "spring", damping: 15 }}
+                style={{ y: y2, perspective: 1000 }}
+                className="w-full max-w-lg relative z-20 mt-16 md:mt-0 mx-auto md:mx-0"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+            >
+                <motion.div
+                    style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                    className="relative bg-white/70 backdrop-blur-2xl border border-neutral-200 rounded-3xl p-4 sm:p-6 shadow-2xl shadow-cyan-500/10 cursor-default"
+                >
+                    <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"></div>
+
+                    <div className="flex items-center gap-2 mb-6 border-b border-neutral-100 pb-4" style={{ transform: 'translateZ(20px)' }}>
+                        <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                        <p className="ml-4 font-mono text-xs text-neutral-400 tracking-wider">developer_profile.json</p>
                     </div>
-                    <div className="social-links fade-in" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-                        <a href="https://github.com/Ayushman2005" className="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
-                            <i className="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/ayushman-kar-08370634b" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                            <i className="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://x.com/AyushmanKa99409" className="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-                            <i className="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/ayushman.kar.3367" className="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-                            <i className="fab fa-facebook"></i>
-                        </a>
+
+                    <div className="space-y-4 font-mono text-sm" style={{ transform: 'translateZ(40px)' }}>
+                        <div className="flex items-start gap-4 p-3 bg-neutral-50 rounded-xl border border-neutral-100 transition-colors hover:bg-white hover:border-cyan-200">
+                            <Terminal className="w-5 h-5 text-purple-500 mt-1" />
+                            <div>
+                                <p className="text-neutral-500 font-semibold mb-1">// Backend Logic</p>
+                                <div className="flex items-center gap-2 text-cyan-700">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" className="w-4 h-4" alt="python" /> Python
+                                    <span className="text-neutral-400">|</span>
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flask/flask-original.svg" className="w-4 h-4" alt="flask" /> Flask
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4 p-3 bg-neutral-50 rounded-xl border border-neutral-100 transition-colors hover:bg-white hover:border-blue-200">
+                            <Database className="w-5 h-5 text-blue-500 mt-1" />
+                            <div>
+                                <p className="text-neutral-500 font-semibold mb-1">// Data & Intelligence</p>
+                                <div className="flex items-center gap-2 text-blue-700">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg" className="w-4 h-4" alt="TF" /> TensorFlow
+                                    <span className="text-neutral-400">|</span>
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg" className="w-4 h-4" alt="PyTorch" /> PyTorch
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4 p-3 bg-neutral-50 rounded-xl border border-neutral-100 transition-colors hover:bg-white hover:border-green-200">
+                            <Code2 className="w-5 h-5 text-green-500 mt-1" />
+                            <div>
+                                <p className="text-neutral-500 font-semibold mb-1">// Frontend UI</p>
+                                <div className="flex items-center gap-2 text-green-700">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" className="w-4 h-4" alt="React" /> React
+                                    <span className="text-neutral-400">|</span>
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" className="w-4 h-4 filter grayscale brightness-0 opacity-60 mix-blend-multiply" alt="Tailwind" /> Tailwind
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className="hero-image fade-in" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-                    <div className="image-container">
-                        <div className="image-placeholder">
-                            <img
-                                src={`${API_URL}/static/images/Profile.png`}
-                                alt="Profile Picture"
-                                style={{
-                                    width: '310px',
-                                    height: '310px',
-                                    borderRadius: '50%',
-                                    objectFit: 'cover'
-                                }}
-                            />
-                        </div>
-                        <div className="floating-card card-1">
-                            <i className="fas fa-laptop-code"></i>
-                        </div>
-                        <div className="floating-card card-2">
-                            <i className="fas fa-database"></i>
-                        </div>
-                        <div className="floating-card card-3">
-                            <i className="fas fa-mobile-alt"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="scroll-indicator">
-                <span></span>
-                <p>Scroll Down</p>
-            </div>
+                </motion.div>
+
+                {/* Decorative floating rings */}
+                <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                    className="absolute -top-10 -right-10 w-40 h-40 border-[1px] border-dashed border-cyan-300 rounded-full -z-10"
+                ></motion.div>
+                <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                    className="absolute -bottom-8 -left-8 w-32 h-32 border-[1px] border-cyan-200 rounded-full -z-10 bg-gradient-to-tr from-cyan-100/50 to-transparent backdrop-blur-3xl"
+                ></motion.div>
+            </motion.div>
         </section>
     );
 };

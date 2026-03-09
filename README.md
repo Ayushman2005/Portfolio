@@ -1,140 +1,115 @@
-<div align="center">
-  <h1>🚀 Ayushman Kar's Interactive Portfolio</h1>
-  <p><strong>An intelligent and fully dynamic portfolio website built with React, Flask, and an embedded Local Large Language Model.</strong></p>
-  
-  <p>
-    <img alt="Frontend Framework" src="https://img.shields.io/badge/Frontend-React%2B%20Vite-61DAFB?logo=react&logoColor=black&style=for-the-badge">
-    <img alt="Backend Framework" src="https://img.shields.io/badge/Backend-Flask-000000?logo=flask&logoColor=white&style=for-the-badge">
-    <img alt="AI Integration" src="https://img.shields.io/badge/AI-Ollama%20%28Llama3%29-FFFFFF?logo=ollama&logoColor=black&style=for-the-badge">
-  </p>
-</div>
+# Developer Portfolio
 
-<hr />
+A clean, modern, and minimal developer portfolio built with React (Vite), Tailwind CSS, Framer Motion, and a Python Flask backend.
 
-## 🌟 Overview
+## Features ✨
+- **Modern UI/UX**: Dark theme, glassmorphism, and minimal developer aesthetic.
+- **Smooth Animations**: High-quality scroll and hover animations powered by Framer Motion.
+- **Responsive Design**: fully adapted for devices of all sizes using Tailwind CSS.
+- **Dynamic Content**: Data is driven by a Flask backend (`portfolio_data.json`).
+- **Contact Form**: Functional contact form that saves messages to `messages.json` on the Flask server.
 
-Welcome to the repository for my personal portfolio! This project is far from a standard static site. It's a dynamic, full-stack application that highlights my expertise as an **AI/ML Engineer & Full Stack Developer**.
+---
 
-Beyond showcasing my projects, skills, and certifications, this platform incorporates an **AI assistant powered by Ollama**. Visitors can chat with this assistant to learn more about my background, and I can conveniently update my information via an intuitive, authenticated **Admin Dashboard**.
+## 📂 Folder Structure
 
-## ✨ Key Features
-
-- **🤖 AI Portfolio Assistant**: Features a chat window powered by a local instance of Ollama (`llama3`). It uses contextual data injection to accurately answer visitor questions about my resume, skills, and projects, ensuring no hallucinations.
-- **🛠️ Integrated Admin Dashboard**: A protected `/login` and `/admin` panel that allows maintaining the portfolio seamlessly. I can upload new project images, add certifications, and update skills dynamically without touching the code.
-- **💾 JSON-based Storage Engine**: No complex databases required! `portfolio_data.json` acts as a highly portable, lightweight storage system allowing easy migration and reading.
-- **📱 Fully Responsive Design**: Built to offer a seamless user experience whether viewed on a desktop, tablet, or smartphone.
-- **⚡ Optimized Development Environment**: Uses Vite for lightning-fast hot module replacement, properly proxying seamlessly to the Flask backend API.
-
-## 🏗️ Technology Stack
-
-### **Frontend**
-- **React.js 18** (UI Components & State Management)
-- **Vite** (Build Tool & Dev server)
-- **React Router DOM** (Client-side routing)
-- **Lucide React** (Modern iconography)
-- **Axios** (API requests)
-
-### **Backend**
-- **Python 3** & **Flask** (API routing, Serving static media, Admin panel logic)
-- **Werkzeug** (Secure file uploads for project images)
-- **Requests** (Communicating with local Ollama instance)
-- **Local JSON Storage** (`portfolio_data.json` for persistence)
-
-### **AI Integration**
-- **Ollama** running locally (utilizing the `llama3` model by default)
-
-## 📁 Directory Structure
-
-```text
-Portfolio/
-├── backend/
-│   ├── static/images/        # User-uploaded project assets
-│   ├── templates/            # HTML templates for admin & login panels
-│   ├── app.py                # Main Flask application & API routes
-│   ├── portfolio_data.json   # Flat-file JSON database
-│   ├── requirements.txt      # Python dependencies
-│   └── vercel.json           # Vercel deployment configuration
-├── frontend/
-│   ├── public/               # Public assets
-│   ├── src/                  # React components, pages, context, and styles
-│   ├── vite.config.js        # Vite config with API proxy definitions
-│   └── package.json          # Node dependencies and scripts
-└── README.md                 # Project documentation
+```
+portfolio/
+│
+├── frontend/             # React (Vite) Frontend
+│   ├── src/
+│   │   ├── components/   # UI Components (Hero, About, Projects, etc.)
+│   │   ├── App.jsx       # Main application layout
+│   │   └── index.css     # Tailwind CSS entry point
+│   ├── tailwind.config.js
+│   ├── package.json
+│   └── vite.config.js
+│
+└── backend/              # Python Flask Backend
+    ├── app.py            # Flask server & endpoints
+    ├── portfolio_data.json # Portfolio content source
+    ├── requirements.txt  # Python dependencies
+    └── messages.json     # Saved contact form messages (auto-generated)
 ```
 
-## 🚀 Getting Started
+---
 
-Follow these steps to set up and run the application locally on your machine.
+## 🚀 Installation & Setup
 
-### Prerequisites
+### 1. Backend Setup
 
-Ensure you have the following installed before proceeding:
-- **Node.js**: v18+ (for running the React frontend)
-- **Python**: v3.9+ (for the Flask backend)
-- **Ollama**: [Download Ollama](https://ollama.com/download) to run the AI features.
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create open a virtual environment (optional but recommended):
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the Flask server:
+   ```bash
+   python app.py
+   ```
+   *The backend will run on `http://localhost:10000`.*
 
-### 1. Start the Local AI Model (Ollama)
+### 2. Frontend Setup
 
-First, verify Ollama is installed. Then, pull and run the `llama3` model in your terminal:
-```bash
-ollama run llama3
-```
-*Note: The model will run in the background. The Flask app expects it to be running on the default port `localhost:11434`.*
+1. Open a new terminal and navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies (including Tailwind CSS and Framer Motion):
+   ```bash
+   npm install
+   ```
+3. Set your backend URL in an `.env` file (if testing on another port, otherwise it defaults to 10000):
+   ```env
+   VITE_API_URL=http://localhost:10000
+   ```
+4. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
+   *The frontend will run on `http://localhost:5173`.*
 
-### 2. Set Up the Backend
+---
 
-Open a new terminal session, navigate to the `backend/` directory, and set up your environment:
+## 🌍 Deployment Guide
 
-```bash
-cd backend
+### Frontend Deployment (Vercel)
+Vercel is highly recommended for Vite/React applications.
+1. Create a GitHub repository and push your `Portfolio` folder.
+2. Go to [Vercel](https://vercel.com/) and create a new project.
+3. Import your GitHub repository.
+4. Set the **Framework Preset** to `Vite`.
+5. Set the **Root Directory** to `frontend`.
+6. Add the Environment Variable `VITE_API_URL` pointing to your deployed backend URL.
+7. Click **Deploy**.
 
-# (Optional but recommended) Create and activate a virtual environment
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Linux/Mac:
-source venv/bin/activate
+### Backend Deployment (Render)
+Render offers a free tier that is perfect for Flask applications.
+1. Connect your GitHub repository to [Render](https://render.com/).
+2. Create a new **Web Service**.
+3. Set the **Root Directory** to `backend`.
+4. Set the **Build Command** to:
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. Set the **Start Command** to:
+   ```bash
+   gunicorn app:app
+   ```
+   *(Note: Add `gunicorn` to your `requirements.txt` if you deploy on Render)*
+6. Ensure your Flask `CORS` is configured to accept requests from your Vercel frontend URL.
+7. Click **Create Web Service**.
 
-# Install dependencies
-pip install -r requirements.txt
+> **Note**: For persistent data like saving contact forms, Render's free tier spins down and uses an ephemeral file system. If you want permanent message storage, consider attaching a free Render PostgreSQL or SQLite volume, or switch the `/api/contact` endpoint to send you an email via SMTP.
 
-# Create an environment file defining your Admin credentials
-# Create a .env file and add the following:
-# SECRET_KEY=your_secret_key_here
-# ADMIN_USERNAME=admin
-# ADMIN_PASSWORD=password123
+---
 
-# Start the Flask development server
-python app.py
-```
-*The backend should now be running on `http://localhost:5000`.*
-
-### 3. Set Up the Frontend
-
-Open another terminal session, navigate to the `frontend/` directory, and start the development server:
-
-```bash
-cd frontend
-
-# Install Node modules
-npm install
-
-# Start the Vite development server
-npm run dev
-```
-
-*The frontend should now be running securely with Vite, and API requests will be transparently proxied to your local Flask backend.*
-
-## 🤝 Using the Admin Dashboard
-
-To add a new project, skill, or certification:
-1. Navigate to `/login` via your browser utilizing the local Vite port.
-2. Enter the credentials you specified in your `backend/.env` file.
-3. Access the `/admin` dashboard to easily add visual content and manage portfolio data.
-
-***
-
-<div align="center">
-  <p>Built with ❤️ by <a href="mailto:karayushman736@gmail.com">Ayushman Kar</a></p>
-  <p>Location: Bargarh, Odisha, India | Connect with me to build impactful solutions!</p>
-</div>
+Built with ❤️ by Ayushman Kar.

@@ -1,69 +1,71 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion, useSpring } from 'framer-motion';
 
 const Cursor = () => {
-    const cursorRef = useRef(null);
-    const followerRef = useRef(null);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isHovered, setIsHovered] = useState(false);
+
+    // Smooth springs for the cursor follower
+    const springX = useSpring(0, { stiffness: 500, damping: 28 });
+    const springY = useSpring(0, { stiffness: 500, damping: 28 });
 
     useEffect(() => {
-        const handleMouseMove = (e) => {
-            if (cursorRef.current && followerRef.current) {
-                cursorRef.current.style.left = e.clientX + 'px';
-                cursorRef.current.style.top = e.clientY + 'px';
+        const updateMousePosition = (e) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+            springX.set(e.clientX);
+            springY.set(e.clientY);
+        };
 
-                setTimeout(() => {
-                    if (followerRef.current) {
-                        followerRef.current.style.left = e.clientX + 'px';
-                        followerRef.current.style.top = e.clientY + 'px';
-                    }
-                }, 100);
+        const handleMouseOver = (e) => {
+            const target = e.target;
+            if (
+                target.tagName.toLowerCase() === 'a' ||
+                target.tagName.toLowerCase() === 'button' ||
+                target.closest('a') ||
+                target.closest('button') ||
+                target.classList.contains('interactive')
+            ) {
+                setIsHovered(true);
+            } else {
+                setIsHovered(false);
             }
         };
 
-        document.addEventListener('mousemove', handleMouseMove);
-
-        // Add hover effect to clickable elements
-        const handleMouseEnter = () => {
-            if (cursorRef.current && followerRef.current) {
-                cursorRef.current.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                followerRef.current.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            }
-        };
-
-        const handleMouseLeave = () => {
-            if (cursorRef.current && followerRef.current) {
-                cursorRef.current.style.transform = 'translate(-50%, -50%) scale(1)';
-                followerRef.current.style.transform = 'translate(-50%, -50%) scale(1)';
-            }
-        };
-
-        // Use event delegation for hover effects
-        const handleMouseOverDelegated = (e) => {
-            if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.project-card') || e.target.closest('.skill-card')) {
-                handleMouseEnter();
-            }
-        };
-
-        const handleMouseOutDelegated = (e) => {
-            if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.project-card') || e.target.closest('.skill-card')) {
-                handleMouseLeave();
-            }
-        };
-
-        document.addEventListener('mouseover', handleMouseOverDelegated);
-        document.addEventListener('mouseout', handleMouseOutDelegated);
-
+        window.addEventListener('mousemove', updateMousePosition);
+        window.addEventListener('mouseover', handleMouseOver);
 
         return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseover', handleMouseOverDelegated);
-            document.removeEventListener('mouseout', handleMouseOutDelegated);
+            window.removeEventListener('mousemove', updateMousePosition);
+            window.removeEventListener('mouseover', handleMouseOver);
         };
-    }, []);
+    }, [springX, springY]);
 
     return (
         <>
-            <div className="cursor" ref={cursorRef} onContextMenu={(e) => e.preventDefault()}></div>
-            <div className="cursor-follower" ref={followerRef} onContextMenu={(e) => e.preventDefault()}></div>
+            <motion.div
+                className="fixed top-0 left-0 w-10 h-10 rounded-full border-2 border-cyan-500 pointer-events-none z-[100] hidden md:block"
+                style={{
+                    x: springX,
+                    y: springY,
+                    translateX: '-50%',
+                    translateY: '-50%'
+                }}
+                animate={{
+                    scale: isHovered ? 1.8 : 1,
+                    backgroundColor: isHovered ? 'rgba(6, 182, 212, 0.1)' : 'transparent',
+                    borderColor: isHovered ? 'rgba(6, 182, 212, 0.8)' : 'rgba(6, 182, 212, 0.5)',
+                }}
+                transition={{ duration: 0.15 }}
+            />
+            <motion.div
+                className="fixed top-0 left-0 w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full pointer-events-none z-[100] hidden md:block"
+                animate={{
+                    x: mousePosition.x - 4,
+                    y: mousePosition.y - 4,
+                    scale: isHovered ? 0 : 1,
+                }}
+                transition={{ type: 'tween', ease: 'backOut', duration: 0.1 }}
+            />
         </>
     );
 };

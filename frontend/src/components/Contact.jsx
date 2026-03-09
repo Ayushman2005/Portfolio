@@ -1,111 +1,231 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { Send, MapPin, Mail, Sparkles } from 'lucide-react';
+import axios from 'axios';
 
 const Contact = ({ data }) => {
-    const [formStatus, setFormStatus] = useState({ type: '', message: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const [status, setStatus] = useState({ type: '', msg: '' });
+    const [loading, setLoading] = useState(false);
+    const [focusedInput, setFocusedInput] = useState(null);
 
-    useEffect(() => {
-        const revealElements = document.querySelectorAll('#contact .reveal');
-        const revealOnScroll = () => {
-            revealElements.forEach(element => {
-                if (element) {
-                    const elementTop = element.getBoundingClientRect().top;
-                    const elementVisible = 150;
-                    if (elementTop < window.innerHeight - elementVisible) {
-                        element.classList.add('active');
-                    }
-                }
-            });
-        };
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
 
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll();
+    function handleMouseMove({ currentTarget, clientX, clientY }) {
+        const { left, top } = currentTarget.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    }
 
-        return () => window.removeEventListener('scroll', revealOnScroll);
-    }, []);
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
+        setLoading(true);
+        setStatus({ type: '', msg: '' });
 
         try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                setFormStatus({ type: 'success', message: 'Thank you! Your message has been sent.' });
-                form.reset();
-
-                setTimeout(() => {
-                    setFormStatus({ type: '', message: '' });
-                }, 5000);
-            } else {
-                const result = await response.json();
-                setFormStatus({
-                    type: 'error',
-                    message: result.errors ? result.errors.map(error => error.message).join(', ') : 'Oops! There was a problem.'
-                });
-            }
+            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
+            await axios.post(`${API_URL}/api/contact`, formData);
+            setStatus({ type: 'success', msg: 'Transmission successful! I will reply shortly.' });
+            setFormData({ name: '', email: '', message: '' });
+            setTimeout(() => setStatus({ type: '', msg: '' }), 5000);
         } catch (error) {
-            setFormStatus({ type: 'error', message: 'An error occurred. Please check your internet connection.' });
+            console.error(error);
+            setStatus({ type: 'error', msg: 'Failed to send payload. Network error.' });
+        } finally {
+            setLoading(false);
         }
     };
 
+    const InputWrapper = ({ children, id, label }) => {
+        const isFocused = focusedInput === id;
+        const hasValue = formData[id] !== '';
+        return (
+            <div className="relative group/input mt-8 first:mt-0">
+                <motion.label
+                    htmlFor={id}
+                    initial={false}
+                    animate={{
+                        y: isFocused || hasValue ? -28 : 14,
+                        scale: isFocused || hasValue ? 0.85 : 1,
+                        color: isFocused ? '#0891b2' : '#737373', // cyan-600 vs neutral-500
+                        x: isFocused || hasValue ? 0 : 16
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="absolute left-0 top-0 font-medium pointer-events-none transform origin-left z-10 bg-white px-1"
+                >
+                    {label}
+                </motion.label>
+                <div className="relative">
+                    {children}
+                    {/* Animated Focus Bottom Line */}
+                    <motion.div
+                        initial={false}
+                        animate={{ scaleX: isFocused ? 1 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500 origin-left"
+                    />
+                </div>
+            </div>
+        )
+    }
+
     return (
-        <section id="contact" className="contact section">
-            <div className="container">
-                <h2 className="section-title">
-                    <span className="title-number">06.</span> Get In Touch
-                </h2>
-                <div className="contact-content">
-                    <div className="contact-info reveal">
-                        <h3>Let's Connect</h3>
-                        <p>
-                            I'm always open to discussing new projects, creative ideas, or
-                            opportunities to be part of your visions.
-                        </p>
-                        <div className="contact-details">
-                            <div className="contact-item">
-                                <i className="fas fa-envelope"></i>
-                                <span>{data.email}</span>
+        <section id="contact" className="py-20 md:py-32 relative w-full">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8 }}
+                className="max-w-6xl mx-auto px-4 w-full"
+            >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+                    {/* Info Side */}
+                    <div className="lg:col-span-5 space-y-8 md:space-y-10">
+                        <div>
+                            <motion.div
+                                initial={{ rotate: -10, opacity: 0 }}
+                                whileInView={{ rotate: 0, opacity: 1 }}
+                                transition={{ type: "spring", delay: 0.2 }}
+                                className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-cyan-100 to-blue-100 rounded-2xl flex items-center justify-center mb-6 md:mb-8 border border-cyan-200"
+                            >
+                                <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-cyan-600" />
+                            </motion.div>
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-neutral-900 mb-4 md:mb-6 leading-tight tracking-tight">
+                                Let's Build <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Something New.</span>
+                            </h2>
+                            <p className="text-neutral-500 text-lg md:text-xl font-medium max-w-md">
+                                Whether it's a collaborative project, a freelance inquiry, or just networking—my inbox is always open.
+                            </p>
+                        </div>
+
+                        <div className="space-y-6 pt-4">
+                            <div className="flex items-center gap-6 p-6 bg-white border border-neutral-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                                <div className="w-14 h-14 bg-cyan-50 flex items-center justify-center rounded-xl text-cyan-500 border border-cyan-100 shadow-inner">
+                                    <Mail className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-neutral-400 font-bold uppercase tracking-wider mb-1">Email</p>
+                                    <a href={`mailto:${data.email}`} className="text-lg font-bold text-neutral-800 hover:text-cyan-600 transition-colors">{data.email}</a>
+                                </div>
                             </div>
-                            <div className="contact-item">
-                                <i className="fas fa-phone"></i>
-                                <span>{data.phone}</span>
-                            </div>
-                            <div className="contact-item">
-                                <i className="fas fa-map-marker-alt"></i>
-                                <span>{data.location}</span>
+
+                            <div className="flex items-center gap-6 p-6 bg-white border border-neutral-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                                <div className="w-14 h-14 bg-blue-50 flex items-center justify-center rounded-xl text-blue-500 border border-blue-100 shadow-inner">
+                                    <MapPin className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-neutral-400 font-bold uppercase tracking-wider mb-1">Location</p>
+                                    <span className="text-lg font-bold text-neutral-800">{data.location}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <form className="contact-form reveal" onSubmit={handleSubmit} action="https://formspree.io/f/meelolww" method="POST">
-                        <div className="form-group">
-                            <input type="text" name="name" placeholder="Your Name" required />
+
+                    {/* Form Side */}
+                    <motion.div
+                        onMouseMove={handleMouseMove}
+                        className="lg:col-span-7 relative group/form interactive"
+                    >
+                        <motion.div
+                            className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition duration-500 group-hover/form:opacity-100 z-0"
+                            style={{
+                                background: useMotionTemplate`
+                    radial-gradient(
+                      500px circle at ${mouseX}px ${mouseY}px,
+                      rgba(6, 182, 212, 0.4),
+                      transparent 80%
+                    )
+                  `,
+                            }}
+                        />
+
+                        <div className="relative z-10 bg-white p-8 md:p-12 rounded-[2.5rem] border border-neutral-200 shadow-2xl shadow-cyan-500/10">
+                            <form onSubmit={handleSubmit} className="relative z-20">
+                                <InputWrapper id="name" label="Full Name">
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        onFocus={() => setFocusedInput('name')}
+                                        onBlur={() => setFocusedInput(null)}
+                                        required
+                                        className="w-full bg-neutral-50 border-0 border-b-2 border-neutral-200 rounded-t-xl px-4 py-4 text-neutral-900 focus:outline-none focus:bg-cyan-50/30 transition-all font-medium"
+                                    />
+                                </InputWrapper>
+
+                                <InputWrapper id="email" label="Email Address">
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        onFocus={() => setFocusedInput('email')}
+                                        onBlur={() => setFocusedInput(null)}
+                                        required
+                                        className="w-full bg-neutral-50 border-0 border-b-2 border-neutral-200 rounded-t-xl px-4 py-4 text-neutral-900 focus:outline-none focus:bg-cyan-50/30 transition-all font-medium"
+                                    />
+                                </InputWrapper>
+
+                                <InputWrapper id="message" label="Project Details & Message">
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        onFocus={() => setFocusedInput('message')}
+                                        onBlur={() => setFocusedInput(null)}
+                                        required
+                                        rows="5"
+                                        className="w-full bg-neutral-50 border-0 border-b-2 border-neutral-200 rounded-t-xl px-4 py-4 text-neutral-900 focus:outline-none focus:bg-cyan-50/30 transition-all resize-none font-medium mt-1"
+                                    />
+                                </InputWrapper>
+
+                                {status.msg && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className={`p-4 rounded-xl text-sm font-bold mt-6 flex items-center gap-3 ${status.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}
+                                    >
+                                        <div className={`w-2 h-2 rounded-full ${status.type === 'success' ? 'bg-green-500' : 'bg-red-500'} animate-pulse`}></div>
+                                        {status.msg}
+                                    </motion.div>
+                                )}
+
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full mt-10 bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-5 rounded-2xl shadow-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-3 relative overflow-hidden group/btn"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                                    <span className="relative z-10 text-lg">{loading ? 'Transmitting...' : 'Send Message'}</span>
+                                    {!loading && (
+                                        <motion.div
+                                            className="relative z-10"
+                                            initial={{ x: 0, y: 0 }}
+                                            whileHover={{ x: 5, y: -5 }}
+                                            transition={{ type: "spring", stiffness: 400 }}
+                                        >
+                                            <Send className="w-5 h-5" />
+                                        </motion.div>
+                                    )}
+                                </motion.button>
+                            </form>
                         </div>
-                        <div className="form-group">
-                            <input type="email" name="email" placeholder="Your Email" required />
-                        </div>
-                        <div className="form-group">
-                            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-primary">
-                            <span>Send Message</span>
-                            <i className="fas fa-paper-plane"></i>
-                        </button>
-                        {formStatus.message && (
-                            <div className={`form-message ${formStatus.type}`} style={{ display: 'block' }}>
-                                {formStatus.message}
-                            </div>
-                        )}
-                    </form>
+                    </motion.div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

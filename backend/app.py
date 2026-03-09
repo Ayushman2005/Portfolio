@@ -23,7 +23,7 @@ app.config['ADMIN_PASSWORD'] = os.getenv("ADMIN_PASSWORD")
 # Ensure upload directory exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-CORS(app, resources={r"/*": {"origins": ["https://ayushman-kar.netlify.app", "http://localhost:5173"]}})
+CORS(app)
 
 # Helper functions for JSON data
 def load_data():
@@ -62,8 +62,39 @@ def get_data():
     return jsonify(load_data())
 
 @app.route('/api/projects')
+@app.route('/projects')
 def get_projects():
-    return jsonify(load_data()['projects'])
+    return jsonify(load_data().get('projects', []))
+
+@app.route('/api/skills')
+@app.route('/skills')
+def get_skills():
+    return jsonify(load_data().get('skills', []))
+
+@app.route('/api/contact', methods=['POST'])
+@app.route('/contact', methods=['POST'])
+def contact():
+    data = request.json
+    if not data or not data.get('name') or not data.get('email') or not data.get('message'):
+        return jsonify({"error": "Missing required fields"}), 400
+    
+    messages_file = os.path.join(BASE_DIR, 'messages.json')
+    try:
+        with open(messages_file, 'r') as file:
+            messages = json.load(file)
+    except FileNotFoundError:
+        messages = []
+        
+    messages.append({
+        "name": data['name'],
+        "email": data['email'],
+        "message": data['message']
+    })
+    
+    with open(messages_file, 'w') as file:
+        json.dump(messages, file, indent=4)
+        
+    return jsonify({"success": "Message saved successfully"}), 201
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
