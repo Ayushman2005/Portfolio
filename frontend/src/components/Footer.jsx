@@ -34,7 +34,7 @@ const Footer = ({ data }) => {
                         <motion.a
                             whileHover={{ y: -5, scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
-                            href={data.github || "https://github.com"} target="_blank" rel="noopener noreferrer"
+                            href={data.github || "https://github.com/Ayushman2005"} target="_blank" rel="noopener noreferrer"
                             className="w-12 h-12 rounded-2xl bg-white border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-white hover:bg-neutral-900 hover:border-neutral-900 transition-all shadow-sm group interactive"
                         >
                             <Github className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
@@ -42,7 +42,7 @@ const Footer = ({ data }) => {
                         <motion.a
                             whileHover={{ y: -5, scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
-                            href={data.linkedin || "https://linkedin.com"} target="_blank" rel="noopener noreferrer"
+                            href={data.linkedin || "www.linkedin.com/in/ayushman-kar-08370634b"} target="_blank" rel="noopener noreferrer"
                             className="w-12 h-12 rounded-2xl bg-white border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all shadow-sm group interactive"
                         >
                             <Linkedin className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
@@ -75,7 +75,7 @@ const Footer = ({ data }) => {
 
                 <div className="mt-16 pt-8 border-t border-neutral-200/50 flex flex-col md:flex-row justify-between items-center gap-4 text-neutral-400 text-sm font-medium">
                     <p>&copy; {new Date().getFullYear()} {data.name}. All rights reserved.</p>
-                    <p>Designed with <span className="text-red-500 animate-pulse inline-block">❤️</span> locally.</p>
+                    <p>Designed by <span className="text-red-500 animate-pulse inline-block">❤️</span> Ayushman Kar.</p>
                 </div>
             </div>
         </footer>
