@@ -56,7 +56,7 @@ const Contact = ({ data }) => {
                         x: isFocused || hasValue ? 0 : 16
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="absolute left-0 top-0 font-medium pointer-events-none transform origin-left z-10 bg-white px-1"
+                    className="absolute left-0 top-0 font-medium pointer-events-none transform origin-left z-10 bg-white dark:bg-neutral-900 px-1"
                 >
                     {label}
                 </motion.label>
@@ -96,33 +96,33 @@ const Contact = ({ data }) => {
                             >
                                 <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-cyan-600" />
                             </motion.div>
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-neutral-900 mb-4 md:mb-6 leading-tight tracking-tight">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-neutral-900 dark:text-white mb-4 md:mb-6 leading-tight tracking-tight">
                                 Let's Build <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Something New.</span>
                             </h2>
-                            <p className="text-neutral-500 text-lg md:text-xl font-medium max-w-md">
+                            <p className="text-neutral-500 dark:text-neutral-400 text-lg md:text-xl font-medium max-w-md">
                                 Whether it's a collaborative project, a freelance inquiry, or just networking—my inbox is always open.
                             </p>
                         </div>
 
                         <div className="space-y-6 pt-4">
-                            <div className="flex items-center gap-6 p-6 bg-white border border-neutral-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-6 p-6 bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
                                 <div className="w-14 h-14 bg-cyan-50 flex items-center justify-center rounded-xl text-cyan-500 border border-cyan-100 shadow-inner">
                                     <Mail className="w-6 h-6" />
                                 </div>
                                 <div>
                                     <p className="text-sm text-neutral-400 font-bold uppercase tracking-wider mb-1">Email</p>
-                                    <a href={`mailto:${data.email}`} className="text-lg font-bold text-neutral-800 hover:text-cyan-600 transition-colors">{data.email}</a>
+                                    <a href={`mailto:${data.email}`} className="text-lg font-bold text-neutral-800 dark:text-neutral-200 hover:text-cyan-600 transition-colors">{data.email}</a>
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-6 p-6 bg-white border border-neutral-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-6 p-6 bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
                                 <div className="w-14 h-14 bg-blue-50 flex items-center justify-center rounded-xl text-blue-500 border border-blue-100 shadow-inner">
                                     <MapPin className="w-6 h-6" />
                                 </div>
                                 <div>
                                     <p className="text-sm text-neutral-400 font-bold uppercase tracking-wider mb-1">Location</p>
-                                    <span className="text-lg font-bold text-neutral-800">{data.location}</span>
+                                    <span className="text-lg font-bold text-neutral-800 dark:text-neutral-200">{data.location}</span>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +146,7 @@ const Contact = ({ data }) => {
                             }}
                         />
 
-                        <div className="relative z-10 bg-white p-8 md:p-12 rounded-[2.5rem] border border-neutral-200 shadow-2xl shadow-cyan-500/10">
+                        <div className="relative z-10 bg-white dark:bg-neutral-900 p-8 md:p-12 rounded-[2.5rem] border border-neutral-200 dark:border-neutral-700 shadow-2xl shadow-cyan-500/10">
                             <form onSubmit={handleSubmit} className="relative z-20">
                                 <InputWrapper id="name" label="Full Name">
                                     <input
@@ -158,7 +158,7 @@ const Contact = ({ data }) => {
                                         onFocus={() => setFocusedInput('name')}
                                         onBlur={() => setFocusedInput(null)}
                                         required
-                                        className="w-full bg-neutral-50 border-0 border-b-2 border-neutral-200 rounded-t-xl px-4 py-4 text-neutral-900 focus:outline-none focus:bg-cyan-50/30 transition-all font-medium"
+                                        className="w-full bg-neutral-50 dark:bg-neutral-950 border-0 border-b-2 border-neutral-200 dark:border-neutral-700 rounded-t-xl px-4 py-4 text-neutral-900 dark:text-white focus:outline-none focus:bg-cyan-50/30 transition-all font-medium"
                                     />
                                 </InputWrapper>
 
@@ -172,7 +172,7 @@ const Contact = ({ data }) => {
                                         onFocus={() => setFocusedInput('email')}
                                         onBlur={() => setFocusedInput(null)}
                                         required
-                                        className="w-full bg-neutral-50 border-0 border-b-2 border-neutral-200 rounded-t-xl px-4 py-4 text-neutral-900 focus:outline-none focus:bg-cyan-50/30 transition-all font-medium"
+                                        className="w-full bg-neutral-50 dark:bg-neutral-950 border-0 border-b-2 border-neutral-200 dark:border-neutral-700 rounded-t-xl px-4 py-4 text-neutral-900 dark:text-white focus:outline-none focus:bg-cyan-50/30 transition-all font-medium"
                                     />
                                 </InputWrapper>
 
@@ -186,7 +186,7 @@ const Contact = ({ data }) => {
                                         onBlur={() => setFocusedInput(null)}
                                         required
                                         rows="5"
-                                        className="w-full bg-neutral-50 border-0 border-b-2 border-neutral-200 rounded-t-xl px-4 py-4 text-neutral-900 focus:outline-none focus:bg-cyan-50/30 transition-all resize-none font-medium mt-1"
+                                        className="w-full bg-neutral-50 dark:bg-neutral-950 border-0 border-b-2 border-neutral-200 dark:border-neutral-700 rounded-t-xl px-4 py-4 text-neutral-900 dark:text-white focus:outline-none focus:bg-cyan-50/30 transition-all resize-none font-medium mt-1"
                                     />
                                 </InputWrapper>
 

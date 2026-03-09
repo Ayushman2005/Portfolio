@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
+import ThemeToggle from './components/ThemeToggle';
 
 function App() {
   const [data, setData] = useState(null);
@@ -46,8 +47,9 @@ function App() {
 
   return (
     <SmoothScroll>
-      <div className="relative min-h-screen bg-neutral-50 text-neutral-900 selection:bg-cyan-500/20 font-sans overflow-x-hidden">
+      <div className="relative min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/20 font-sans overflow-x-hidden transition-colors duration-700 ease-in-out">
         <Cursor />
+        <ThemeToggle />
 
         <AnimatePresence mode="wait">
           {!isAppReady && (
@@ -70,7 +72,7 @@ function App() {
               />
 
               {/* Dynamic Animated Background Patterns & Blobs */}
-              <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-60 pointer-events-none"></div>
+              <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:24px_24px] opacity-60 pointer-events-none transition-all duration-700"></div>
 
               <motion.div
                 animate={{
@@ -79,7 +81,7 @@ function App() {
                   scale: [1, 1.1, 1]
                 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="fixed top-0 -left-1/4 w-[800px] h-[800px] bg-cyan-200/40 blur-[120px] rounded-full pointer-events-none"
+                className="fixed top-0 -left-1/4 w-[800px] h-[800px] bg-cyan-200/40 dark:bg-cyan-900/20 blur-[120px] rounded-full pointer-events-none transition-colors duration-700"
               />
               <motion.div
                 animate={{
@@ -88,7 +90,7 @@ function App() {
                   scale: [1, 1.2, 1]
                 }}
                 transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                className="fixed bottom-0 -right-1/4 w-[800px] h-[800px] bg-blue-200/40 blur-[120px] rounded-full pointer-events-none"
+                className="fixed bottom-0 -right-1/4 w-[800px] h-[800px] bg-blue-200/40 dark:bg-blue-900/20 blur-[120px] rounded-full pointer-events-none transition-colors duration-700"
               />
               <motion.div
                 animate={{
@@ -96,7 +98,7 @@ function App() {
                   y: [0, -50, 30, 0],
                 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="fixed top-1/2 left-1/4 w-[600px] h-[600px] bg-purple-200/20 blur-[120px] rounded-full pointer-events-none"
+                className="fixed top-1/2 left-1/4 w-[600px] h-[600px] bg-purple-200/20 dark:bg-purple-900/20 blur-[120px] rounded-full pointer-events-none transition-colors duration-700"
               />
 
               <div className="relative z-10 w-full">
@@ -115,7 +117,7 @@ function App() {
                     <Footer data={data} />
                   </>
                 ) : (
-                  <div className="flex items-center justify-center min-h-screen text-xl text-neutral-500 font-mono">
+                  <div className="flex items-center justify-center min-h-screen text-xl text-neutral-500 dark:text-neutral-400 font-mono">
                     Error: Backend not responding.
                   </div>
                 )}

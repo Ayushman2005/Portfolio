@@ -84,15 +84,15 @@ const Hero = ({ data }) => {
                 animate="visible"
                 className="space-y-6 max-w-3xl relative z-10 w-full"
             >
-                <motion.p variants={itemVariants} className="inline-block px-4 py-1.5 rounded-full bg-neutral-100 text-neutral-600 font-mono text-sm tracking-wide font-bold shadow-sm mb-2 border border-neutral-200">
+                <motion.p variants={itemVariants} className="inline-block px-4 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 font-mono text-sm tracking-wide font-bold shadow-sm mb-2 border border-neutral-200 dark:border-neutral-700">
                     <span className="text-cyan-600 mr-2">●</span> Welcome to my portfolio
                 </motion.p>
 
-                <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-neutral-900 leading-[1.1]">
+                <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-[1.1]">
                     {data.name}.
                 </motion.h1>
 
-                <motion.h2 variants={itemVariants} className="text-2xl sm:text-4xl md:text-5xl font-bold text-neutral-500 min-h-[1.4em]">
+                <motion.h2 variants={itemVariants} className="text-2xl sm:text-4xl md:text-5xl font-bold text-neutral-500 dark:text-neutral-400 min-h-[1.4em]">
                     I'm a <br className="sm:hidden" />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600"> {typedText}</span>
                     <motion.span
@@ -102,7 +102,7 @@ const Hero = ({ data }) => {
                     >|</motion.span>
                 </motion.h2>
 
-                <motion.p variants={itemVariants} className="text-lg sm:text-xl text-neutral-600 leading-relaxed max-w-xl mt-8 font-medium">
+                <motion.p variants={itemVariants} className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xl mt-8 font-medium">
                     {data.bio || "Computer Engineering student passionate about Machine Learning, Data Structures, and Web Development. Interested in building scalable systems and solving real-world problems."}
                 </motion.p>
 
@@ -121,7 +121,7 @@ const Hero = ({ data }) => {
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         href="#contact"
-                        className="interactive px-8 py-4 bg-white border-2 border-neutral-200 hover:border-cyan-500 text-neutral-700 hover:text-cyan-600 font-bold rounded-2xl shadow-sm hover:shadow-lg transition-all"
+                        className="interactive px-8 py-4 bg-white dark:bg-neutral-900 border-2 border-neutral-200 dark:border-neutral-700 hover:border-cyan-500 text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 font-bold rounded-2xl shadow-sm hover:shadow-lg transition-all"
                     >
                         Get in touch
                     </motion.a>
@@ -140,11 +140,11 @@ const Hero = ({ data }) => {
             >
                 <motion.div
                     style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                    className="relative bg-white/70 backdrop-blur-2xl border border-neutral-200 rounded-3xl p-4 sm:p-6 shadow-2xl shadow-cyan-500/10 cursor-default"
+                    className="relative bg-white dark:bg-neutral-900/70 backdrop-blur-2xl border border-neutral-200 dark:border-neutral-700 rounded-3xl p-4 sm:p-6 shadow-2xl shadow-cyan-500/10 cursor-default"
                 >
                     <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"></div>
 
-                    <div className="flex items-center gap-2 mb-6 border-b border-neutral-100 pb-4" style={{ transform: 'translateZ(20px)' }}>
+                    <div className="flex items-center gap-2 mb-6 border-b border-neutral-100 dark:border-neutral-800 pb-4" style={{ transform: 'translateZ(20px)' }}>
                         <div className="w-3 h-3 rounded-full bg-red-400"></div>
                         <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
                         <div className="w-3 h-3 rounded-full bg-green-400"></div>
@@ -152,10 +152,10 @@ const Hero = ({ data }) => {
                     </div>
 
                     <div className="space-y-4 font-mono text-sm" style={{ transform: 'translateZ(40px)' }}>
-                        <div className="flex items-start gap-4 p-3 bg-neutral-50 rounded-xl border border-neutral-100 transition-colors hover:bg-white hover:border-cyan-200">
+                        <div className="flex items-start gap-4 p-3 bg-neutral-50 dark:bg-neutral-950 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-white dark:bg-neutral-900 hover:border-cyan-200">
                             <Terminal className="w-5 h-5 text-purple-500 mt-1" />
                             <div>
-                                <p className="text-neutral-500 font-semibold mb-1">// Backend Logic</p>
+                                <p className="text-neutral-500 dark:text-neutral-400 font-semibold mb-1">// Backend Logic</p>
                                 <div className="flex items-center gap-2 text-cyan-700">
                                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" className="w-4 h-4" alt="python" /> Python
                                     <span className="text-neutral-400">|</span>
@@ -164,10 +164,10 @@ const Hero = ({ data }) => {
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4 p-3 bg-neutral-50 rounded-xl border border-neutral-100 transition-colors hover:bg-white hover:border-blue-200">
+                        <div className="flex items-start gap-4 p-3 bg-neutral-50 dark:bg-neutral-950 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-white dark:bg-neutral-900 hover:border-blue-200">
                             <Database className="w-5 h-5 text-blue-500 mt-1" />
                             <div>
-                                <p className="text-neutral-500 font-semibold mb-1">// Data & Intelligence</p>
+                                <p className="text-neutral-500 dark:text-neutral-400 font-semibold mb-1">// Data & Intelligence</p>
                                 <div className="flex items-center gap-2 text-blue-700">
                                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg" className="w-4 h-4" alt="TF" /> TensorFlow
                                     <span className="text-neutral-400">|</span>
@@ -176,10 +176,10 @@ const Hero = ({ data }) => {
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4 p-3 bg-neutral-50 rounded-xl border border-neutral-100 transition-colors hover:bg-white hover:border-green-200">
+                        <div className="flex items-start gap-4 p-3 bg-neutral-50 dark:bg-neutral-950 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-white dark:bg-neutral-900 hover:border-green-200">
                             <Code2 className="w-5 h-5 text-green-500 mt-1" />
                             <div>
-                                <p className="text-neutral-500 font-semibold mb-1">// Frontend UI</p>
+                                <p className="text-neutral-500 dark:text-neutral-400 font-semibold mb-1">// Frontend UI</p>
                                 <div className="flex items-center gap-2 text-green-700">
                                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" className="w-4 h-4" alt="React" /> React
                                     <span className="text-neutral-400">|</span>

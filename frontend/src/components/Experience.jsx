@@ -80,7 +80,7 @@ const Experience = ({ experience }) => {
                                         whileInView={{ scale: 1 }}
                                         viewport={{ once: true, margin: "-100px" }}
                                         transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 + (idx * 0.1) }}
-                                        className="absolute left-[31px] md:left-1/2 -translate-x-1/2 mt-8 md:mt-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-white border-4 border-cyan-500 z-10 shadow-[0_0_15px_rgba(6,182,212,0.5)] flex items-center justify-center p-0.5"
+                                        className="absolute left-[31px] md:left-1/2 -translate-x-1/2 mt-8 md:mt-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-white dark:bg-neutral-900 border-4 border-cyan-500 z-10 shadow-[0_0_15px_rgba(6,182,212,0.5)] flex items-center justify-center p-0.5"
                                     >
                                         <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-blue-500 rounded-full" />
                                     </motion.div>
@@ -90,24 +90,24 @@ const Experience = ({ experience }) => {
                                     <div className={`w-full md:w-[50%] pl-16 pr-4 md:px-0 mt-2 md:mt-0 ${isEven ? 'md:pr-14 md:text-right' : 'md:pl-14'} group cursor-default`}>
                                         <motion.div
                                             whileHover={{ scale: 1.02, y: -4 }}
-                                            className="bg-white/80 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-[2rem] border border-neutral-200 shadow-xl hover:shadow-cyan-100 group relative overflow-hidden transition-all duration-300 w-full"
+                                            className="bg-white dark:bg-neutral-900/80 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-[2rem] border border-neutral-200 dark:border-neutral-700 shadow-xl hover:shadow-cyan-100 dark:hover:shadow-cyan-900/30 group relative overflow-hidden transition-all duration-300 w-full"
                                         >
-                                            <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-cyan-50 rounded-bl-[80px] md:rounded-bl-[100px] -z-10 group-hover:scale-150 transition-transform duration-500 ease-in-out opacity-50"></div>
+                                            <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-cyan-50 dark:bg-cyan-900/40 rounded-bl-[80px] md:rounded-bl-[100px] -z-10 group-hover:scale-150 transition-transform duration-500 ease-in-out opacity-50"></div>
 
                                             <div className={`flex flex-col gap-2 mb-4 md:mb-6 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
-                                                <div className="inline-flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold tracking-wide text-cyan-700 bg-cyan-100/50 px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-cyan-200 mb-2 w-fit">
+                                                <div className="inline-flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold tracking-wide text-cyan-700 dark:text-cyan-300 bg-cyan-100/50 dark:bg-cyan-900/40 px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-cyan-200 dark:border-cyan-800/50 mb-2 w-fit">
                                                     <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                                     {job.period}
                                                 </div>
-                                                <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 group-hover:text-cyan-600 transition-colors leading-tight">
+                                                <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white group-hover:text-cyan-600 transition-colors leading-tight">
                                                     {job.title}
                                                 </h3>
-                                                <div className="flex items-center gap-2 text-cyan-600 font-bold text-lg md:text-xl drop-shadow-sm mt-1">
-                                                    <Building2 className="w-4 h-4 md:w-5 md:h-5 text-neutral-400" /> {job.company}
+                                                <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-bold text-lg md:text-xl drop-shadow-sm mt-1">
+                                                    <Building2 className="w-4 h-4 md:w-5 md:h-5 text-neutral-400 dark:text-neutral-500" /> {job.company}
                                                 </div>
                                             </div>
 
-                                            <p className="text-neutral-600 leading-relaxed text-base md:text-lg flex flex-col md:flex-row items-start gap-4 mt-6 bg-neutral-50 p-4 md:p-6 rounded-2xl border border-neutral-100 group-hover:bg-white group-hover:border-cyan-100 transition-colors shadow-sm">
+                                            <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-base md:text-lg flex flex-col md:flex-row items-start gap-4 mt-6 bg-neutral-50 dark:bg-neutral-950 p-4 md:p-6 rounded-2xl border border-neutral-100 dark:border-neutral-800 group-hover:bg-white dark:group-hover:bg-neutral-900 group-hover:border-cyan-100 dark:group-hover:border-cyan-800/50 transition-colors shadow-sm">
                                                 <ChevronRight className={`hidden md:block w-6 h-6 text-cyan-400 flex-shrink-0 mt-1 ${isEven ? 'md:hidden' : 'md:block'}`} />
                                                 <span className="flex-1">{job.description}</span>
                                                 <ChevronRight className={`hidden md:block w-6 h-6 text-cyan-400 flex-shrink-0 mt-1 ${isEven ? 'md:block' : 'md:hidden'} rotate-180`} />

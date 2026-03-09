@@ -46,7 +46,7 @@ const Navbar = ({ name }) => {
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
             className={`fixed top-0 left-0 right-0 z-[80] transition-all duration-500 ${scrolled
-                ? 'py-3 bg-white/80 backdrop-blur-xl border-b border-neutral-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
+                ? 'py-3 bg-white dark:bg-neutral-900/80 backdrop-blur-xl border-b border-neutral-200 dark:border-neutral-700/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
                 : 'py-6 bg-transparent'
                 }`}
         >
@@ -59,21 +59,21 @@ const Navbar = ({ name }) => {
                     >
                         <Code2 className="w-6 h-6 text-white" />
                     </motion.div>
-                    <span className="font-extrabold text-xl tracking-tight text-neutral-900 group-hover:text-cyan-600 transition-colors">
+                    <span className="font-extrabold text-xl tracking-tight text-neutral-900 dark:text-white group-hover:text-cyan-600 transition-colors">
                         {name ? name.split(' ')[0] : 'Portfolio'}
                         <span className="text-cyan-500">.</span>
                     </span>
                 </a>
 
                 {/* Desktop Nav */}
-                <div className="hidden md:flex items-center gap-1 bg-neutral-100/50 p-1.5 rounded-full border border-neutral-200/50 backdrop-blur-md">
+                <div className="hidden md:flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800/50 p-1.5 rounded-full border border-neutral-200 dark:border-neutral-700/50 backdrop-blur-md">
                     {navLinks.map((link, index) => {
                         const isActive = activeDiv === link.href.substring(1);
                         return (
                             <a
                                 key={index}
                                 href={link.href}
-                                className={`relative px-5 py-2 rounded-full text-sm font-bold transition-colors interactive ${isActive ? 'text-white' : 'text-neutral-600 hover:text-cyan-600'
+                                className={`relative px-5 py-2 rounded-full text-sm font-bold transition-colors interactive ${isActive ? 'text-white' : 'text-neutral-600 dark:text-neutral-400 hover:text-cyan-600'
                                     }`}
                                 onClick={(e) => setActiveDiv(link.href.substring(1))}
                             >
@@ -104,7 +104,7 @@ const Navbar = ({ name }) => {
                 {/* Mobile menu button */}
                 <button
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    className="md:hidden text-neutral-800 p-2 focus:outline-none interactive"
+                    className="md:hidden text-neutral-800 dark:text-neutral-200 p-2 focus:outline-none interactive"
                 >
                     {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
                 </button>
@@ -118,7 +118,7 @@ const Navbar = ({ name }) => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="md:hidden bg-white/95 backdrop-blur-3xl border-b border-neutral-200 overflow-hidden shadow-2xl"
+                        className="md:hidden bg-white dark:bg-neutral-900/95 backdrop-blur-3xl border-b border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-2xl"
                     >
                         <div className="px-6 py-6 flex flex-col space-y-4">
                             {navLinks.map((link, index) => (
@@ -129,7 +129,7 @@ const Navbar = ({ name }) => {
                                     transition={{ delay: index * 0.1 }}
                                     href={link.href}
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="text-lg font-bold text-neutral-800 hover:text-cyan-600 border-b border-neutral-100 pb-3"
+                                    className="text-lg font-bold text-neutral-800 dark:text-neutral-200 hover:text-cyan-600 border-b border-neutral-100 dark:border-neutral-800 pb-3"
                                 >
                                     {link.name}
                                 </motion.a>

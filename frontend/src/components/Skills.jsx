@@ -50,17 +50,17 @@ const SkillCard = ({ category, delay }) => {
                     rotateY,
                     transformStyle: "preserve-3d"
                 }}
-                className="relative group bg-white/90 backdrop-blur-xl border border-neutral-200 rounded-3xl p-8 shadow-xl hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.3)] transition-shadow duration-300 h-full flex flex-col z-10"
+                className="relative group bg-white dark:bg-neutral-900/90 backdrop-blur-xl border border-neutral-200 dark:border-neutral-700 rounded-3xl p-8 shadow-xl hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.3)] transition-shadow duration-300 h-full flex flex-col z-10"
             >
                 {/* Floating Icon with 3D transform */}
                 <motion.div
                     style={{ translateZ: 50 }}
-                    className="w-16 h-16 bg-neutral-50 border border-neutral-200 rounded-2xl flex items-center justify-center mb-8 shadow-md group-hover:bg-cyan-50 group-hover:border-cyan-200 transition-colors duration-300 relative"
+                    className="w-16 h-16 bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-2xl flex items-center justify-center mb-8 shadow-md group-hover:bg-cyan-50 group-hover:border-cyan-200 transition-colors duration-300 relative"
                 >
                     {category.icon}
                 </motion.div>
 
-                <motion.h3 style={{ translateZ: 30 }} className="text-2xl font-bold mb-6 text-neutral-900 border-b border-neutral-100 pb-4">
+                <motion.h3 style={{ translateZ: 30 }} className="text-2xl font-bold mb-6 text-neutral-900 dark:text-white border-b border-neutral-100 dark:border-neutral-800 pb-4">
                     {category.title}
                 </motion.h3>
 
@@ -68,7 +68,7 @@ const SkillCard = ({ category, delay }) => {
                     {category.skills.map((skill, i) => (
                         <div
                             key={i}
-                            className="flex items-center gap-2 px-3 py-2 bg-neutral-50 text-neutral-700 rounded-xl border border-neutral-200 hover:border-cyan-400 hover:text-cyan-700 hover:bg-white hover:shadow-md hover:-translate-y-1 transition-all cursor-default"
+                            className="flex items-center gap-2 px-3 py-2 bg-neutral-50 dark:bg-neutral-950 text-neutral-700 dark:text-neutral-300 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-cyan-400 hover:text-cyan-700 hover:bg-white dark:bg-neutral-900 hover:shadow-md hover:-translate-y-1 transition-all cursor-default"
                         >
                             {skill.logo ? (
                                 <img src={skill.logo} alt={skill.name} className="w-5 h-5 object-contain" />
@@ -151,7 +151,7 @@ const Skills = () => {
                         Technical Arsenal
                     </h2>
                     <div className="w-24 md:w-32 h-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full mt-4 md:mt-6 shadow-md mx-auto"></div>
-                    <p className="text-neutral-500 mt-6 md:mt-8 max-w-2xl text-lg md:text-xl font-medium leading-relaxed">
+                    <p className="text-neutral-500 dark:text-neutral-400 mt-6 md:mt-8 max-w-2xl text-lg md:text-xl font-medium leading-relaxed">
                         A diverse toolkit built for solving complex problems, from intelligent machine learning models to scalable web interfaces.
                     </p>
                 </div>

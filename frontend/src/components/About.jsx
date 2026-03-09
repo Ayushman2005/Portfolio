@@ -46,7 +46,7 @@ const About = ({ data }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="md:col-span-7 space-y-6 text-neutral-600 leading-relaxed text-lg"
+                        className="md:col-span-7 space-y-6 text-neutral-600 dark:text-neutral-400 leading-relaxed text-lg"
                     >
                         <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-cyan-600 first-letter:float-left first-letter:mr-2">
                             Hello! I'm Ayushman Kar, a Computer Engineering Undergraduate based in Odisha, India. I am highly passionate about Machine Learning, Data Structures, and Web Development.
@@ -54,7 +54,7 @@ const About = ({ data }) => {
                         <p>
                             My journey in tech started with a curiosity to understand how intelligent systems make decisions. Currently, I am actively engaging with tech communities like the GDG on Campus and the Cyber Security Club at GIET University.
                         </p>
-                        <p className="border-l-4 border-cyan-500 pl-4 py-2 bg-gradient-to-r from-cyan-50 to-transparent rounded-r-lg italic text-neutral-700 font-medium">
+                        <p className="border-l-4 border-cyan-500 pl-4 py-2 bg-gradient-to-r from-cyan-50 dark:from-cyan-900/30 to-transparent rounded-r-lg italic text-neutral-700 dark:text-neutral-300 font-medium">
                             "Whether it's training machine learning models or building robust full-stack web applications, I enjoy combining logic with creative problem-solving to build solutions that have a real-world impact."
                         </p>
                     </motion.div>
@@ -70,10 +70,10 @@ const About = ({ data }) => {
                         {/* Animated glowing backdrop */}
                         <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-200 to-blue-300 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-70 transition duration-700 animate-pulse-slow h-full w-full pointer-events-none"></div>
 
-                        <div className="relative bg-white/90 backdrop-blur-md border border-neutral-200 rounded-3xl p-8 h-full flex flex-col justify-center shadow-xl hover:shadow-2xl transition-all duration-300 z-10 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-100 rounded-bl-full pointer-events-none opacity-50"></div>
+                        <div className="relative bg-white dark:bg-neutral-900/90 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 rounded-3xl p-8 h-full flex flex-col justify-center shadow-xl hover:shadow-2xl transition-all duration-300 z-10 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-100 dark:bg-cyan-900/20 rounded-bl-full pointer-events-none opacity-50"></div>
 
-                            <h3 className="text-2xl font-bold mb-6 text-neutral-900 border-b-2 border-cyan-100 pb-3 relative z-10">
+                            <h3 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-white border-b-2 border-cyan-100 dark:border-cyan-800/50 pb-3 relative z-10">
                                 Quick Facts
                             </h3>
 
@@ -94,12 +94,12 @@ const About = ({ data }) => {
                                             transition={{ delay: 0.6 + (idx * 0.1) }}
                                             className="flex items-start gap-4 group/item"
                                         >
-                                            <div className="mt-1 w-10 h-10 rounded-full bg-cyan-50 border border-cyan-200 flex items-center justify-center flex-shrink-0 group-hover/item:bg-cyan-500 group-hover/item:border-cyan-500 transition-colors duration-300">
-                                                <Icon className="w-5 h-5 text-cyan-600 group-hover/item:text-white transition-colors duration-300" />
+                                            <div className="mt-1 w-10 h-10 rounded-full bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-200 dark:border-cyan-800/50 flex items-center justify-center flex-shrink-0 group-hover/item:bg-cyan-500 group-hover/item:border-cyan-500 dark:group-hover/item:bg-cyan-600 dark:group-hover/item:border-cyan-600 transition-colors duration-300">
+                                                <Icon className="w-5 h-5 text-cyan-600 dark:text-cyan-400 group-hover/item:text-white transition-colors duration-300" />
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-neutral-800 uppercase tracking-wider">{item.label}</p>
-                                                <p className="text-neutral-600 font-medium">{item.value}</p>
+                                                <p className="text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider">{item.label}</p>
+                                                <p className="text-neutral-600 dark:text-neutral-400 font-medium">{item.value}</p>
                                             </div>
                                         </motion.li>
                                     )

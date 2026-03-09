@@ -43,7 +43,7 @@ const ProjectCard = ({ project, index }) => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ type: "spring", stiffness: 100, damping: 12, delay: index * 0.1 }}
             onMouseMove={handleMouseMove}
-            className="group relative bg-white border border-neutral-200 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden transition-all duration-500 shadow-xl hover:shadow-[0_20px_40px_-20px_rgba(6,182,212,0.4)] flex flex-col h-full interactive w-full"
+            className="group relative bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden transition-all duration-500 shadow-xl hover:shadow-[0_20px_40px_-20px_rgba(6,182,212,0.4)] flex flex-col h-full interactive w-full"
         >
             <motion.div
                 className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-50 hidden md:block"
@@ -58,7 +58,7 @@ const ProjectCard = ({ project, index }) => {
                 }}
             />
 
-            <div className="relative h-48 sm:h-64 w-full overflow-hidden bg-neutral-100 border-b border-neutral-200">
+            <div className="relative h-48 sm:h-64 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
                 {imageUrl ? (
                     <>
                         <img src={imageUrl} alt={project.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out z-0" loading="lazy" />
@@ -69,7 +69,7 @@ const ProjectCard = ({ project, index }) => {
                         <div className="absolute inset-0 bg-gradient-to-t from-neutral-200/50 to-transparent z-10 w-full"></div>
 
                         <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-all duration-700 ease-out group-hover:scale-110 flex items-center justify-center pointer-events-none">
-                            <div className="w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-100/50 via-white to-neutral-50 flex items-center justify-center animate-[spin_40s_linear_infinite] group-hover:animate-[spin_20s_linear_infinite]">
+                            <div className="w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-100/50 via-white to-neutral-50 dark:to-neutral-950 flex items-center justify-center animate-[spin_40s_linear_infinite] group-hover:animate-[spin_20s_linear_infinite]">
                                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-8 opacity-20">
                                     {[...Array(16)].map((_, i) => (
                                         <Code2 key={i} className="w-12 h-12 sm:w-16 sm:h-16 text-cyan-600" />
@@ -93,7 +93,7 @@ const ProjectCard = ({ project, index }) => {
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-lg border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-white hover:bg-cyan-600 hover:border-cyan-600 transition-all shadow-md sm:shadow-xl hover:scale-110 active:scale-95 interactive"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white dark:bg-neutral-900/95 backdrop-blur-lg border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white hover:bg-cyan-600 hover:border-cyan-600 transition-all shadow-md sm:shadow-xl hover:scale-110 active:scale-95 interactive"
                     >
                         <Github className="w-5 h-5 sm:w-6 sm:h-6" />
                     </a>
@@ -102,7 +102,7 @@ const ProjectCard = ({ project, index }) => {
                             href={project.demo}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-lg border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-white hover:bg-cyan-600 hover:border-cyan-600 transition-all shadow-md sm:shadow-xl hover:scale-110 active:scale-95 interactive"
+                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white dark:bg-neutral-900/95 backdrop-blur-lg border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white hover:bg-cyan-600 hover:border-cyan-600 transition-all shadow-md sm:shadow-xl hover:scale-110 active:scale-95 interactive"
                         >
                             <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6" />
                         </a>
@@ -118,16 +118,16 @@ const ProjectCard = ({ project, index }) => {
                 </motion.div>
             </div>
 
-            <div className="p-6 sm:p-8 flex-1 flex flex-col relative z-20 bg-white">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 mb-3 sm:mb-4 group-hover:text-cyan-600 transition-colors line-clamp-2">
+            <div className="p-6 sm:p-8 flex-1 flex flex-col relative z-20 bg-white dark:bg-neutral-900">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white mb-3 sm:mb-4 group-hover:text-cyan-600 transition-colors line-clamp-2">
                     {project.title}
                 </h3>
 
-                <p className="text-neutral-600 leading-relaxed mb-6 sm:mb-8 flex-1 text-base sm:text-lg">
+                <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 sm:mb-8 flex-1 text-base sm:text-lg">
                     {project.description}
                 </p>
 
-                <div className="mt-auto pt-4 border-t border-neutral-100/50">
+                <div className="mt-auto pt-4 border-t border-neutral-100 dark:border-neutral-800/50">
                     <div className="flex flex-wrap gap-2 sm:gap-2.5">
                         {project.technologies.slice(0, 5).map((tech, i) => {
                             const iconRes = getTechIcon(tech);
@@ -144,7 +144,7 @@ const ProjectCard = ({ project, index }) => {
                             );
                         })}
                         {project.technologies.length > 5 && (
-                            <div className="flex items-center text-xs sm:text-sm font-bold tracking-wide text-neutral-500 bg-neutral-100 px-2.5 sm:px-3 py-1.5 rounded-xl border border-neutral-200 whitespace-nowrap cursor-default">
+                            <div className="flex items-center text-xs sm:text-sm font-bold tracking-wide text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 px-2.5 sm:px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-700 whitespace-nowrap cursor-default">
                                 +{project.technologies.length - 5}
                             </div>
                         )}
@@ -181,7 +181,7 @@ const Projects = ({ projects }) => {
                         Featured Projects
                     </h2>
                     <div className="w-24 md:w-32 h-1.5 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full mt-4 md:mt-6 shadow-md"></div>
-                    <p className="text-neutral-500 mt-6 md:mt-8 max-w-2xl text-lg md:text-xl leading-relaxed">
+                    <p className="text-neutral-500 dark:text-neutral-400 mt-6 md:mt-8 max-w-2xl text-lg md:text-xl leading-relaxed">
                         A showcase of my recent work, highlighting my expertise in full-stack development, machine learning, and problem-solving.
                     </p>
                 </div>

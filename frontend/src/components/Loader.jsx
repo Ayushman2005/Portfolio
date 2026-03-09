@@ -47,7 +47,7 @@ const Loader = ({ onComplete }) => {
                     <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                     <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                    <span className="ml-4 text-xs font-bold text-neutral-500 uppercase tracking-widest">ayushman-os // boot</span>
+                    <span className="ml-4 text-xs font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">ayushman-os // boot</span>
                 </div>
 
                 {/* Terminal Text */}
