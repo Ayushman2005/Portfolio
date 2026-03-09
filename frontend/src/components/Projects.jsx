@@ -33,6 +33,9 @@ const ProjectCard = ({ project, index }) => {
         mouseY.set(clientY - top);
     }
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
+    const imageUrl = project.image ? `${API_URL}/static/images/${project.image}` : null;
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -56,17 +59,34 @@ const ProjectCard = ({ project, index }) => {
             />
 
             <div className="relative h-48 sm:h-64 w-full overflow-hidden bg-neutral-100 border-b border-neutral-200">
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-200/50 to-transparent z-10 w-full"></div>
+                {imageUrl ? (
+                    <>
+                        <img src={imageUrl} alt={project.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out z-0" loading="lazy" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent z-10 w-full opacity-80 group-hover:opacity-40 transition-opacity"></div>
+                    </>
+                ) : (
+                    <>
+                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-200/50 to-transparent z-10 w-full"></div>
 
-                <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-all duration-700 ease-out group-hover:scale-110 flex items-center justify-center">
-                    <div className="w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-100/50 via-white to-neutral-50 flex items-center justify-center animate-[spin_40s_linear_infinite] group-hover:animate-[spin_20s_linear_infinite]">
-                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-8 opacity-20">
-                            {[...Array(16)].map((_, i) => (
-                                <Code2 key={i} className="w-12 h-12 sm:w-16 sm:h-16 text-cyan-600" />
-                            ))}
+                        <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-all duration-700 ease-out group-hover:scale-110 flex items-center justify-center pointer-events-none">
+                            <div className="w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-100/50 via-white to-neutral-50 flex items-center justify-center animate-[spin_40s_linear_infinite] group-hover:animate-[spin_20s_linear_infinite]">
+                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-8 opacity-20">
+                                    {[...Array(16)].map((_, i) => (
+                                        <Code2 key={i} className="w-12 h-12 sm:w-16 sm:h-16 text-cyan-600" />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0.5 }}
+                            whileHover={{ scale: 1.2, opacity: 1 }}
+                            className="absolute inset-0 flex items-center justify-center z-10 drop-shadow-md pointer-events-none transition-transform duration-700"
+                        >
+                            <FolderGit2 className="w-16 h-16 sm:w-24 sm:h-24 text-cyan-600/50 group-hover:text-cyan-600/70 transition-colors" />
+                        </motion.div>
+                    </>
+                )}
 
                 <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 flex flex-row sm:flex-col gap-2 sm:gap-3 sm:translate-x-20 sm:group-hover:translate-x-0 transition-transform duration-500 sm:delay-100">
                     <a

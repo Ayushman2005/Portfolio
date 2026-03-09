@@ -46,8 +46,8 @@ const Navbar = ({ name }) => {
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
             className={`fixed top-0 left-0 right-0 z-[80] transition-all duration-500 ${scrolled
-                    ? 'py-3 bg-white/80 backdrop-blur-xl border-b border-neutral-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
-                    : 'py-6 bg-transparent'
+                ? 'py-3 bg-white/80 backdrop-blur-xl border-b border-neutral-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
+                : 'py-6 bg-transparent'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 flex justify-between items-center">
@@ -92,7 +92,7 @@ const Navbar = ({ name }) => {
 
                 <div className="hidden md:block">
                     <a
-                        href={import.meta.env.VITE_RESUME_URL || "#"}
+                        href={import.meta.env.VITE_RESUME_URL || `${import.meta.env.VITE_API_URL || 'http://localhost:10000'}/static/Resume.pdf`}
                         target="_blank"
                         rel="noreferrer"
                         className="interactive px-5 py-2.5 rounded-xl border-2 border-cyan-500 text-cyan-600 font-bold hover:bg-cyan-500 hover:text-white transition-all shadow-sm hover:shadow-cyan-500/20 active:scale-95"
