@@ -71,7 +71,7 @@ const Contact = ({ data }) => {
         try {
             if (useFormspree) {
                 // ── Formspree path ──────────────────────────────────────────
-                const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                const res = await fetch(`https://formspree.io/f/${mbdzggoj}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                     body: JSON.stringify({
