@@ -12,6 +12,7 @@ const Navbar = ({ name }) => {
         { name: 'Skills', href: '#skills' },
         { name: 'Projects', href: '#projects' },
         { name: 'Experience', href: '#experience' },
+        { name: 'Honors', href: '#achievements' },
         { name: 'Contact', href: '#contact' },
     ];
 
@@ -137,7 +138,7 @@ const Navbar = ({ name }) => {
                             <motion.a
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.6 }}
+                                transition={{ delay: 0.7 }}
                                 href={import.meta.env.VITE_RESUME_URL || "#"}
                                 className="text-center py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold shadow-md active:scale-95 transition-transform"
                             >

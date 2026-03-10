@@ -64,8 +64,8 @@ const Achievements = ({ achievements }) => {
     const defaultAchievements = achievements && achievements.length > 0 ? achievements.map(a => a.title) : [
         "Hackathon Participant - TechieDominators",
         "Active DSA practice on LeetCode",
-        "Member of GDG on Campus, GIET University",
-        "Member of Cyber Security Club, GIET University"
+        "Participant of GDG on Campus, GIET University",
+        "Participant of Cyber Security Club, GIET University"
     ];
 
     return (
