@@ -66,12 +66,12 @@ const Contact = ({ data }) => {
         setStatus({ type: '', msg: '' });
 
         const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
-        const useFormspree = FORMSPREE_ID && FORMSPREE_ID !== 'mbdzggoj';
+        const useFormspree = !!FORMSPREE_ID;
 
         try {
             if (useFormspree) {
                 // ── Formspree path ──────────────────────────────────────────
-                const res = await fetch(`https://formspree.io/f/${mbdzggoj}`, {
+                const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                     body: JSON.stringify({
