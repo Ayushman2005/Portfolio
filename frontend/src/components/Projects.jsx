@@ -2,6 +2,11 @@ import React from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { Github, ExternalLink, Code2, FolderGit2, Cpu } from 'lucide-react';
 
+const isMobile = () =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(max-width: 768px)').matches ||
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
 const getTechIcon = (techName) => {
     const icons = {
         'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg',
@@ -26,8 +31,10 @@ const getTechIcon = (techName) => {
 const ProjectCard = ({ project, index }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const mobile = isMobile();
 
     function handleMouseMove({ currentTarget, clientX, clientY }) {
+        if (mobile) return;
         const { left, top } = currentTarget.getBoundingClientRect();
         mouseX.set(clientX - left);
         mouseY.set(clientY - top);

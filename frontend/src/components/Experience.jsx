@@ -2,10 +2,16 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Calendar, Briefcase, ChevronRight, Building2 } from 'lucide-react';
 
+const isMobile = () =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(max-width: 768px)').matches ||
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
 const Experience = ({ experience }) => {
     const ref = useRef(null);
+    const mobile = isMobile();
     const { scrollYProgress } = useScroll({
-        target: ref,
+        target: mobile ? undefined : ref,
         offset: ["start center", "end end"]
     });
 

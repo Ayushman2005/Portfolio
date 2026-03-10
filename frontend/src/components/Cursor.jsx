@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useSpring } from 'framer-motion';
 
+const isMobile = () =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(max-width: 768px)').matches ||
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
 const Cursor = () => {
+    // Don't render custom cursor on mobile/touch — saves event listeners & computation
+    if (isMobile()) return null;
+
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = useState(false);
 

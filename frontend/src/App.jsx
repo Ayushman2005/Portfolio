@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+
+// Detect mobile/touch devices to skip heavy GPU animations
+const isMobileDevice = () =>
+  typeof window !== 'undefined' &&
+  (window.matchMedia('(max-width: 768px)').matches ||
+    /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -71,35 +77,38 @@ function App() {
                 style={{ scaleX }}
               />
 
-              {/* Dynamic Animated Background Patterns & Blobs */}
-              <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:24px_24px] opacity-60 pointer-events-none transition-all duration-700"></div>
+              {/* Background Patterns — static on mobile, animated on desktop */}
+              <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:32px_32px] sm:[background-size:24px_24px] opacity-40 sm:opacity-60 pointer-events-none"></div>
 
+              {/* Desktop-only animated blobs */}
               <motion.div
-                animate={{
+                animate={isMobileDevice() ? {} : {
                   x: [0, 50, 0],
                   y: [0, 30, 0],
                   scale: [1, 1.1, 1]
                 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="fixed top-0 -left-1/4 w-[800px] h-[800px] bg-cyan-200/40 dark:bg-cyan-900/20 blur-[120px] rounded-full pointer-events-none transition-colors duration-700"
+                className="fixed top-0 -left-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-cyan-200/30 sm:bg-cyan-200/40 dark:bg-cyan-900/15 sm:dark:bg-cyan-900/20 blur-[80px] sm:blur-[120px] rounded-full pointer-events-none will-change-transform"
               />
               <motion.div
-                animate={{
+                animate={isMobileDevice() ? {} : {
                   x: [0, -50, 0],
                   y: [0, -30, 0],
                   scale: [1, 1.2, 1]
                 }}
                 transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                className="fixed bottom-0 -right-1/4 w-[800px] h-[800px] bg-blue-200/40 dark:bg-blue-900/20 blur-[120px] rounded-full pointer-events-none transition-colors duration-700"
+                className="fixed bottom-0 -right-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-blue-200/30 sm:bg-blue-200/40 dark:bg-blue-900/15 sm:dark:bg-blue-900/20 blur-[80px] sm:blur-[120px] rounded-full pointer-events-none will-change-transform"
               />
-              <motion.div
-                animate={{
-                  x: [0, 30, -30, 0],
-                  y: [0, -50, 30, 0],
-                }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="fixed top-1/2 left-1/4 w-[600px] h-[600px] bg-purple-200/20 dark:bg-purple-900/20 blur-[120px] rounded-full pointer-events-none transition-colors duration-700"
-              />
+              {!isMobileDevice() && (
+                <motion.div
+                  animate={{
+                    x: [0, 30, -30, 0],
+                    y: [0, -50, 30, 0],
+                  }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  className="fixed top-1/2 left-1/4 w-[600px] h-[600px] bg-purple-200/20 dark:bg-purple-900/20 blur-[120px] rounded-full pointer-events-none will-change-transform"
+                />
+              )}
 
               <div className="relative z-10 w-full">
                 {data ? (

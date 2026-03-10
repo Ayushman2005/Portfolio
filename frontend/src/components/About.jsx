@@ -3,17 +3,25 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 import { GraduationCap, Building2, MapPin, Code2 } from 'lucide-react';
 
+const isMobile = () =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(max-width: 768px)').matches ||
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
 const About = ({ data }) => {
     const ref = useRef(null);
 
-    // Create a slight parallax effect for the entire section
+    // Parallax effect — skip on mobile
     const { scrollYProgress } = useScroll({
         target: ref,
         offset: ["start end", "end start"]
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const _yRaw = useTransform(scrollYProgress, [0, 1], [50, -50]);
+    const _opacityRaw = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const mobile = isMobile();
+    const y = mobile ? 0 : _yRaw;
+    const opacity = mobile ? 1 : _opacityRaw;
 
     return (
         <section id="about" className="py-24 relative" ref={ref}>

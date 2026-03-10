@@ -2,6 +2,11 @@ import React from 'react';
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Code2, BrainCircuit, Layout, Wrench, Network, Cpu } from 'lucide-react';
 
+const isMobile = () =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(max-width: 768px)').matches ||
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
 const SkillCard = ({ category, delay }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -12,7 +17,10 @@ const SkillCard = ({ category, delay }) => {
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
 
+    const mobile = isMobile();
+
     const handleMouseMove = (e) => {
+        if (mobile) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
@@ -20,7 +28,6 @@ const SkillCard = ({ category, delay }) => {
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
-        // Normalize coordinates to -0.5 to 0.5
         const xPct = (mouseX / width) - 0.5;
         const yPct = (mouseY / height) - 0.5;
 
@@ -29,6 +36,7 @@ const SkillCard = ({ category, delay }) => {
     };
 
     const handleMouseLeave = () => {
+        if (mobile) return;
         x.set(0);
         y.set(0);
     };

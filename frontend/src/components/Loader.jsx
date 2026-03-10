@@ -12,7 +12,7 @@ const Loader = ({ onComplete }) => {
         "Fetching portfolio_data.json... SUCCESS",
         "Compiling UI components & framer-motion...",
         "Starting physics engine...",
-        "Bypassing security protocols... (Just kidding)",
+        "Bypassing security protocols... ",
         ">> Boot sequence complete. Welcome, Ayushman."
     ];
 

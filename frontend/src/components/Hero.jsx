@@ -2,25 +2,35 @@ import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { Terminal, Database, Code2 } from 'lucide-react';
 
+const isMobile = () =>
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(max-width: 768px)').matches ||
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
 const Hero = ({ data }) => {
     const words = ["Machine Learning Engineer.", "Full Stack Developer.", "Problem Solver."];
     const [currentWord, setCurrentWord] = React.useState(0);
     const [typedText, setTypedText] = React.useState('');
     const [isDeleting, setIsDeleting] = React.useState(false);
 
-    // Parallax effect on scroll
+    // Parallax effect on scroll — skip on mobile for smoothness
     const { scrollY } = useScroll();
-    const y1 = useTransform(scrollY, [0, 500], [0, 150]);
-    const y2 = useTransform(scrollY, [0, 500], [0, -100]);
-    const opacity1 = useTransform(scrollY, [0, 300], [1, 0]);
+    const _y1Raw = useTransform(scrollY, [0, 500], [0, 150]);
+    const _y2Raw = useTransform(scrollY, [0, 500], [0, -100]);
+    const _opacity1Raw = useTransform(scrollY, [0, 300], [1, 0]);
+    const mobile = isMobile();
+    const y1 = mobile ? 0 : _y1Raw;
+    const y2 = mobile ? 0 : _y2Raw;
+    const opacity1 = mobile ? 1 : _opacity1Raw;
 
-    // Floating Window Physics
+    // Floating Window Physics — skip on mobile
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], ["10deg", "-10deg"]), { damping: 20 });
     const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], ["-10deg", "10deg"]), { damping: 20 });
 
     function handleMouseMove(e) {
+        if (mobile) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
@@ -31,6 +41,7 @@ const Hero = ({ data }) => {
     }
 
     function handleMouseLeave() {
+        if (mobile) return;
         mouseX.set(0);
         mouseY.set(0);
     }
@@ -190,16 +201,16 @@ const Hero = ({ data }) => {
                     </div>
                 </motion.div>
 
-                {/* Decorative floating rings */}
+                {/* Decorative floating rings - desktop only */}
                 <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-10 -right-10 w-40 h-40 border-[1px] border-dashed border-cyan-300 rounded-full -z-10"
+                    className="absolute -top-10 -right-10 w-40 h-40 border-[1px] border-dashed border-cyan-300 rounded-full -z-10 hidden md:block will-change-transform"
                 ></motion.div>
                 <motion.div
                     animate={{ rotate: -360 }}
                     transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                    className="absolute -bottom-8 -left-8 w-32 h-32 border-[1px] border-cyan-200 rounded-full -z-10 bg-gradient-to-tr from-cyan-100/50 to-transparent backdrop-blur-3xl"
+                    className="absolute -bottom-8 -left-8 w-32 h-32 border-[1px] border-cyan-200 rounded-full -z-10 bg-gradient-to-tr from-cyan-100/50 to-transparent backdrop-blur-3xl hidden md:block will-change-transform"
                 ></motion.div>
             </motion.div>
         </section>

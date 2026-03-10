@@ -3,8 +3,18 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  html {
+    /* Smoother momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+    scroll-behavior: auto; /* let Lenis handle smooth scroll on desktop */
+  }
+
   body {
     @apply bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 antialiased;
+    text-rendering: optimizeSpeed;
+    touch-action: pan-y;
+    overscroll-behavior-y: none;
   }
 }
 
@@ -14,4 +24,33 @@
   transition-property: background-color, border-color, color, fill, stroke, outline-color;
   transition-duration: 500ms;
   transition-timing-function: ease-in-out;
+}
+
+/* On mobile: reduce transition durations and disable backdrop-blur for perf */
+@media (max-width: 768px) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 200ms !important;
+  }
+
+  /* Disable expensive backdrop-filter on mobile */
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl,
+  [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
