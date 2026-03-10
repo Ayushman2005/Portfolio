@@ -66,7 +66,7 @@ const Contact = ({ data }) => {
         setStatus({ type: '', msg: '' });
 
         const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
-        const useFormspree = FORMSPREE_ID && FORMSPREE_ID !== 'your_form_id_here';
+        const useFormspree = FORMSPREE_ID && FORMSPREE_ID !== 'mbdzggoj';
 
         try {
             if (useFormspree) {
