@@ -19,7 +19,6 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
-import Chatbot from './components/Chatbot';
 
 function App() {
   const [data, setData] = useState(null);
@@ -62,6 +61,17 @@ function App() {
           )}
         </AnimatePresence>
 
+        {isAppReady && data && (
+          <>
+            <Navbar name={data.name} />
+            {/* Scroll Progress Bar */}
+            <motion.div
+              className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 origin-left z-[60]"
+              style={{ scaleX }}
+            />
+          </>
+        )}
+
         <AnimatePresence>
           {isAppReady && (
             <motion.div
@@ -70,11 +80,6 @@ function App() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             >
-              {/* Scroll Progress Bar */}
-              <motion.div
-                className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 origin-left z-[60]"
-                style={{ scaleX }}
-              />
 
               {/* Background Patterns — static on mobile, animated on desktop */}
               <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:32px_32px] sm:[background-size:24px_24px] opacity-40 sm:opacity-60 pointer-events-none"></div>
@@ -112,7 +117,6 @@ function App() {
               <div className="relative z-10 w-full">
                 {data ? (
                   <>
-                    <Navbar name={data.name} />
                     <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-20 md:pt-24 pb-12 space-y-20 md:space-y-32">
                       <Hero data={data} />
                       <About data={data} />
@@ -123,7 +127,6 @@ function App() {
                       <Contact data={data} />
                     </main>
                     <Footer data={data} />
-                    <Chatbot />
                   </>
                 ) : (
                   <div className="flex items-center justify-center min-h-screen text-xl text-neutral-500 dark:text-neutral-400 font-mono">

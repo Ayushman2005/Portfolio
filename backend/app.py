@@ -96,57 +96,6 @@ def contact():
         
     return jsonify({"success": "Message saved successfully"}), 201
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    data = load_data()
-    user_message = request.json.get('message')
-    if not user_message:
-        return jsonify({"error": "Message is required"}), 400
-
-    try:
-        context = f"""
-You are an AI assistant for a portfolio website. Your purpose is to answer questions about the portfolio owner based ONLY on the following context. If you don't know the answer or the information is not in the context, politely inform the user that you don't have that information. Answer concisely and professionally.
-
-Context:
-Name: {data.get('name')}
-Title: {data.get('title')}
-Bio: {data.get('bio')}
-Email: {data.get('email')}
-Phone: {data.get('phone')}
-Location: {data.get('location')}
-
-Skills: {json.dumps(data.get('skills', []))}
-Projects: {json.dumps(data.get('projects', []))}
-Certifications: {json.dumps(data.get('certifications', []))}
-Experience: {json.dumps(data.get('experience', []))}
-
-User Question: {user_message}
-Answer:"""
-        
-        # Call Local Ollama instance (defaulting to llama3, ensure it's pulled: `ollama pull llama3`)
-        payload = {
-            "model": "llama3",  # You can change this to "mistral", "phi3", etc.
-            "prompt": context,
-            "stream": False
-        }
-        
-        # Note: Default Ollama port is 11434
-        response = requests.post("http://localhost:11434/api/generate", json=payload)
-        
-        if response.status_code == 200:
-            result = response.json()
-            return jsonify({"response": result.get("response", "")})
-        else:
-            print(f"Ollama Error Status: {response.status_code}")
-            return jsonify({"error": "Failed to generate response from Ollama"}), 500
-
-    except requests.exceptions.ConnectionError:
-        print("Connection error: Is Ollama running?")
-        return jsonify({"error": "Cannot connect to local AI model. Make sure Ollama is running."}), 503
-    except Exception as e:
-        print(f"Chat error: {e}")
-        return jsonify({"error": "Failed to generate response"}), 500
-
 
 # --- ADMIN ROUTES ---
 @app.route('/login', methods=['GET', 'POST'])

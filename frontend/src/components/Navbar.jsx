@@ -43,16 +43,17 @@ const Navbar = ({ name }) => {
     }, []);
 
     return (
-        <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            className={`fixed top-0 left-0 right-0 z-[80] transition-all duration-500 ${scrolled
-                ? 'py-3 bg-white dark:bg-neutral-900/80 backdrop-blur-xl border-b border-neutral-200 dark:border-neutral-700/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
-                : 'py-6 bg-transparent'
-                }`}
-        >
-            <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 flex justify-between items-center">
+        <header className="fixed top-0 left-0 right-0 z-[80] pointer-events-none flex justify-center w-full">
+            <motion.nav
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                className={`pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled
+                    ? 'mt-0 md:mt-6 w-full md:w-[90%] max-w-5xl py-2.5 md:rounded-full bg-white/60 dark:bg-neutral-900/60 backdrop-blur-2xl border-b md:border border-white/20 dark:border-neutral-700/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)]'
+                    : 'mt-0 w-full max-w-7xl py-6 bg-transparent border-b border-transparent'
+                    }`}
+            >
+                <div className="mx-auto px-6 md:px-8 flex justify-between items-center w-full">
                 <a href="#" className="flex items-center gap-2 group interactive">
                     <motion.div
                         whileHover={{ rotate: 90 }}
@@ -153,7 +154,8 @@ const Navbar = ({ name }) => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </motion.nav>
+            </motion.nav>
+        </header>
     );
 };
 
