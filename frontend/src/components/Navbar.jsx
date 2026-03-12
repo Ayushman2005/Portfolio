@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Code2 } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = ({ name }) => {
     const [scrolled, setScrolled] = useState(false);
@@ -91,7 +92,8 @@ const Navbar = ({ name }) => {
                     })}
                 </div>
 
-                <div className="hidden md:block">
+                <div className="hidden md:flex items-center gap-3">
+                    <ThemeToggle className="bg-transparent border-transparent dark:border-transparent shadow-none" />
                     <a
                         href={import.meta.env.VITE_RESUME_URL || `${import.meta.env.VITE_API_URL || 'http://localhost:10000'}/static/Resume.pdf`}
                         target="_blank"
@@ -102,13 +104,16 @@ const Navbar = ({ name }) => {
                     </a>
                 </div>
 
-                {/* Mobile menu button */}
-                <button
-                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    className="md:hidden text-neutral-800 dark:text-neutral-200 p-2 focus:outline-none interactive"
-                >
-                    {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                </button>
+                {/* Mobile menu button & Theme toggle */}
+                <div className="md:hidden flex items-center gap-2">
+                    <ThemeToggle className="bg-transparent border-transparent dark:border-transparent shadow-none" />
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="text-neutral-800 dark:text-neutral-200 p-2 focus:outline-none interactive"
+                    >
+                        {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Nav */}

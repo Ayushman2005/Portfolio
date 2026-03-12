@@ -19,7 +19,7 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
-import ThemeToggle from './components/ThemeToggle';
+import Chatbot from './components/Chatbot';
 
 function App() {
   const [data, setData] = useState(null);
@@ -55,7 +55,6 @@ function App() {
     <SmoothScroll>
       <div className="relative min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/20 font-sans overflow-x-hidden transition-colors duration-700 ease-in-out">
         <Cursor />
-        <ThemeToggle />
 
         <AnimatePresence mode="wait">
           {!isAppReady && (
@@ -124,6 +123,7 @@ function App() {
                       <Contact data={data} />
                     </main>
                     <Footer data={data} />
+                    <Chatbot />
                   </>
                 ) : (
                   <div className="flex items-center justify-center min-h-screen text-xl text-neutral-500 dark:text-neutral-400 font-mono">
