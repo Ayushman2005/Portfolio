@@ -42,7 +42,7 @@ const Footer = ({ data }) => {
                         <motion.a
                             whileHover={{ y: -5, scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
-                            href={data.linkedin || "www.linkedin.com/in/ayushman-kar-08370634b"} target="_blank" rel="noopener noreferrer"
+                            href={data.linkedin || "https://www.linkedin.com/in/ayushman-kar-08370634b/"} target="_blank" rel="noopener noreferrer"
                             className="w-12 h-12 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all shadow-sm group interactive"
                         >
                             <Linkedin className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
