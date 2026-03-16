@@ -139,79 +139,34 @@ const Hero = ({ data }) => {
                 </motion.div>
             </motion.div>
 
-            {/* Dynamic 3D Floating Window Element */}
+            {/* Profile Picture Element */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.8, x: 50 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 transition={{ duration: 1, delay: 0.8, type: "spring", damping: 15 }}
                 style={{ y: y2, perspective: 1000 }}
-                className="w-full max-w-lg relative z-20 mt-16 md:mt-0 mx-auto md:mx-0"
+                className="w-full max-w-md relative z-20 mt-16 md:mt-0 mx-auto md:mx-0 flex justify-center items-center"
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
             >
                 <motion.div
                     style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                    className="relative bg-white dark:bg-neutral-900/70 backdrop-blur-2xl border border-neutral-200 dark:border-neutral-700 rounded-3xl p-4 sm:p-6 shadow-2xl shadow-cyan-500/10 cursor-default"
+                    className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full p-2 bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-2xl shadow-cyan-500/20 flex-shrink-0"
                 >
-                    <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"></div>
-
-                    <div className="flex items-center gap-2 mb-6 border-b border-neutral-100 dark:border-neutral-800 pb-4" style={{ transform: 'translateZ(20px)' }}>
-                        <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                        <p className="ml-4 font-mono text-xs text-neutral-400 tracking-wider">developer_profile.json</p>
-                    </div>
-
-                    <div className="space-y-4 font-mono text-sm" style={{ transform: 'translateZ(40px)' }}>
-                        <div className="flex items-start gap-4 p-3 bg-neutral-50 dark:bg-neutral-950 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-white dark:bg-neutral-900 hover:border-cyan-200">
-                            <Terminal className="w-5 h-5 text-purple-500 mt-1" />
-                            <div>
-                                <p className="text-neutral-500 dark:text-neutral-400 font-semibold mb-1">// Backend Logic</p>
-                                <div className="flex items-center gap-2 text-cyan-700">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" className="w-4 h-4" alt="python" /> Python
-                                    <span className="text-neutral-400">|</span>
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flask/flask-original.svg" className="w-4 h-4" alt="flask" /> Flask
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-4 p-3 bg-neutral-50 dark:bg-neutral-950 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-white dark:bg-neutral-900 hover:border-blue-200">
-                            <Database className="w-5 h-5 text-blue-500 mt-1" />
-                            <div>
-                                <p className="text-neutral-500 dark:text-neutral-400 font-semibold mb-1">// Data & Intelligence</p>
-                                <div className="flex items-center gap-2 text-blue-700">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg" className="w-4 h-4" alt="TF" /> TensorFlow
-                                    <span className="text-neutral-400">|</span>
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg" className="w-4 h-4" alt="PyTorch" /> PyTorch
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-4 p-3 bg-neutral-50 dark:bg-neutral-950 rounded-xl border border-neutral-100 dark:border-neutral-800 transition-colors hover:bg-white dark:bg-neutral-900 hover:border-green-200">
-                            <Code2 className="w-5 h-5 text-green-500 mt-1" />
-                            <div>
-                                <p className="text-neutral-500 dark:text-neutral-400 font-semibold mb-1">// Frontend UI</p>
-                                <div className="flex items-center gap-2 text-green-700">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" className="w-4 h-4" alt="React" /> React
-                                    <span className="text-neutral-400">|</span>
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" className="w-4 h-4 filter grayscale brightness-0 opacity-60 mix-blend-multiply" alt="Tailwind" /> Tailwind
-                                </div>
-                            </div>
-                        </div>
+                    {/* Inner image container */}
+                    <div className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-neutral-900 bg-neutral-100 dark:bg-neutral-800 relative" style={{ transform: 'translateZ(20px)' }}>
+                        {/* Make sure to upload your picture to frontend/public/profile.jpg or frontend/public/profile.png */}
+                        <img
+                            src="/profile.png"
+                            alt={data.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                e.target.onerror = null; // prevent infinite loop
+                                e.target.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(data.name || "Ayushman") + "&size=512&background=0891b2&color=fff";
+                            }}
+                        />
                     </div>
                 </motion.div>
-
-                {/* Decorative floating rings - desktop only */}
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-10 -right-10 w-40 h-40 border-[1px] border-dashed border-cyan-300 rounded-full -z-10 hidden md:block will-change-transform"
-                ></motion.div>
-                <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                    className="absolute -bottom-8 -left-8 w-32 h-32 border-[1px] border-cyan-200 rounded-full -z-10 bg-gradient-to-tr from-cyan-100/50 to-transparent backdrop-blur-3xl hidden md:block will-change-transform"
-                ></motion.div>
             </motion.div>
         </section>
     );
