@@ -11,110 +11,118 @@ const isMobile = () =>
 const About = ({ data }) => {
     const ref = useRef(null);
 
-    // Parallax effect — skip on mobile
     const { scrollYProgress } = useScroll({
         target: ref,
         offset: ["start end", "end start"]
     });
 
-    const _yRaw = useTransform(scrollYProgress, [0, 1], [50, -50]);
-    const _opacityRaw = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-    const mobile = isMobile();
-    const y = mobile ? 0 : _yRaw;
-    const opacity = mobile ? 1 : _opacityRaw;
+    const y = useTransform(scrollYProgress, [0, 1], !isMobile() ? [100, -100] : [0, 0]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
     return (
-        <section id="about" className="py-24 relative" ref={ref}>
-            <motion.div
-                style={{ y, opacity }}
-                className="max-w-5xl mx-auto"
-            >
-                <div className="flex items-center gap-6 mb-16 px-4">
-                    <motion.h2
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                        className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600"
-                    >
-                        About Me
-                    </motion.h2>
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: "circOut" }}
-                        className="h-[2px] bg-gradient-to-r from-cyan-500/50 to-transparent flex-grow max-w-sm origin-left"
-                    />
-                </div>
+        <section id="about" className="py-32 relative overflow-hidden" ref={ref}>
+            <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-cyan-500/5 blur-[120px] rounded-full animate-pulse-slow pointer-events-none" />
+            
+            <motion.div style={{ y, opacity }} className="max-w-[90rem] mx-auto px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+                    <div className="lg:col-span-7 space-y-10">
+                        <div className="space-y-4">
+                            <motion.span 
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-sm uppercase"
+                            >
+                                IDENTITY
+                            </motion.span>
+                            <motion.h2 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
+                            >
+                                Who is Behind <span className="text-gradient">the Code?</span>
+                            </motion.h2>
+                        </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 items-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="md:col-span-7 space-y-6 text-neutral-600 dark:text-neutral-400 leading-relaxed text-lg"
-                    >
-                        <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-cyan-600 first-letter:float-left first-letter:mr-2">
-                            Hello! I'm Ayushman Kar, a Computer Engineering Undergraduate based in Odisha, India. I am highly passionate about Machine Learning, Data Structures, and Web Development.
-                        </p>
-                        <p>
-                            My journey in tech started with a curiosity to understand how intelligent systems make decisions. Currently, I am actively engaging with tech communities like the GDG on Campus and the Cyber Security Club at GIET University.
-                        </p>
-                        <p className="border-l-4 border-cyan-500 pl-4 py-2 bg-gradient-to-r from-cyan-50 dark:from-cyan-900/30 to-transparent rounded-r-lg italic text-neutral-700 dark:text-neutral-300 font-medium">
-                            "Whether it's training machine learning models or building robust full-stack web applications, I enjoy combining logic with creative problem-solving to build solutions that have a real-world impact."
-                        </p>
-                    </motion.div>
+                        <div className="space-y-8">
+                            <motion.p 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.1 }}
+                                className="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed font-medium"
+                            >
+                                Hello! I'm <span className="text-neutral-900 dark:text-white font-black underline decoration-cyan-500 decoration-4 underline-offset-4">Ayushman Kar</span>, 
+                                a Computer Engineering Undergraduate based in Odisha, India. 
+                                I am highly passionate about Machine Learning, Data Structures, and Web Development.
+                            </motion.p>
+                            
+                            <motion.p 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2 }}
+                                className="text-lg md:text-xl text-neutral-500 dark:text-neutral-400 leading-relaxed"
+                            >
+                                My journey in tech started with a curiosity to understand how intelligent systems make decisions. 
+                                Currently, I am actively engaging with tech communities like the GDG on Campus and 
+                                the Cyber Security Club at GIET University.
+                            </motion.p>
 
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
-                        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.4 }}
-                        whileHover={{ scale: 1.02, rotate: 2 }}
-                        className="md:col-span-5 relative group cursor-pointer"
-                    >
-                        {/* Animated glowing backdrop */}
-                        <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-200 to-blue-300 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-70 transition duration-700 animate-pulse-slow h-full w-full pointer-events-none"></div>
+                            <motion.div 
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.3 }}
+                                className="glass-card p-8 rounded-[2rem] border-l-8 border-l-cyan-500 italic relative overflow-hidden"
+                            >
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-bl-full pointer-events-none" />
+                                <p className="text-neutral-800 dark:text-neutral-200 text-lg md:text-xl font-medium relative z-10">
+                                    "Whether it's training machine learning models or building robust full-stack web applications, 
+                                    I enjoy combining logic with creative problem-solving to build solutions that have a real-world impact."
+                                </p>
+                            </motion.div>
+                        </div>
+                    </div>
 
-                        <div className="relative bg-white dark:bg-neutral-900/90 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 rounded-3xl p-8 h-full flex flex-col justify-center shadow-xl hover:shadow-2xl transition-all duration-300 z-10 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-100 dark:bg-cyan-900/20 rounded-bl-full pointer-events-none opacity-50"></div>
-
-                            <h3 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-white border-b-2 border-cyan-100 dark:border-cyan-800/50 pb-3 relative z-10">
+                    <div className="lg:col-span-5 relative group">
+                        <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 rounded-[3rem] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                        
+                        <div className="glass-card relative p-10 rounded-[3rem] space-y-10 hover-glow transition-all duration-500">
+                            <h3 className="text-3xl font-black text-neutral-900 dark:text-white tracking-tight">
                                 Quick Facts
                             </h3>
 
-                            <ul className="space-y-5 relative z-10">
+                            <div className="space-y-8">
                                 {[
                                     { label: "Degree", value: "B.Tech Computer Engineering", icon: GraduationCap },
                                     { label: "University", value: "GIET University (2024 - 2028)", icon: Building2 },
-                                    { label: "Location", value: data.location, icon: MapPin },
-                                    { label: "Hobbies", value: "Open Source, Hackathons", icon: Code2 }
+                                    { label: "Location", value: data.location || "Odisha, India", icon: MapPin },
+                                    { label: "Interests", value: "Open Source, Hackathons, AI", icon: Code2 }
                                 ].map((item, idx) => {
                                     const Icon = item.icon;
                                     return (
-                                        <motion.li
-                                            key={idx}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: 0.6 + (idx * 0.1) }}
-                                            className="flex items-start gap-4 group/item"
-                                        >
-                                            <div className="mt-1 w-10 h-10 rounded-full bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-200 dark:border-cyan-800/50 flex items-center justify-center flex-shrink-0 group-hover/item:bg-cyan-500 group-hover/item:border-cyan-500 dark:group-hover/item:bg-cyan-600 dark:group-hover/item:border-cyan-600 transition-colors duration-300">
-                                                <Icon className="w-5 h-5 text-cyan-600 dark:text-cyan-400 group-hover/item:text-white transition-colors duration-300" />
+                                        <div key={idx} className="flex gap-6 group/item">
+                                            <div className="w-14 h-14 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center border border-neutral-200 dark:border-neutral-700 group-hover/item:bg-cyan-500 group-hover/item:border-cyan-400 transition-all duration-500 shadow-xl group-hover/item:shadow-cyan-500/20">
+                                                <Icon className="w-7 h-7 text-neutral-900 dark:text-white group-hover/item:text-white transition-colors" />
                                             </div>
-                                            <div>
-                                                <p className="text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider">{item.label}</p>
-                                                <p className="text-neutral-600 dark:text-neutral-400 font-medium">{item.value}</p>
+                                            <div className="space-y-1">
+                                                <p className="text-xs font-black tracking-widest text-neutral-400 dark:text-neutral-500 uppercase">{item.label}</p>
+                                                <p className="text-lg font-bold text-neutral-900 dark:text-white tracking-tight">{item.value}</p>
                                             </div>
-                                        </motion.li>
+                                        </div>
                                     )
                                 })}
-                            </ul>
+                            </div>
+
+                            <div className="pt-6 border-t border-neutral-200 dark:border-neutral-800">
+                                <p className="text-neutral-400 dark:text-neutral-500 text-sm font-medium">
+                                    Currently open to internships and collaborative projects in AI & Full-stack development.
+                                </p>
+                            </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </motion.div>
         </section>

@@ -19,12 +19,9 @@ const Navbar = ({ name }) => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-
-            // Update active nav item based on scroll position
+            setScrolled(window.scrollY > 20);
             const sections = navLinks.map(link => link.href.substring(1));
             let current = '';
-
             for (const section of sections) {
                 const element = document.getElementById(section);
                 if (element) {
@@ -37,123 +34,127 @@ const Navbar = ({ name }) => {
             }
             setActiveDiv(current);
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[80] pointer-events-none flex justify-center w-full">
+        <header className="fixed top-6 left-0 right-0 z-[100] px-6 flex justify-center pointer-events-none">
             <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                className={`pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled
-                    ? 'mt-0 md:mt-6 w-full md:w-[90%] max-w-5xl py-2.5 md:rounded-full bg-white/60 dark:bg-neutral-900/60 backdrop-blur-2xl border-b md:border border-white/20 dark:border-neutral-700/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)]'
-                    : 'mt-0 w-full max-w-7xl py-6 bg-transparent border-b border-transparent'
-                    }`}
+                className={`pointer-events-auto max-w-[85rem] w-full rounded-[2rem] border border-white/10 dark:border-white/5 shadow-2xl transition-all duration-500 overflow-hidden ${
+                    scrolled ? 'glass-card py-3 px-8' : 'bg-transparent py-5 px-4'
+                }`}
             >
-                <div className="mx-auto px-6 md:px-8 flex justify-between items-center w-full">
-                <a href="#" className="flex items-center gap-2 group interactive">
-                    <motion.div
-                        whileHover={{ rotate: 90 }}
-                        transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                        className="w-10 h-10 bg-gradient-to-tr from-cyan-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-cyan-500/30 transition-shadow"
-                    >
-                        <Code2 className="w-6 h-6 text-white" />
-                    </motion.div>
-                    <span className="font-extrabold text-xl tracking-tight text-neutral-900 dark:text-white group-hover:text-cyan-600 transition-colors">
-                        {name ? name.split(' ')[0] : 'Portfolio'}
-                        <span className="text-cyan-500">.</span>
-                    </span>
-                </a>
-
-                {/* Desktop Nav */}
-                <div className="hidden md:flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800/50 p-1.5 rounded-full border border-neutral-200 dark:border-neutral-700/50 backdrop-blur-md">
-                    {navLinks.map((link, index) => {
-                        const isActive = activeDiv === link.href.substring(1);
-                        return (
-                            <a
-                                key={index}
-                                href={link.href}
-                                className={`relative px-5 py-2 rounded-full text-sm font-bold transition-colors interactive ${isActive ? 'text-white' : 'text-neutral-600 dark:text-neutral-400 hover:text-cyan-600'
-                                    }`}
-                                onClick={(e) => setActiveDiv(link.href.substring(1))}
-                            >
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="navbar-active-pill"
-                                        className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-md"
-                                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                                    />
-                                )}
-                                <span className="relative z-10">{link.name}</span>
-                            </a>
-                        );
-                    })}
-                </div>
-
-                <div className="hidden md:flex items-center gap-3">
-                    <ThemeToggle className="bg-transparent border-transparent dark:border-transparent shadow-none" />
-                    <a
-                        href={import.meta.env.VITE_RESUME_URL || `${import.meta.env.VITE_API_URL || 'http://localhost:10000'}/static/Resume.pdf`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="interactive px-5 py-2.5 rounded-xl border-2 border-cyan-500 text-cyan-600 font-bold hover:bg-cyan-500 hover:text-white transition-all shadow-sm hover:shadow-cyan-500/20 active:scale-95"
-                    >
-                        Resume
+                <div className="flex justify-between items-center w-full">
+                    <a href="#" className="flex items-center gap-3 group">
+                        <motion.div
+                            whileHover={{ scale: 1.1, rotate: 10 }}
+                            className="w-10 h-10 bg-neutral-900 dark:bg-white rounded-xl flex items-center justify-center shadow-xl group-hover:shadow-cyan-500/20 transition-all overflow-hidden"
+                        >
+                            <Code2 className="w-6 h-6 text-white dark:text-neutral-900" />
+                        </motion.div>
+                        <span className="font-black text-xl tracking-tighter text-neutral-900 dark:text-white uppercase">
+                            {name ? name.split(' ')[0] : 'Portfolio'}
+                            <span className="text-cyan-500">.</span>
+                        </span>
                     </a>
-                </div>
 
-                {/* Mobile menu button & Theme toggle */}
-                <div className="md:hidden flex items-center gap-2">
-                    <ThemeToggle className="bg-transparent border-transparent dark:border-transparent shadow-none" />
-                    <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="text-neutral-800 dark:text-neutral-200 p-2 focus:outline-none interactive"
-                    >
-                        {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                    </button>
-                </div>
-            </div>
-
-            {/* Mobile Nav */}
-            <AnimatePresence>
-                {mobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="md:hidden bg-white dark:bg-neutral-900/95 backdrop-blur-3xl border-b border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-2xl"
-                    >
-                        <div className="px-6 py-6 flex flex-col space-y-4">
-                            {navLinks.map((link, index) => (
-                                <motion.a
+                    {/* Desktop Nav */}
+                    <div className="hidden md:flex items-center gap-1">
+                        {navLinks.map((link, index) => {
+                            const isActive = activeDiv === link.href.substring(1);
+                            return (
+                                <a
                                     key={index}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.1 }}
                                     href={link.href}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="text-lg font-bold text-neutral-800 dark:text-neutral-200 hover:text-cyan-600 border-b border-neutral-100 dark:border-neutral-800 pb-3"
+                                    className={`relative px-5 py-2 rounded-xl text-xs font-black tracking-widest uppercase transition-all ${
+                                        isActive ? 'text-cyan-500' : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                                    }`}
+                                    onClick={() => setActiveDiv(link.href.substring(1))}
                                 >
-                                    {link.name}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="navbar-active"
+                                            className="absolute inset-0 bg-cyan-500/10 rounded-xl"
+                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                        />
+                                    )}
+                                    <span className="relative z-10">{link.name}</span>
+                                </a>
+                            );
+                        })}
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <ThemeToggle className="hover:scale-110 transition-transform" />
+                        <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            href="/Resume.pdf"
+                            target="_blank"
+                            className="hidden lg:block px-6 py-2.5 rounded-xl border border-neutral-200 dark:border-white/10 text-neutral-900 dark:text-white text-xs font-black tracking-widest uppercase transition-all hover:bg-neutral-900 dark:hover:bg-white hover:text-white dark:hover:text-neutral-900"
+                        >
+                            RESUME
+                        </motion.a>
+                        <motion.a
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            href="#contact"
+                            className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-xs font-black tracking-widest uppercase shadow-xl hover:shadow-cyan-500/30 transition-all"
+                        >
+                            LET'S TALK
+                            <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
+                        </motion.a>
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="md:hidden text-neutral-900 dark:text-white p-2"
+                        >
+                            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Menu */}
+                <AnimatePresence>
+                    {mobileMenuOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="md:hidden border-t border-white/10 dark:border-white/5 mt-4 overflow-hidden"
+                        >
+                            <div className="flex flex-col gap-6 py-8 px-4">
+                                {navLinks.map((link, index) => (
+                                    <motion.a
+                                        key={index}
+                                        initial={{ x: -20, opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        transition={{ delay: index * 0.05 }}
+                                        href={link.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="text-2xl font-black tracking-tighter text-neutral-900 dark:text-white uppercase hover:text-cyan-500 transition-colors flex items-center justify-between group"
+                                    >
+                                        <span>{link.name}</span>
+                                        <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    </motion.a>
+                                ))}
+                                <motion.a
+                                    initial={{ x: -20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: navLinks.length * 0.05 }}
+                                    href="/Resume.pdf"
+                                    target="_blank"
+                                    className="mt-4 px-8 py-4 rounded-2xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-center font-black tracking-widest uppercase shadow-xl"
+                                >
+                                    DOWNLOAD RESUME
                                 </motion.a>
-                            ))}
-                            <motion.a
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.7 }}
-                                href={import.meta.env.VITE_RESUME_URL || "#"}
-                                className="text-center py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold shadow-md active:scale-95 transition-transform"
-                            >
-                                Download Resume
-                            </motion.a>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </motion.nav>
         </header>
     );

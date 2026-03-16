@@ -9,115 +9,119 @@ const isMobile = () =>
 
 const Experience = ({ experience }) => {
     const ref = useRef(null);
-    const mobile = isMobile();
+
     const { scrollYProgress } = useScroll({
-        target: mobile ? undefined : ref,
+        target: ref,
         offset: ["start center", "end end"]
     });
 
-    const pathLength = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
+    const pathLength = useSpring(scrollYProgress, { 
+        stiffness: 100, 
+        damping: 30,
+        restDelta: 0.001
+    });
 
     return (
-        <section id="experience" className="py-20 md:py-32 relative" ref={ref}>
-            <div className="absolute right-0 top-1/4 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-blue-100/40 blur-[100px] md:blur-[150px] pointer-events-none rounded-full"></div>
+        <section id="experience" className="py-32 relative overflow-hidden" ref={ref}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
 
             <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="max-w-5xl mx-auto relative z-10 w-full"
+                viewport={{ once: true }}
+                className="max-w-[90rem] mx-auto px-6 relative z-10"
             >
-                <div className="flex flex-col items-center mb-16 md:mb-24 px-4 text-center">
-                    <motion.div
-                        initial={{ rotate: -180, opacity: 0 }}
-                        whileInView={{ rotate: 0, opacity: 1 }}
+                <div className="flex flex-col items-center mb-24 text-center space-y-4">
+                    <motion.span 
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ type: "spring", stiffness: 100, damping: 12 }}
-                        className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-cyan-100 to-blue-100 rounded-full flex items-center justify-center mb-4 md:mb-6 shadow-sm border border-cyan-200"
+                        className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-sm uppercase"
                     >
-                        <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-blue-600" />
-                    </motion.div>
-
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-cyan-600 to-cyan-500 pb-2 leading-tight">
-                        Experience Timeline
-                    </h2>
-                    <div className="w-24 md:w-32 h-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full mt-4 md:mt-6 shadow-[0_0_10px_rgba(6,182,212,0.4)]"></div>
+                        JOURNEY
+                    </motion.span>
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
+                    >
+                        Experience <span className="text-gradient">Timeline.</span>
+                    </motion.h2>
                 </div>
 
-                <div className="relative w-full">
-                    {/* Desktop SVG Timeline Line */}
-                    <div className="absolute left-[31px] md:left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 overflow-hidden justify-center hidden md:flex">
+                <div className="relative">
+                    {/* SVG Progress Line */}
+                    <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2.5px] -translate-x-1/2 opacity-30 md:opacity-100">
                         <svg className="h-full w-full" preserveAspectRatio="none">
                             <motion.line
                                 x1="50%" y1="0%" x2="50%" y2="100%"
-                                stroke="url(#gradient)"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeDasharray="8 8"
+                                className="text-neutral-200 dark:text-neutral-800"
+                            />
+                            <motion.line
+                                x1="50%" y1="0%" x2="50%" y2="100%"
+                                stroke="url(#line-gradient)"
                                 strokeWidth="4"
                                 strokeLinecap="round"
                                 style={{ pathLength }}
                             />
                             <defs>
-                                <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#0ea5e9" />
+                                <linearGradient id="line-gradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#06b6d4" />
                                     <stop offset="100%" stopColor="#3b82f6" />
                                 </linearGradient>
                             </defs>
                         </svg>
                     </div>
 
-                    {/* Mobile Timeline Line */}
-                    <div className="absolute left-[31px] top-4 bottom-4 w-1 bg-gradient-to-b from-cyan-400 via-blue-400 to-transparent rounded-full opacity-30 md:hidden"></div>
-
-                    <div className="space-y-12 md:space-y-24">
+                    <div className="space-y-24">
                         {experience.map((job, idx) => {
                             const isEven = idx % 2 === 0;
                             return (
                                 <motion.div
                                     key={idx}
-                                    initial={{ opacity: 0, x: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, x: 0, y: 0 }}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ type: "spring", stiffness: 100, damping: 15, delay: idx * 0.1 }}
-                                    className={`relative flex flex-col md:flex-row items-start md:items-center justify-between w-full ${isEven ? "md:flex-row-reverse" : ""}`}
+                                    transition={{ type: "spring", stiffness: 100, damping: 20, delay: idx * 0.1 }}
+                                    className={`relative flex flex-col md:flex-row items-center justify-between w-full ${isEven ? "md:flex-row-reverse" : ""}`}
                                 >
                                     {/* Timeline dot */}
-                                    <motion.div
-                                        initial={{ scale: 0 }}
-                                        whileInView={{ scale: 1 }}
-                                        viewport={{ once: true, margin: "-100px" }}
-                                        transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 + (idx * 0.1) }}
-                                        className="absolute left-[31px] md:left-1/2 -translate-x-1/2 mt-8 md:mt-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-white dark:bg-neutral-900 border-4 border-cyan-500 z-10 shadow-[0_0_15px_rgba(6,182,212,0.5)] flex items-center justify-center p-0.5"
+                                    <motion.div 
+                                        whileHover={{ scale: 1.2 }}
+                                        className="absolute left-8 md:left-1/2 -translate-x-1/2 w-16 h-16 rounded-[1.5rem] bg-neutral-900 dark:bg-white border-4 border-cyan-500 z-20 shadow-2xl flex items-center justify-center p-0.5 group"
                                     >
-                                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-blue-500 rounded-full" />
+                                        <Briefcase className="w-6 h-6 text-white dark:text-neutral-900 group-hover:rotate-12 transition-transform" />
                                     </motion.div>
 
                                     <div className="hidden md:block w-[45%]"></div>
 
-                                    <div className={`w-full md:w-[50%] pl-16 pr-4 md:px-0 mt-2 md:mt-0 ${isEven ? 'md:pr-14 md:text-right' : 'md:pl-14'} group cursor-default`}>
+                                    <div className={`w-full md:w-[45%] pl-20 md:pl-0 mt-2 md:mt-0 ${isEven ? 'md:text-right' : 'md:text-left'}`}>
                                         <motion.div
-                                            whileHover={{ scale: 1.02, y: -4 }}
-                                            className="bg-white dark:bg-neutral-900/80 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-[2rem] border border-neutral-200 dark:border-neutral-700 shadow-xl hover:shadow-cyan-100 dark:hover:shadow-cyan-900/30 group relative overflow-hidden transition-all duration-300 w-full"
+                                            whileHover={{ y: -8 }}
+                                            className="glass-card p-10 rounded-[2.5rem] hover-glow transition-all duration-500 group border-white/10"
                                         >
-                                            <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-cyan-50 dark:bg-cyan-900/40 rounded-bl-[80px] md:rounded-bl-[100px] -z-10 group-hover:scale-150 transition-transform duration-500 ease-in-out opacity-50"></div>
-
-                                            <div className={`flex flex-col gap-2 mb-4 md:mb-6 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
-                                                <div className="inline-flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold tracking-wide text-cyan-700 dark:text-cyan-300 bg-cyan-100/50 dark:bg-cyan-900/40 px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-cyan-200 dark:border-cyan-800/50 mb-2 w-fit">
-                                                    <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                                                    {job.period}
+                                            <div className={`flex flex-col gap-4 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
+                                                <div className="inline-flex items-center gap-3 text-xs font-black tracking-widest text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-4 py-2 rounded-xl border border-cyan-500/20">
+                                                    <Calendar className="w-4 h-4" />
+                                                    {job.period.toUpperCase()}
                                                 </div>
-                                                <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white group-hover:text-cyan-600 transition-colors leading-tight">
+                                                
+                                                <h3 className="text-3xl font-black text-neutral-900 dark:text-white tracking-tight group-hover:text-cyan-500 transition-colors">
                                                     {job.title}
                                                 </h3>
-                                                <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-bold text-lg md:text-xl drop-shadow-sm mt-1">
-                                                    <Building2 className="w-4 h-4 md:w-5 md:h-5 text-neutral-400 dark:text-neutral-500" /> {job.company}
+                                                
+                                                <div className="flex items-center gap-3 text-2xl font-black tracking-tight text-gradient">
+                                                    {job.company}
                                                 </div>
-                                            </div>
 
-                                            <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-base md:text-lg flex flex-col md:flex-row items-start gap-4 mt-6 bg-neutral-50 dark:bg-neutral-950 p-4 md:p-6 rounded-2xl border border-neutral-100 dark:border-neutral-800 group-hover:bg-white dark:group-hover:bg-neutral-900 group-hover:border-cyan-100 dark:group-hover:border-cyan-800/50 transition-colors shadow-sm">
-                                                <ChevronRight className={`hidden md:block w-6 h-6 text-cyan-400 flex-shrink-0 mt-1 ${isEven ? 'md:hidden' : 'md:block'}`} />
-                                                <span className="flex-1">{job.description}</span>
-                                                <ChevronRight className={`hidden md:block w-6 h-6 text-cyan-400 flex-shrink-0 mt-1 ${isEven ? 'md:block' : 'md:hidden'} rotate-180`} />
-                                            </p>
+                                                <p className="text-neutral-500 dark:text-neutral-400 text-lg leading-relaxed font-medium mt-4">
+                                                    {job.description}
+                                                </p>
+                                            </div>
                                         </motion.div>
                                     </div>
                                 </motion.div>

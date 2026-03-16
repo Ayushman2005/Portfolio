@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Github, ExternalLink, Code2, FolderGit2, Cpu } from 'lucide-react';
 
 const isMobile = () =>
@@ -31,13 +31,33 @@ const getTechIcon = (techName) => {
 const ProjectCard = ({ project, index }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
-    const mobile = isMobile();
 
-    function handleMouseMove({ currentTarget, clientX, clientY }) {
-        if (mobile) return;
-        const { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    const mouseXSpring = useSpring(x);
+    const mouseYSpring = useSpring(y);
+
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], !isMobile() ? ["10deg", "-10deg"] : ["0deg", "0deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], !isMobile() ? ["-10deg", "10deg"] : ["0deg", "0deg"]);
+
+    function handleMouseMove(e) {
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+        const mX = e.clientX - left;
+        const mY = e.clientY - top;
+        
+        mouseX.set(mX);
+        mouseY.set(mY);
+
+        const xPct = (mX / width) - 0.5;
+        const yPct = (mY / height) - 0.5;
+        x.set(xPct);
+        y.set(yPct);
+    }
+
+    function handleMouseLeave() {
+        x.set(0);
+        y.set(0);
     }
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
@@ -50,114 +70,102 @@ const ProjectCard = ({ project, index }) => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ type: "spring", stiffness: 100, damping: 12, delay: index * 0.1 }}
             onMouseMove={handleMouseMove}
-            className="group relative bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden transition-all duration-500 shadow-xl hover:shadow-[0_20px_40px_-20px_rgba(6,182,212,0.4)] flex flex-col h-full interactive w-full"
+            onMouseLeave={handleMouseLeave}
+            style={{ perspective: 1000 }}
+            className="group relative h-full pointer-events-auto"
         >
             <motion.div
-                className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-50 hidden md:block"
-                style={{
-                    background: useMotionTemplate`
-            radial-gradient(
-              400px circle at ${mouseX}px ${mouseY}px,
-              rgba(6, 182, 212, 0.12),
-              transparent 80%
-            )
-          `,
-                }}
-            />
+                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                className="glass-card relative rounded-[2.5rem] overflow-hidden transition-all duration-500 flex flex-col h-full hover-glow"
+            >
+                {/* Spotlight */}
+                <motion.div
+                    className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition duration-300 group-hover:opacity-100 z-50"
+                    style={{
+                        background: useMotionTemplate`
+                            radial-gradient(
+                                400px circle at ${mouseX}px ${mouseY}px,
+                                rgba(6, 182, 212, 0.15),
+                                transparent 80%
+                            )
+                        `,
+                    }}
+                />
 
-            <div className="relative h-48 sm:h-64 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
-                {imageUrl ? (
-                    <>
-                        <img src={imageUrl} alt={project.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out z-0" loading="lazy" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent z-10 w-full opacity-80 group-hover:opacity-40 transition-opacity"></div>
-                    </>
-                ) : (
-                    <>
-                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-200/50 to-transparent z-10 w-full"></div>
-
-                        <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-all duration-700 ease-out group-hover:scale-110 flex items-center justify-center pointer-events-none">
-                            <div className="w-[200%] h-[200%] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-100/50 via-white to-neutral-50 dark:to-neutral-950 flex items-center justify-center animate-[spin_40s_linear_infinite] group-hover:animate-[spin_20s_linear_infinite]">
-                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-8 opacity-20">
-                                    {[...Array(16)].map((_, i) => (
-                                        <Code2 key={i} className="w-12 h-12 sm:w-16 sm:h-16 text-cyan-600" />
-                                    ))}
-                                </div>
-                            </div>
+                <div className="relative h-64 sm:h-72 w-full overflow-hidden">
+                    {imageUrl ? (
+                        <>
+                            <img 
+                                src={imageUrl} 
+                                alt={project.title} 
+                                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" 
+                                loading="lazy" 
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 opacity-60 transition-opacity" />
+                        </>
+                    ) : (
+                        <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center">
+                            <Code2 className="w-24 h-24 text-neutral-800" />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-blue-500/10" />
                         </div>
+                    )}
 
-                        <motion.div
-                            initial={{ scale: 0.8, opacity: 0.5 }}
-                            whileHover={{ scale: 1.2, opacity: 1 }}
-                            className="absolute inset-0 flex items-center justify-center z-10 drop-shadow-md pointer-events-none transition-transform duration-700"
-                        >
-                            <FolderGit2 className="w-16 h-16 sm:w-24 sm:h-24 text-cyan-600/50 group-hover:text-cyan-600/70 transition-colors" />
-                        </motion.div>
-                    </>
-                )}
-
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 flex flex-row sm:flex-col gap-2 sm:gap-3 sm:translate-x-20 sm:group-hover:translate-x-0 transition-transform duration-500 sm:delay-100">
-                    <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white dark:bg-neutral-900/95 backdrop-blur-lg border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white hover:bg-cyan-600 hover:border-cyan-600 transition-all shadow-md sm:shadow-xl hover:scale-110 active:scale-95 interactive"
-                    >
-                        <Github className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </a>
-                    {project.demo && project.demo !== '#' && (
+                    <div className="absolute top-6 right-6 z-20 flex gap-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                         <a
-                            href={project.demo}
+                            href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white dark:bg-neutral-900/95 backdrop-blur-lg border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-white hover:bg-cyan-600 hover:border-cyan-600 transition-all shadow-md sm:shadow-xl hover:scale-110 active:scale-95 interactive"
+                            className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
                         >
-                            <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6" />
+                            <Github className="w-6 h-6" />
                         </a>
-                    )}
-                </div>
-
-                <motion.div
-                    initial={{ scale: 0.8, opacity: 0.5 }}
-                    whileHover={{ scale: 1.2, opacity: 1 }}
-                    className="absolute inset-0 flex items-center justify-center z-10 drop-shadow-md pointer-events-none transition-transform duration-700"
-                >
-                    <FolderGit2 className="w-16 h-16 sm:w-24 sm:h-24 text-cyan-600/50 group-hover:text-cyan-600/70 transition-colors" />
-                </motion.div>
-            </div>
-
-            <div className="p-6 sm:p-8 flex-1 flex flex-col relative z-20 bg-white dark:bg-neutral-900">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white mb-3 sm:mb-4 group-hover:text-cyan-600 transition-colors line-clamp-2">
-                    {project.title}
-                </h3>
-
-                <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 sm:mb-8 flex-1 text-base sm:text-lg">
-                    {project.description}
-                </p>
-
-                <div className="mt-auto pt-4 border-t border-neutral-100 dark:border-neutral-800/50">
-                    <div className="flex flex-wrap gap-2 sm:gap-2.5">
-                        {project.technologies.slice(0, 5).map((tech, i) => {
-                            const iconRes = getTechIcon(tech);
-                            return (
-                                <motion.div
-                                    whileHover={{ y: -2 }}
-                                    key={i}
-                                    className="flex items-center gap-1.5 text-xs sm:text-sm font-bold tracking-wide text-cyan-700 bg-cyan-50 px-2.5 sm:px-3 py-1.5 rounded-xl border border-cyan-200 shadow-sm whitespace-nowrap interactive cursor-default"
-                                >
-                                    {iconRes && <img src={iconRes} alt={tech} className="w-3.5 h-3.5 sm:w-4 sm:h-4 object-contain" />}
-                                    {!iconRes && <Cpu className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-600/70" />}
-                                    {tech}
-                                </motion.div>
-                            );
-                        })}
-                        {project.technologies.length > 5 && (
-                            <div className="flex items-center text-xs sm:text-sm font-bold tracking-wide text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 px-2.5 sm:px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-700 whitespace-nowrap cursor-default">
-                                +{project.technologies.length - 5}
-                            </div>
+                        {project.demo && project.demo !== '#' && (
+                            <a
+                                href={project.demo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 rounded-2xl bg-cyan-500 border border-cyan-400 flex items-center justify-center text-white hover:scale-110 transition-all"
+                            >
+                                <ExternalLink className="w-6 h-6" />
+                            </a>
                         )}
                     </div>
                 </div>
-            </div>
+
+                <div className="p-8 flex-1 flex flex-col relative z-20 pointer-events-none">
+                    <h3 className="text-3xl font-black text-neutral-900 dark:text-white mb-4 tracking-tight group-hover:text-cyan-500 transition-colors">
+                        {project.title}
+                    </h3>
+
+                    <p className="text-neutral-500 dark:text-neutral-400 leading-relaxed mb-8 flex-1 text-lg font-medium">
+                        {project.description}
+                    </p>
+
+                    <div className="mt-auto pt-6 border-t border-neutral-200/50 dark:border-neutral-800/50">
+                        <div className="flex flex-wrap gap-2">
+                            {project.technologies.slice(0, 5).map((tech, i) => {
+                                const iconRes = getTechIcon(tech);
+                                return (
+                                    <div
+                                        key={i}
+                                        className="flex items-center gap-2 text-[10px] font-black tracking-[0.15em] text-cyan-500 bg-cyan-500/5 px-4 py-2 rounded-xl border border-cyan-500/10 group-hover:border-cyan-500/30 transition-colors"
+                                    >
+                                        {iconRes && <img src={iconRes} alt={tech} className="w-4 h-4 object-contain brightness-110" />}
+                                        {tech.toUpperCase()}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Shifting Light Sweep */}
+                <motion.div 
+                    animate={{ x: ["-100%", "200%"] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 z-10 pointer-events-none"
+                />
+            </motion.div>
         </motion.div>
     );
 };
@@ -172,7 +180,7 @@ const Projects = ({ projects }) => {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8 }}
-                className="relative z-10 w-full"
+                className="relative z-10 w-full max-w-[90rem] mx-auto"
             >
                 <div className="flex flex-col items-center mb-16 md:mb-24 text-center px-4">
                     <motion.div

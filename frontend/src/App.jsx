@@ -2,11 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence, useScroll, useSpring, MotionConfig } from 'framer-motion';
 
-// Detect mobile/touch devices to skip heavy GPU animations
-const isMobileDevice = () =>
-  typeof window !== 'undefined' &&
-  (window.matchMedia('(max-width: 768px)').matches ||
-    /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -19,6 +14,12 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
+
+// Detect mobile/touch devices to skip heavy GPU animations
+const isMobileDevice = () =>
+  typeof window !== 'undefined' &&
+  (window.matchMedia('(max-width: 768px)').matches ||
+    /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
 function App() {
   const [data, setData] = useState(null);
@@ -52,22 +53,22 @@ function App() {
 
   return (
     <SmoothScroll>
-      <div className="relative min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/20 font-sans overflow-x-hidden transition-colors duration-700 ease-in-out">
-        <MotionConfig reducedMotion="user" transition={{ type: "tween", duration: 0.3, ease: "linear" }}>
-          <Cursor />
-
+      <div className="relative min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/20 font-sans overflow-x-hidden transition-colors duration-700 ease-in-out mesh-gradient theme-transition">
+        <MotionConfig transition={{ type: "spring", stiffness: 100, damping: 40 }}>
           <AnimatePresence mode="wait">
-          {!isAppReady && (
-            <Loader key="loader" onComplete={() => setTerminalFinished(true)} />
-          )}
-        </AnimatePresence>
+            {!isAppReady && (
+              <Loader key="loader" onComplete={() => setTerminalFinished(true)} />
+            )}
+          </AnimatePresence>
+
+          <Cursor />
 
         {isAppReady && data && (
           <>
             <Navbar name={data.name} />
             {/* Scroll Progress Bar */}
             <motion.div
-              className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 origin-left z-[60]"
+              className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 origin-left z-[100]"
               style={{ scaleX }}
             />
           </>
@@ -77,48 +78,22 @@ function App() {
           {isAppReady && (
             <motion.div
               key="main-app"
-              initial={{ opacity: 0, scale: 0.98, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+              initial={{ opacity: 0, scale: 0.99 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             >
 
-              {/* Background Patterns — static on mobile, animated on desktop */}
-              <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:32px_32px] sm:[background-size:24px_24px] opacity-40 sm:opacity-60 pointer-events-none"></div>
+              {/* Background Patterns — static for performance */}
+              <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:40px_40px] opacity-[0.15] pointer-events-none"></div>
 
-              {/* Desktop-only animated blobs */}
-              <motion.div
-                animate={isMobileDevice() ? {} : {
-                  x: [0, 50, 0],
-                  y: [0, 30, 0],
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="fixed top-0 -left-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-cyan-200/30 sm:bg-cyan-200/40 dark:bg-cyan-900/15 sm:dark:bg-cyan-900/20 blur-[50px] sm:blur-[80px] rounded-full pointer-events-none will-change-transform"
-              />
-              <motion.div
-                animate={isMobileDevice() ? {} : {
-                  x: [0, -50, 0],
-                  y: [0, -30, 0],
-                  scale: [1, 1.2, 1]
-                }}
-                transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                className="fixed bottom-0 -right-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-blue-200/30 sm:bg-blue-200/40 dark:bg-blue-900/15 sm:dark:bg-blue-900/20 blur-[50px] sm:blur-[80px] rounded-full pointer-events-none will-change-transform"
-              />
-              {!isMobileDevice() && (
-                <motion.div
-                  animate={{
-                    x: [0, 30, -30, 0],
-                    y: [0, -50, 30, 0],
-                  }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="fixed top-1/2 left-1/4 w-[600px] h-[600px] bg-purple-200/20 dark:bg-purple-900/20 blur-[80px] rounded-full pointer-events-none will-change-transform"
-                />
-              )}
+              {/* Large, static performance-friendly blobs */}
+              <div className="fixed top-[-10%] left-[-10%] w-[60%] h-[60%] bg-cyan-500/[0.04] dark:bg-cyan-500/[0.06] blur-[150px] rounded-full pointer-events-none" />
+              <div className="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-blue-500/[0.04] dark:bg-blue-500/[0.06] blur-[150px] rounded-full pointer-events-none" />
 
               <div className="relative z-10 w-full">
                 {data ? (
                   <>
-                    <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-20 md:pt-24 pb-12 space-y-20 md:space-y-32">
+                    <main className="max-w-[90rem] mx-auto px-6 md:px-16 pt-24 pb-12 space-y-32 md:space-y-48">
                       <Hero data={data} />
                       <About data={data} />
                       <Skills skills={data.skills} />
@@ -130,8 +105,24 @@ function App() {
                     <Footer data={data} />
                   </>
                 ) : (
-                  <div className="flex items-center justify-center min-h-screen text-xl text-neutral-500 dark:text-neutral-400 font-mono">
-                    Error: Backend not responding.
+                  <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 space-y-6">
+                    <div className="w-24 h-24 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
+                      <div className="w-12 h-12 rounded-full bg-red-500 animate-pulse" />
+                    </div>
+                    <h1 className="text-4xl font-black text-neutral-900 dark:text-white tracking-tighter">
+                      System offline.
+                    </h1>
+                    <p className="max-w-md text-neutral-500 dark:text-neutral-400 font-medium">
+                      The neural link to the backend has been severed. Please ensure the server is operational and try refreshing.
+                    </p>
+                    <motion.button 
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => window.location.reload()}
+                      className="px-8 py-3 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-black tracking-widest uppercase rounded-2xl shadow-xl shadow-red-500/10"
+                    >
+                      Initialize Reconnection
+                    </motion.button>
                   </div>
                 )}
               </div>

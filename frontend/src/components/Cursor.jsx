@@ -7,22 +7,35 @@ const isMobile = () =>
         /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
 const Cursor = () => {
-    // Don't render custom cursor on mobile/touch — saves event listeners & computation
     if (isMobile()) return null;
 
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = useState(false);
+    const [isPressed, setIsPressed] = useState(false);
 
-    // Smooth springs for the cursor follower
-    const springX = useSpring(0, { stiffness: 500, damping: 28 });
-    const springY = useSpring(0, { stiffness: 500, damping: 28 });
+    // Main Dot
+    const mainX = useSpring(0, { stiffness: 1000, damping: 50, restDelta: 0.1, restSpeed: 0.1 });
+    const mainY = useSpring(0, { stiffness: 1000, damping: 50, restDelta: 0.1, restSpeed: 0.1 });
+ 
+    // Inner Ring
+    const innerX = useSpring(0, { stiffness: 400, damping: 30, restDelta: 0.5, restSpeed: 0.5 });
+    const innerY = useSpring(0, { stiffness: 400, damping: 30, restDelta: 0.5, restSpeed: 0.5 });
+ 
+    // Outer Ring
+    const outerX = useSpring(0, { stiffness: 150, damping: 20, restDelta: 1, restSpeed: 1 });
+    const outerY = useSpring(0, { stiffness: 150, damping: 20, restDelta: 1, restSpeed: 1 });
 
     useEffect(() => {
-        const updateMousePosition = (e) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
-            springX.set(e.clientX);
-            springY.set(e.clientY);
+        const moveMouse = (e) => {
+            mainX.set(e.clientX);
+            mainY.set(e.clientY);
+            innerX.set(e.clientX);
+            innerY.set(e.clientY);
+            outerX.set(e.clientX);
+            outerY.set(e.clientY);
         };
+
+        const handleMouseDown = () => setIsPressed(true);
+        const handleMouseUp = () => setIsPressed(false);
 
         const handleMouseOver = (e) => {
             const target = e.target;
@@ -39,42 +52,51 @@ const Cursor = () => {
             }
         };
 
-        window.addEventListener('mousemove', updateMousePosition);
+        window.addEventListener('mousemove', moveMouse);
+        window.addEventListener('mousedown', handleMouseDown);
+        window.addEventListener('mouseup', handleMouseUp);
         window.addEventListener('mouseover', handleMouseOver);
 
         return () => {
-            window.removeEventListener('mousemove', updateMousePosition);
+            window.removeEventListener('mousemove', moveMouse);
+            window.removeEventListener('mousedown', handleMouseDown);
+            window.removeEventListener('mouseup', handleMouseUp);
             window.removeEventListener('mouseover', handleMouseOver);
         };
-    }, [springX, springY]);
+    }, []);
 
     return (
-        <>
+        <div className="fixed inset-0 pointer-events-none z-[9999]">
+            {/* Outer Follower */}
             <motion.div
-                className="fixed top-0 left-0 w-10 h-10 rounded-full border-2 border-cyan-500 pointer-events-none z-[100] hidden md:block"
-                style={{
-                    x: springX,
-                    y: springY,
-                    translateX: '-50%',
-                    translateY: '-50%'
-                }}
+                className="absolute w-12 h-12 border-2 border-cyan-500/20 rounded-full flex items-center justify-center"
+                style={{ x: outerX, y: outerY, translateX: '-50%', translateY: '-50%' }}
                 animate={{
-                    scale: isHovered ? 1.8 : 1,
-                    backgroundColor: isHovered ? 'rgba(6, 182, 212, 0.1)' : 'transparent',
-                    borderColor: isHovered ? 'rgba(6, 182, 212, 0.8)' : 'rgba(6, 182, 212, 0.5)',
+                    scale: isHovered ? 2 : isPressed ? 0.8 : 1,
+                    opacity: isHovered ? 0 : 1
                 }}
-                transition={{ duration: 0.15 }}
             />
+
+            {/* Inner Follower */}
             <motion.div
-                className="fixed top-0 left-0 w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full pointer-events-none z-[100] hidden md:block"
+                className="absolute w-8 h-8 border border-cyan-500/40 rounded-full"
+                style={{ x: innerX, y: innerY, translateX: '-50%', translateY: '-50%' }}
                 animate={{
-                    x: mousePosition.x - 4,
-                    y: mousePosition.y - 4,
-                    scale: isHovered ? 0 : 1,
+                    scale: isHovered ? 2.5 : isPressed ? 0.5 : 1,
+                    borderColor: isHovered ? 'rgba(6, 182, 212, 0.8)' : 'rgba(6, 182, 212, 0.4)',
+                    backgroundColor: isHovered ? 'rgba(6, 182, 212, 0.1)' : 'transparent'
                 }}
-                transition={{ type: 'tween', ease: 'backOut', duration: 0.1 }}
             />
-        </>
+
+            {/* Main Dot */}
+            <motion.div
+                className="absolute w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"
+                style={{ x: mainX, y: mainY, translateX: '-50%', translateY: '-50%' }}
+                animate={{
+                    scale: isHovered ? 0 : isPressed ? 1.5 : 1
+                }}
+            />
+        </div>
     );
 };
 
