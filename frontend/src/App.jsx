@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, MotionConfig } from 'framer-motion';
 
 // Detect mobile/touch devices to skip heavy GPU animations
 const isMobileDevice = () =>
@@ -53,9 +53,10 @@ function App() {
   return (
     <SmoothScroll>
       <div className="relative min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/20 font-sans overflow-x-hidden transition-colors duration-700 ease-in-out">
-        <Cursor />
+        <MotionConfig reducedMotion="user" transition={{ type: "tween", duration: 0.3, ease: "linear" }}>
+          <Cursor />
 
-        <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait">
           {!isAppReady && (
             <Loader key="loader" onComplete={() => setTerminalFinished(true)} />
           )}
@@ -92,7 +93,7 @@ function App() {
                   scale: [1, 1.1, 1]
                 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="fixed top-0 -left-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-cyan-200/30 sm:bg-cyan-200/40 dark:bg-cyan-900/15 sm:dark:bg-cyan-900/20 blur-[80px] sm:blur-[120px] rounded-full pointer-events-none will-change-transform"
+                className="fixed top-0 -left-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-cyan-200/30 sm:bg-cyan-200/40 dark:bg-cyan-900/15 sm:dark:bg-cyan-900/20 blur-[50px] sm:blur-[80px] rounded-full pointer-events-none will-change-transform"
               />
               <motion.div
                 animate={isMobileDevice() ? {} : {
@@ -101,7 +102,7 @@ function App() {
                   scale: [1, 1.2, 1]
                 }}
                 transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                className="fixed bottom-0 -right-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-blue-200/30 sm:bg-blue-200/40 dark:bg-blue-900/15 sm:dark:bg-blue-900/20 blur-[80px] sm:blur-[120px] rounded-full pointer-events-none will-change-transform"
+                className="fixed bottom-0 -right-1/4 w-[500px] sm:w-[800px] h-[500px] sm:h-[800px] bg-blue-200/30 sm:bg-blue-200/40 dark:bg-blue-900/15 sm:dark:bg-blue-900/20 blur-[50px] sm:blur-[80px] rounded-full pointer-events-none will-change-transform"
               />
               {!isMobileDevice() && (
                 <motion.div
@@ -110,7 +111,7 @@ function App() {
                     y: [0, -50, 30, 0],
                   }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="fixed top-1/2 left-1/4 w-[600px] h-[600px] bg-purple-200/20 dark:bg-purple-900/20 blur-[120px] rounded-full pointer-events-none will-change-transform"
+                  className="fixed top-1/2 left-1/4 w-[600px] h-[600px] bg-purple-200/20 dark:bg-purple-900/20 blur-[80px] rounded-full pointer-events-none will-change-transform"
                 />
               )}
 
@@ -137,6 +138,7 @@ function App() {
             </motion.div>
           )}
         </AnimatePresence>
+        </MotionConfig>
       </div>
     </SmoothScroll>
   );

@@ -24,3 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Capacitor Native Source Code & Builds
+android/
+ios/
