@@ -6,7 +6,13 @@ const AchievementCard = ({ title, index }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
+    const isMobile = () =>
+        typeof window !== 'undefined' &&
+        (window.matchMedia('(max-width: 768px)').matches ||
+            /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
     function handleMouseMove({ currentTarget, clientX, clientY }) {
+        if (isMobile()) return;
         const { left, top } = currentTarget.getBoundingClientRect();
         mouseX.set(clientX - left);
         mouseY.set(clientY - top);
@@ -24,18 +30,20 @@ const AchievementCard = ({ title, index }) => {
             onMouseMove={handleMouseMove}
             className="glass-card relative p-8 rounded-[2.5rem] overflow-hidden group transition-all duration-500"
         >
-            <motion.div
-                className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition duration-500 group-hover:opacity-100"
-                style={{
-                    background: useMotionTemplate`
-                        radial-gradient(
-                            400px circle at ${mouseX}px ${mouseY}px,
-                            rgba(6, 182, 212, 0.1),
-                            transparent 80%
-                        )
-                    `,
-                }}
-            />
+            {!isMobile() && (
+                <motion.div
+                    className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition duration-500 group-hover:opacity-100"
+                    style={{
+                        background: useMotionTemplate`
+                            radial-gradient(
+                                400px circle at ${mouseX}px ${mouseY}px,
+                                rgba(6, 182, 212, 0.1),
+                                transparent 80%
+                            )
+                        `,
+                    }}
+                />
+            )}
 
             <div className="relative z-10 flex items-center gap-8">
                 <div className="w-20 h-20 rounded-2xl bg-neutral-900 dark:bg-white flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-2xl">
@@ -43,10 +51,10 @@ const AchievementCard = ({ title, index }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <p className="text-xs font-black tracking-widest text-cyan-600 dark:text-cyan-400 uppercase">
+                    <p className="text-[10px] font-black tracking-widest text-cyan-600 dark:text-cyan-400 uppercase">
                         ACHIEVEMENT {index + 1}
                     </p>
-                    <h3 className="text-2xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight">
+                    <h3 className="text-xl md:text-2xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight">
                         {title}
                     </h3>
                 </div>
@@ -82,7 +90,7 @@ const Achievements = ({ achievements }) => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
+                            className="text-3xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
                         >
                             Honors & <span className="text-gradient">Activities.</span>
                         </motion.h2>
@@ -91,7 +99,7 @@ const Achievements = ({ achievements }) => {
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="max-w-md text-xl text-neutral-500 dark:text-neutral-400 font-medium leading-relaxed"
+                        className="max-w-md text-base md:text-xl text-neutral-500 dark:text-neutral-400 font-medium leading-relaxed"
                     >
                         A collection of hackathons, club memberships, and personal milestones in my tech journey.
                     </motion.p>

@@ -78,14 +78,14 @@ const Contact = ({ data }) => {
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-sm uppercase"
+                                className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-xs md:text-sm uppercase"
                             >
                                 CONTACT
                             </motion.span>
-                            <h2 className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white leading-[0.9] tracking-tighter">
+                            <h2 className="text-3xl md:text-7xl font-black text-neutral-900 dark:text-white leading-[0.9] tracking-tighter">
                                 Let's Build <br /> <span className="text-gradient">Something.</span>
                             </h2>
-                            <p className="text-xl text-neutral-500 dark:text-neutral-400 font-medium max-w-sm">
+                            <p className="text-lg md:text-xl text-neutral-500 dark:text-neutral-400 font-medium max-w-sm">
                                 Have an idea or a project in mind? Reach out and let's make it real.
                             </p>
                         </div>
@@ -96,8 +96,8 @@ const Contact = ({ data }) => {
                                     <Mail className="w-8 h-8 text-white dark:text-neutral-900" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-black tracking-widest text-neutral-400 uppercase mb-1">Email Me</p>
-                                    <p className="text-xl font-black text-neutral-900 dark:text-white tracking-tight">{data.email}</p>
+                                    <p className="text-[10px] font-black tracking-widest text-neutral-400 uppercase mb-1">Email Me</p>
+                                    <p className="text-lg md:text-xl font-black text-neutral-900 dark:text-white tracking-tight">{data.email}</p>
                                 </div>
                             </div>
 
@@ -106,8 +106,8 @@ const Contact = ({ data }) => {
                                     <MapPin className="w-8 h-8 text-neutral-900 dark:text-white" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-black tracking-widest text-neutral-400 uppercase mb-1">Location</p>
-                                    <p className="text-xl font-black text-neutral-900 dark:text-white tracking-tight">{data.location}</p>
+                                    <p className="text-[10px] font-black tracking-widest text-neutral-400 uppercase mb-1">Location</p>
+                                    <p className="text-lg md:text-xl font-black text-neutral-900 dark:text-white tracking-tight">{data.location}</p>
                                 </div>
                             </div>
                         </div>
@@ -120,18 +120,20 @@ const Contact = ({ data }) => {
                             className="glass-card relative p-10 md:p-16 rounded-[3.5rem] overflow-hidden"
                         >
                             {/* Spotlight */}
-                            <motion.div
-                                className="pointer-events-none absolute -inset-px rounded-[3.5rem] opacity-0 transition duration-500 group-hover:opacity-100 hidden lg:block"
-                                style={{
-                                    background: useMotionTemplate`
-                                        radial-gradient(
-                                            600px circle at ${mouseX}px ${mouseY}px,
-                                            rgba(6, 182, 212, 0.1),
-                                            transparent 80%
-                                        )
-                                    `,
-                                }}
-                            />
+                            {!isMobile() && (
+                                <motion.div
+                                    className="pointer-events-none absolute -inset-px rounded-[3.5rem] opacity-0 transition duration-500 group-hover:opacity-100 hidden lg:block"
+                                    style={{
+                                        background: useMotionTemplate`
+                                            radial-gradient(
+                                                600px circle at ${mouseX}px ${mouseY}px,
+                                                rgba(6, 182, 212, 0.1),
+                                                transparent 80%
+                                            )
+                                        `,
+                                    }}
+                                />
+                            )}
 
                             <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

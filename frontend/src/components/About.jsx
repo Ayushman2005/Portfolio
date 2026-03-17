@@ -39,7 +39,7 @@ const About = ({ data }) => {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
+                                className="text-3xl md:text-6xl font-black text-neutral-900 dark:text-white tracking-tighter"
                             >
                                 Who is Behind <span className="text-gradient">the Code?</span>
                             </motion.h2>
@@ -51,9 +51,9 @@ const About = ({ data }) => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.1 }}
-                                className="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed font-medium"
+                                className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed font-medium"
                             >
-                                Hello! I'm <span className="text-neutral-900 dark:text-white font-black underline decoration-cyan-500 decoration-4 underline-offset-4">Ayushman Kar</span>, 
+                                Hello! I'm <span className="text-neutral-900 dark:text-white font-black underline decoration-cyan-500 decoration-3 underline-offset-4">Ayushman Kar</span>, 
                                 a Computer Engineering Undergraduate based in Odisha, India. 
                                 I am highly passionate about Machine Learning, Data Structures, and Web Development.
                             </motion.p>
@@ -63,7 +63,7 @@ const About = ({ data }) => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.2 }}
-                                className="text-lg md:text-xl text-neutral-500 dark:text-neutral-400 leading-relaxed"
+                                className="text-base md:text-lg text-neutral-500 dark:text-neutral-400 leading-relaxed"
                             >
                                 My journey in tech started with a curiosity to understand how intelligent systems make decisions. 
                                 Currently, I am actively engaging with tech communities like the GDG on Campus and 

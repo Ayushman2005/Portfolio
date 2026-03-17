@@ -19,11 +19,11 @@ const Footer = ({ data }) => {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                         <div className="lg:col-span-6 space-y-8">
                             <div className="space-y-4">
-                                <span className="text-3xl font-black text-neutral-900 dark:text-white tracking-tighter">
+                                <span className="text-2xl md:text-3xl font-black text-neutral-900 dark:text-white tracking-tighter transition-all">
                                     {data.name ? data.name.split(' ')[0] : 'Portfolio'}
                                     <span className="text-cyan-500">.</span>
                                 </span>
-                                <p className="text-xl text-neutral-500 dark:text-neutral-400 font-medium max-w-md leading-relaxed">
+                                <p className="text-base md:text-xl text-neutral-500 dark:text-neutral-400 font-medium max-w-md leading-relaxed transition-all">
                                     Building digital experiences that combine powerful engineering with minimalist aesthetics.
                                 </p>
                             </div>
@@ -41,9 +41,9 @@ const Footer = ({ data }) => {
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-14 h-14 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center border border-neutral-200 dark:border-neutral-700 hover:bg-cyan-500 hover:border-cyan-400 group transition-all shadow-xl"
+                                        className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center border border-neutral-200 dark:border-neutral-700 hover:bg-cyan-500 hover:border-cyan-400 group transition-all shadow-xl"
                                     >
-                                        <social.icon className="w-6 h-6 text-neutral-900 dark:text-white group-hover:text-white transition-colors" />
+                                        <social.icon className="w-5 h-5 md:w-6 md:h-6 text-neutral-900 dark:text-white group-hover:text-white transition-colors" />
                                     </motion.a>
                                 ))}
                             </div>

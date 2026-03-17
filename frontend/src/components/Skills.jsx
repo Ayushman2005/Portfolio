@@ -41,11 +41,11 @@ const SkillCard = ({ category, delay }) => {
                     }}
                 />
 
-                <div className="w-16 h-16 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-8 border border-neutral-200 dark:border-neutral-700 group-hover:scale-110 transition-transform duration-500">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-6 md:mb-8 border border-neutral-200 dark:border-neutral-700 group-hover:scale-110 transition-transform duration-500">
                     {category.icon}
                 </div>
 
-                <h3 className="text-2xl font-black mb-6 text-neutral-900 dark:text-white tracking-tight">
+                <h3 className="text-xl md:text-2xl font-black mb-6 text-neutral-900 dark:text-white tracking-tight">
                     {category.title}
                 </h3>
 
@@ -123,19 +123,19 @@ const Skills = () => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-500/5 via-transparent to-transparent opacity-50 pointer-events-none"></div>
 
             <div className="relative z-10 max-w-[90rem] mx-auto px-6">
-                <div className="flex flex-col items-center mb-24 text-center">
+                <div className="flex flex-col items-center mb-16 md:mb-24 text-center">
                     <motion.span 
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-sm mb-4"
+                        className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-xs md:text-sm mb-4"
                     >
                         ABILITIES
                     </motion.span>
-                    <h2 className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white mb-6">
+                    <h2 className="text-3xl md:text-7xl font-black text-neutral-900 dark:text-white mb-6">
                         Technical <span className="text-gradient">Arsenal</span>
                     </h2>
-                    <p className="text-neutral-500 dark:text-neutral-400 max-w-2xl text-xl font-medium leading-relaxed">
+                    <p className="text-neutral-500 dark:text-neutral-400 max-w-2xl text-base md:text-xl font-medium leading-relaxed">
                         A curated selection of technologies and tools I've mastered to build high-performance applications.
                     </p>
                 </div>

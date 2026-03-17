@@ -56,7 +56,7 @@ const Navbar = ({ name }) => {
                         >
                             <Code2 className="w-6 h-6 text-white dark:text-neutral-900" />
                         </motion.div>
-                        <span className="font-black text-xl tracking-tighter text-neutral-900 dark:text-white uppercase">
+                        <span className="font-black text-lg md:text-xl tracking-tighter text-neutral-900 dark:text-white uppercase transition-all">
                             {name ? name.split(' ')[0] : 'Portfolio'}
                             <span className="text-cyan-500">.</span>
                         </span>
@@ -135,7 +135,7 @@ const Navbar = ({ name }) => {
                                         transition={{ delay: index * 0.05 }}
                                         href={link.href}
                                         onClick={() => setMobileMenuOpen(false)}
-                                        className="text-2xl font-black tracking-tighter text-neutral-900 dark:text-white uppercase hover:text-cyan-500 transition-colors flex items-center justify-between group"
+                                        className="text-xl font-black tracking-tighter text-neutral-900 dark:text-white uppercase hover:text-cyan-500 transition-colors flex items-center justify-between group"
                                     >
                                         <span>{link.name}</span>
                                         <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />

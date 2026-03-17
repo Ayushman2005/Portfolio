@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const Loader = ({ onComplete }) => {
+    const isMobile = () =>
+        typeof window !== 'undefined' &&
+        (window.matchMedia('(max-width: 768px)').matches ||
+            /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -30,8 +35,8 @@ const Loader = ({ onComplete }) => {
             <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, #06b6d4 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
             <div className="relative flex items-center justify-center">
-                {/* Advanced technical rings */}
-                {[...Array(3)].map((_, i) => (
+                {/* Advanced technical rings - reduced on mobile */}
+                {[...Array(isMobile() ? 1 : 3)].map((_, i) => (
                     <motion.div
                         key={i}
                         animate={{ rotate: i % 2 === 0 ? 360 : -360 }}

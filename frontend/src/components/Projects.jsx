@@ -79,18 +79,20 @@ const ProjectCard = ({ project, index }) => {
                 className="glass-card relative rounded-[2.5rem] overflow-hidden transition-all duration-500 flex flex-col h-full hover-glow"
             >
                 {/* Spotlight */}
-                <motion.div
-                    className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition duration-300 group-hover:opacity-100 z-50"
-                    style={{
-                        background: useMotionTemplate`
-                            radial-gradient(
-                                400px circle at ${mouseX}px ${mouseY}px,
-                                rgba(6, 182, 212, 0.15),
-                                transparent 80%
-                            )
-                        `,
-                    }}
-                />
+                {!isMobile() && (
+                    <motion.div
+                        className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition duration-300 group-hover:opacity-100 z-50"
+                        style={{
+                            background: useMotionTemplate`
+                                radial-gradient(
+                                    400px circle at ${mouseX}px ${mouseY}px,
+                                    rgba(6, 182, 212, 0.15),
+                                    transparent 80%
+                                )
+                            `,
+                        }}
+                    />
+                )}
 
                 <div className="relative h-64 sm:h-72 w-full overflow-hidden">
                     {imageUrl ? (
@@ -133,11 +135,11 @@ const ProjectCard = ({ project, index }) => {
                 </div>
 
                 <div className="p-8 flex-1 flex flex-col relative z-20 pointer-events-none">
-                    <h3 className="text-3xl font-black text-neutral-900 dark:text-white mb-4 tracking-tight group-hover:text-cyan-500 transition-colors">
+                    <h3 className="text-2xl md:text-3xl font-black text-neutral-900 dark:text-white mb-3 md:mb-4 tracking-tight group-hover:text-cyan-500 transition-colors">
                         {project.title}
                     </h3>
 
-                    <p className="text-neutral-500 dark:text-neutral-400 leading-relaxed mb-8 flex-1 text-lg font-medium">
+                    <p className="text-sm md:text-lg text-neutral-500 dark:text-neutral-400 leading-relaxed mb-6 md:mb-8 flex-1 font-medium">
                         {project.description}
                     </p>
 
@@ -182,21 +184,21 @@ const Projects = ({ projects }) => {
                 transition={{ duration: 0.8 }}
                 className="relative z-10 w-full max-w-[90rem] mx-auto"
             >
-                <div className="flex flex-col items-center mb-16 md:mb-24 text-center px-4">
+                <div className="flex flex-col items-center mb-12 md:mb-24 text-center px-4">
                     <motion.div
                         initial={{ scale: 0, rotate: -180 }}
                         whileInView={{ scale: 1, rotate: 0 }}
                         viewport={{ once: true }}
                         transition={{ type: "spring", stiffness: 100, damping: 12 }}
-                        className="w-14 h-14 md:w-16 md:h-16 bg-cyan-100 rounded-full flex items-center justify-center mb-4 md:mb-6 shadow-sm border border-cyan-200"
+                        className="w-12 h-12 md:w-16 md:h-16 bg-cyan-100 rounded-full flex items-center justify-center mb-4 md:mb-6 shadow-sm border border-cyan-200"
                     >
-                        <Code2 className="w-6 h-6 md:w-8 md:h-8 text-cyan-600" />
+                        <Code2 className="w-5 h-5 md:w-8 md:h-8 text-cyan-600" />
                     </motion.div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 pb-2 leading-tight">
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 pb-2 leading-tight">
                         Featured Projects
                     </h2>
-                    <div className="w-24 md:w-32 h-1.5 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full mt-4 md:mt-6 shadow-md"></div>
-                    <p className="text-neutral-500 dark:text-neutral-400 mt-6 md:mt-8 max-w-2xl text-lg md:text-xl leading-relaxed">
+                    <div className="w-16 md:w-32 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full mt-4 md:mt-6 shadow-md"></div>
+                    <p className="text-neutral-500 dark:text-neutral-400 mt-6 md:mt-8 max-w-2xl text-base md:text-xl leading-relaxed">
                         A showcase of my recent work, highlighting my expertise in full-stack development, machine learning, and problem-solving.
                     </p>
                 </div>

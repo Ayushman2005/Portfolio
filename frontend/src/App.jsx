@@ -86,9 +86,16 @@ function App() {
               {/* Background Patterns — static for performance */}
               <div className="fixed inset-0 z-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:40px_40px] opacity-[0.15] pointer-events-none"></div>
 
-              {/* Large, static performance-friendly blobs */}
-              <div className="fixed top-[-10%] left-[-10%] w-[60%] h-[60%] bg-cyan-500/[0.04] dark:bg-cyan-500/[0.06] blur-[150px] rounded-full pointer-events-none" />
-              <div className="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-blue-500/[0.04] dark:bg-blue-500/[0.06] blur-[150px] rounded-full pointer-events-none" />
+              {/* Large, static performance-friendly blobs - simplified for mobile */}
+              {!isMobileDevice() && (
+                <>
+                  <div className="fixed top-[-10%] left-[-10%] w-[60%] h-[60%] bg-cyan-500/[0.04] dark:bg-cyan-500/[0.06] blur-[150px] rounded-full pointer-events-none" />
+                  <div className="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-blue-500/[0.04] dark:bg-blue-500/[0.06] blur-[150px] rounded-full pointer-events-none" />
+                </>
+              )}
+              {isMobileDevice() && (
+                <div className="fixed top-[20%] left-[20%] w-[60%] h-[60%] bg-cyan-500/[0.02] dark:bg-cyan-500/[0.03] blur-[100px] rounded-full pointer-events-none" />
+              )}
 
               <div className="relative z-10 w-full">
                 {data ? (

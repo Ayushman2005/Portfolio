@@ -31,12 +31,12 @@ const Experience = ({ experience }) => {
                 viewport={{ once: true }}
                 className="max-w-[90rem] mx-auto px-6 relative z-10"
             >
-                <div className="flex flex-col items-center mb-24 text-center space-y-4">
+                <div className="flex flex-col items-center mb-16 md:mb-24 text-center space-y-4">
                     <motion.span 
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-sm uppercase"
+                        className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-xs md:text-sm uppercase"
                     >
                         JOURNEY
                     </motion.span>
@@ -44,7 +44,7 @@ const Experience = ({ experience }) => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
+                        className="text-3xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
                     >
                         Experience <span className="text-gradient">Timeline.</span>
                     </motion.h2>
@@ -110,15 +110,15 @@ const Experience = ({ experience }) => {
                                                     {job.period.toUpperCase()}
                                                 </div>
                                                 
-                                                <h3 className="text-3xl font-black text-neutral-900 dark:text-white tracking-tight group-hover:text-cyan-500 transition-colors">
+                                                <h3 className="text-2xl md:text-3xl font-black text-neutral-900 dark:text-white tracking-tight group-hover:text-cyan-500 transition-colors">
                                                     {job.title}
                                                 </h3>
                                                 
-                                                <div className="flex items-center gap-3 text-2xl font-black tracking-tight text-gradient">
+                                                <div className="flex items-center gap-3 text-xl md:text-2xl font-black tracking-tight text-gradient">
                                                     {job.company}
                                                 </div>
 
-                                                <p className="text-neutral-500 dark:text-neutral-400 text-lg leading-relaxed font-medium mt-4">
+                                                <p className="text-sm md:text-lg text-neutral-500 dark:text-neutral-400 leading-relaxed font-medium mt-4">
                                                     {job.description}
                                                 </p>
                                             </div>

@@ -86,10 +86,12 @@ const Hero = ({ data }) => {
             className="min-h-screen flex flex-col md:flex-row items-center justify-between relative overflow-visible py-20 pointer-events-none"
         >
             {/* Spotlight and Mesh Background */}
-            <motion.div 
-                className="absolute inset-0 z-0 opacity-50 dark:opacity-30 pointer-events-none"
-                style={{ background: spotlightBackground }}
-            />
+            {!isMobile() && (
+                <motion.div 
+                    className="absolute inset-0 z-0 opacity-50 dark:opacity-30 pointer-events-none"
+                    style={{ background: spotlightBackground }}
+                />
+            )}
             <div className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse-slow pointer-events-none"></div>
             <div className="absolute bottom-1/4 -right-1/4 w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full animate-pulse-slow pointer-events-none" style={{ animationDelay: '2s' }}></div>
 
@@ -112,7 +114,7 @@ const Hero = ({ data }) => {
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="space-y-2">
-                    <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter text-neutral-900 dark:text-white leading-[0.9]">
+                    <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-neutral-900 dark:text-white leading-[0.9]">
                         {data.name.split(' ').map((word, i) => (
                             <span key={i} className="block last:text-gradient">
                                 {word}
@@ -121,7 +123,7 @@ const Hero = ({ data }) => {
                     </h1>
                 </motion.div>
 
-                <motion.h2 variants={itemVariants} className="text-2xl sm:text-4xl md:text-5xl font-bold text-neutral-500 dark:text-neutral-400 min-h-[1.4em] tracking-tight">
+                <motion.h2 variants={itemVariants} className="text-xl sm:text-3xl md:text-5xl font-bold text-neutral-500 dark:text-neutral-400 min-h-[1.4em] tracking-tight">
                     I am a <span className="text-neutral-900 dark:text-white">{typedText}</span>
                     <motion.span
                         animate={{ opacity: [1, 0] }}
@@ -130,7 +132,7 @@ const Hero = ({ data }) => {
                     />
                 </motion.h2>
 
-                <motion.p variants={itemVariants} className="text-lg sm:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl font-medium">
+                <motion.p variants={itemVariants} className="text-base sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl font-medium">
                     {data.bio}
                 </motion.p>
 
