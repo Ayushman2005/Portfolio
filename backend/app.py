@@ -50,12 +50,7 @@ def save_data(data):
 # --- PUBLIC ROUTES ---
 @app.route('/')
 def home():
-    return {"status": "Backend is running!"}
-
-@app.route('/')
-def index():
-    data = load_data()
-    return render_template('index.html', data=data)
+    return jsonify({"status": "Backend is running!", "api_version": "1.0"})
 
 @app.route('/api/data')
 def get_data():
