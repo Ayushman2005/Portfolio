@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import axios from 'axios';
 import { motion, AnimatePresence, useScroll, useSpring, MotionConfig } from 'framer-motion';
 
 import Navbar from './components/Navbar';
@@ -14,6 +13,7 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
+import { portfolioData } from './data';
 
 // Detect mobile/touch devices to skip heavy GPU animations
 const isMobileDevice = () =>
@@ -22,8 +22,9 @@ const isMobileDevice = () =>
     /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
 function App() {
-  const [data, setData] = useState(null);
-  const [dataLoaded, setDataLoaded] = useState(false);
+  // Use static data directly
+  const [data] = useState(portfolioData);
+  const [dataLoaded] = useState(true);
   const [terminalFinished, setTerminalFinished] = useState(false);
 
   const { scrollYProgress } = useScroll();
@@ -35,23 +36,6 @@ function App() {
 
   const handleLoaderComplete = useCallback(() => {
     setTerminalFinished(true);
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
-        // Increased timeout to 30s to account for Render free tier cold starts
-        const response = await axios.get(`${API_URL}/api/data`, { timeout: 30000 });
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setDataLoaded(true);
-      }
-    };
-
-    fetchData();
   }, []);
 
   const isAppReady = dataLoaded && terminalFinished;

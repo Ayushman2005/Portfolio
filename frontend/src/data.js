@@ -1,10 +1,12 @@
-{
+export const portfolioData = {
   "name": "Ayushman Kar",
   "title": "AI/ML Engineer & Full Stack Developer",
   "bio": "Passionate engineering student specializing in Machine Learning, AI, and Full Stack Development, dedicated to crafting intelligent systems and secure digital experiences.",
   "email": "karayushman736@gmail.com",
   "phone": "+91 93485 12092",
   "location": "Bargarh, Odisha, India",
+  "github": "https://github.com/Ayushman2005",
+  "linkedin": "https://linkedin.com/in/ayushman-kar",
   "skills": [
     {
       "name": "Python & C++",
@@ -43,7 +45,7 @@
         "Flask",
         "MySQL"
       ],
-      "image": "Society_Pro.png",
+      "image": "/images/Society_Pro.png",
       "github": "https://github.com/Ayushman2005/SocietyPro",
       "demo": "#"
     },
@@ -57,7 +59,7 @@
         "Flask",
         "OCR"
       ],
-      "image": "Campus_Insights.png",
+      "image": "/images/Campus_Insights.png",
       "github": "https://github.com/Ayushman2005/campus-insight",
       "demo": "#"
     },
@@ -71,7 +73,7 @@
         "KaTeX",
         "SQLite"
       ],
-      "image": "Neural_Notes.png",
+      "image": "/images/Neural_Notes.png",
       "github": "https://github.com/Ayushman2005/PS-HK19_TECHIEDOMINATORS_EDUTECH.git",
       "demo": "#"
     }
@@ -112,4 +114,4 @@
       "description": "Collaborating on cybersecurity initiatives, enhancing technical knowledge in network security and vulnerability assessment."
     }
   ]
-}
+};

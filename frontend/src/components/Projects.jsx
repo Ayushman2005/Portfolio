@@ -60,8 +60,7 @@ const ProjectCard = ({ project, index }) => {
         y.set(0);
     }
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
-    const imageUrl = project.image ? `${API_URL}/static/images/${project.image}` : null;
+    const imageUrl = project.image || null;
 
     return (
         <motion.div

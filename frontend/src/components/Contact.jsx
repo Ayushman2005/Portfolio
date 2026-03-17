@@ -42,15 +42,13 @@ const Contact = ({ data }) => {
                 if (res.ok) {
                     setStatus({ type: 'success', msg: 'Message sent successfully! I will reply soon.' });
                     setFormData({ name: '', email: '', message: '' });
+                } else {
+                    throw new Error('Formspree submission failed');
                 }
             } else {
-                const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
-                await fetch(`${API_URL}/api/contact`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData),
-                });
-                setStatus({ type: 'success', msg: 'Message sent successfully! I will reply soon.' });
+                // In local development or if ID is missing
+                console.log('Form submission (no ID):', formData);
+                setStatus({ type: 'success', msg: 'Form simulation successful! (Add VITE_FORMSPREE_ID for real emails)' });
                 setFormData({ name: '', email: '', message: '' });
             }
         } catch (error) {
