@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const Loader = ({ onComplete }) => {
+const Loader = ({ onComplete, isDataReady }) => {
     const isMobile = () =>
         typeof window !== 'undefined' &&
         (window.matchMedia('(max-width: 768px)').matches ||
             /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
     const [progress, setProgress] = useState(0);
+    const [status, setStatus] = useState('Initializing Systems');
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -17,12 +18,36 @@ const Loader = ({ onComplete }) => {
                     setTimeout(onComplete, 500);
                     return 100;
                 }
-                return prev + 1;
-            });
-        }, 20);
+                
+                // Stall at 90% if data isn't ready yet
+                if (prev >= 90 && !isDataReady) {
+                    return 90;
+                }
 
-        return () => clearInterval(interval);
-    }, [onComplete]);
+                // Speed up slightly once data is ready to finish the job
+                const increment = isDataReady ? 2 : 1;
+                return Math.min(prev + increment, 100);
+            });
+        }, isDataReady ? 15 : 30); // Faster finish once data is ready
+
+        // Status message rotation for long loads
+        const statusInterval = setInterval(() => {
+            setStatus(prev => {
+                if (!isDataReady) {
+                    if (prev === 'Initializing Systems') return 'Syncing Neural Link';
+                    if (prev === 'Syncing Neural Link') return 'Waking Up Backend';
+                    if (prev === 'Waking Up Backend') return 'Establishing Connection';
+                    return 'Initializing Systems';
+                }
+                return 'Finalizing Interface';
+            });
+        }, 2000);
+
+        return () => {
+            clearInterval(interval);
+            clearInterval(statusInterval);
+        };
+    }, [onComplete, isDataReady]);
 
     return (
         <motion.div
@@ -83,9 +108,9 @@ const Loader = ({ onComplete }) => {
                     <motion.h1 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="text-white text-xs font-black tracking-[0.5em] uppercase"
+                        className="text-white text-xs font-black tracking-[0.5em] uppercase h-4"
                     >
-                        Initializing Systems
+                        {status}
                     </motion.h1>
                     <div className="h-1 w-64 bg-neutral-900 rounded-full overflow-hidden border border-white/5">
                         <motion.div 

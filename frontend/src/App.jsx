@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence, useScroll, useSpring, MotionConfig } from 'framer-motion';
 
@@ -33,11 +33,16 @@ function App() {
     restDelta: 0.001
   });
 
+  const handleLoaderComplete = useCallback(() => {
+    setTerminalFinished(true);
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
-        const response = await axios.get(`${API_URL}/api/data`);
+        // Increased timeout to 30s to account for Render free tier cold starts
+        const response = await axios.get(`${API_URL}/api/data`, { timeout: 30000 });
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -57,7 +62,11 @@ function App() {
         <MotionConfig transition={{ type: "spring", stiffness: 100, damping: 40 }}>
           <AnimatePresence mode="wait">
             {!isAppReady && (
-              <Loader key="loader" onComplete={() => setTerminalFinished(true)} />
+              <Loader 
+                key="loader" 
+                isDataReady={dataLoaded} 
+                onComplete={handleLoaderComplete} 
+              />
             )}
           </AnimatePresence>
 
