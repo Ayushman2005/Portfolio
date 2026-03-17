@@ -1,171 +1,164 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Github, ExternalLink, Code2, FolderGit2, Cpu } from 'lucide-react';
+import { Github, ExternalLink, Code2, ArrowUpRight } from 'lucide-react';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
     (window.matchMedia('(max-width: 768px)').matches ||
         /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
-const getTechIcon = (techName) => {
-    const icons = {
-        'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg',
-        'Flask': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flask/flask-original.svg',
-        'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
-        'Tailwind CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
-        'scikit-learn': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/scikitlearn/scikitlearn-original.svg',
-        'Pandas': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg',
-        'NumPy': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/numpy/numpy-original.svg',
-        'Java': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
-        'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
-        'TensorFlow': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg',
-        'Docker': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
-        'C++': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg',
-        'HTML': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
-        'CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg'
-    };
-    const key = Object.keys(icons).find(k => techName.toLowerCase().includes(k.toLowerCase()));
-    return key ? icons[key] : null;
+const techIconMap = {
+    'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg',
+    'Flask': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flask/flask-original.svg',
+    'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
+    'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+    'TensorFlow': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg',
+    'Docker': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg',
+    'HTML': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg',
+    'CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg',
 };
 
+const getTechIcon = (name) => {
+    const key = Object.keys(techIconMap).find(k => name.toLowerCase().includes(k.toLowerCase()));
+    return key ? techIconMap[key] : null;
+};
+
+const gradients = [
+    'from-violet-600/10 via-indigo-600/5 to-transparent',
+    'from-indigo-600/10 via-blue-600/5 to-transparent',
+    'from-pink-600/10 via-violet-600/5 to-transparent',
+];
+
 const ProjectCard = ({ project, index }) => {
+    const [hovered, setHovered] = useState(false);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
+    const mx = useMotionValue(0);
+    const my = useMotionValue(0);
+    const mxSpring = useSpring(mx, { stiffness: 100, damping: 20 });
+    const mySpring = useSpring(my, { stiffness: 100, damping: 20 });
+    const rotateX = useTransform(mySpring, [-0.5, 0.5], isMobile() ? ['0deg', '0deg'] : ['10deg', '-10deg']);
+    const rotateY = useTransform(mxSpring, [-0.5, 0.5], isMobile() ? ['0deg', '0deg'] : ['-10deg', '10deg']);
 
-    const mouseXSpring = useSpring(x);
-    const mouseYSpring = useSpring(y);
-
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], !isMobile() ? ["10deg", "-10deg"] : ["0deg", "0deg"]);
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], !isMobile() ? ["-10deg", "10deg"] : ["0deg", "0deg"]);
-
-    function handleMouseMove(e) {
+    const handleMouseMove = (e) => {
         const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-        const mX = e.clientX - left;
-        const mY = e.clientY - top;
-        
-        mouseX.set(mX);
-        mouseY.set(mY);
+        mouseX.set(e.clientX - left);
+        mouseY.set(e.clientY - top);
+        mx.set((e.clientX - left) / width - 0.5);
+        my.set((e.clientY - top) / height - 0.5);
+    };
+    const handleMouseLeave = () => { mx.set(0); my.set(0); };
 
-        const xPct = (mX / width) - 0.5;
-        const yPct = (mY / height) - 0.5;
-        x.set(xPct);
-        y.set(yPct);
-    }
-
-    function handleMouseLeave() {
-        x.set(0);
-        y.set(0);
-    }
-
-    const imageUrl = project.image || null;
+    const spotlight = useMotionTemplate`radial-gradient(450px circle at ${mouseX}px ${mouseY}px, rgba(124,58,237,0.1), transparent 80%)`;
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 12, delay: index * 0.1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 80, damping: 15, delay: index * 0.1 }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            style={{ perspective: 1000 }}
-            className="group relative h-full pointer-events-auto"
+            onHoverStart={() => setHovered(true)}
+            onHoverEnd={() => setHovered(false)}
+            style={{ perspective: 1200 }}
+            className="group pointer-events-auto h-full"
         >
             <motion.div
                 style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="glass-card relative rounded-[2.5rem] overflow-hidden transition-all duration-500 flex flex-col h-full hover-glow"
+                className="glass-card relative rounded-[2.5rem] overflow-hidden flex flex-col h-full border border-slate-200 transition-all duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(124,58,237,0.15)] group-hover:border-violet-200"
             >
-                {/* Spotlight */}
+                {/* Spotlight layer */}
                 {!isMobile() && (
                     <motion.div
-                        className="pointer-events-none absolute -inset-px rounded-[2.5rem] opacity-0 transition duration-300 group-hover:opacity-100 z-50"
-                        style={{
-                            background: useMotionTemplate`
-                                radial-gradient(
-                                    400px circle at ${mouseX}px ${mouseY}px,
-                                    rgba(6, 182, 212, 0.15),
-                                    transparent 80%
-                                )
-                            `,
-                        }}
+                        className="pointer-events-none absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{ background: spotlight }}
                     />
                 )}
 
-                <div className="relative h-64 sm:h-72 w-full overflow-hidden">
-                    {imageUrl ? (
+                {/* Project image */}
+                <div className={`relative h-56 sm:h-64 overflow-hidden bg-gradient-to-br ${gradients[index % gradients.length]}`}>
+                    {project.image ? (
                         <>
-                            <img 
-                                src={imageUrl} 
-                                alt={project.title} 
-                                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" 
-                                loading="lazy" 
+                            <img
+                                src={project.image}
+                                alt={project.title}
+                                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out shadow-inner"
+                                loading="lazy"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 opacity-60 transition-opacity" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10" />
                         </>
                     ) : (
-                        <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center">
-                            <Code2 className="w-24 h-24 text-neutral-800" />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-blue-500/10" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <Code2 className="w-24 h-24 text-violet-500/10" />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-violet-600/5 to-indigo-600/5" />
                         </div>
                     )}
 
-                    <div className="absolute top-6 right-6 z-20 flex gap-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                        <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
-                        >
-                            <Github className="w-6 h-6" />
-                        </a>
+                    {/* Left side badge */}
+                    <div className="absolute top-6 left-6 z-20">
+                        <span className="px-4 py-1.5 rounded-xl text-[10px] font-black tracking-widest text-violet-700 uppercase border border-white/80 bg-white/60 backdrop-blur-md shadow-sm">
+                            Case {String(index + 1).padStart(2, '0')}
+                        </span>
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="absolute top-6 right-6 z-20 flex gap-2.5 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        {project.github && (
+                            <a
+                                href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 rounded-2xl bg-white shadow-xl border border-slate-100 flex items-center justify-center text-slate-800 hover:text-violet-600 transition-all"
+                            >
+                                <Github className="w-5.5 h-5.5" />
+                            </a>
+                        )}
                         {project.demo && project.demo !== '#' && (
                             <a
                                 href={project.demo}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-12 h-12 rounded-2xl bg-cyan-500 border border-cyan-400 flex items-center justify-center text-white hover:scale-110 transition-all"
+                                className="w-12 h-12 rounded-2xl bg-violet-600 shadow-xl border border-violet-500 flex items-center justify-center text-white transition-all hover:bg-violet-700"
                             >
-                                <ExternalLink className="w-6 h-6" />
+                                <ExternalLink className="w-5.5 h-5.5" />
                             </a>
                         )}
                     </div>
                 </div>
 
-                <div className="p-8 flex-1 flex flex-col relative z-20 pointer-events-none">
-                    <h3 className="text-2xl md:text-3xl font-black text-neutral-900 dark:text-white mb-3 md:mb-4 tracking-tight group-hover:text-cyan-500 transition-colors">
-                        {project.title}
-                    </h3>
+                {/* Content */}
+                <div className="p-8 md:p-10 flex-1 flex flex-col relative z-20">
+                    <div className="flex items-start justify-between mb-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight group-hover:text-violet-600 transition-colors flex-1 mr-4"
+                            style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                            {project.title}
+                        </h3>
+                        <div className="w-10 h-10 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-violet-200 group-hover:bg-violet-50 transition-all shrink-0">
+                            <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-violet-500 transition-all" />
+                        </div>
+                    </div>
 
-                    <p className="text-sm md:text-lg text-neutral-500 dark:text-neutral-400 leading-relaxed mb-6 md:mb-8 flex-1 font-medium">
+                    <p className="text-base text-slate-500 leading-relaxed mb-8 flex-1 font-medium line-clamp-3">
                         {project.description}
                     </p>
 
-                    <div className="mt-auto pt-6 border-t border-neutral-200/50 dark:border-neutral-800/50">
-                        <div className="flex flex-wrap gap-2">
-                            {project.technologies.slice(0, 5).map((tech, i) => {
-                                const iconRes = getTechIcon(tech);
-                                return (
-                                    <div
-                                        key={i}
-                                        className="flex items-center gap-2 text-[10px] font-black tracking-[0.15em] text-cyan-500 bg-cyan-500/5 px-4 py-2 rounded-xl border border-cyan-500/10 group-hover:border-cyan-500/30 transition-colors"
-                                    >
-                                        {iconRes && <img src={iconRes} alt={tech} className="w-4 h-4 object-contain brightness-110" />}
-                                        {tech.toUpperCase()}
-                                    </div>
-                                );
-                            })}
-                        </div>
+                    <div className="flex flex-wrap gap-2.5 pt-6 border-t border-slate-100">
+                        {project.technologies.slice(0, 5).map((tech, i) => {
+                            const icon = getTechIcon(tech);
+                            return (
+                                <span
+                                    key={i}
+                                    className="flex items-center gap-2 text-[10px] font-black tracking-widest text-violet-700 bg-violet-50/80 px-4 py-1.5 rounded-xl border border-violet-100 group-hover:border-violet-200 transition-colors"
+                                >
+                                    {icon && <img src={icon} alt={tech} className="w-4 h-4 object-contain filter grayscale group-hover:grayscale-0 transition-all" />}
+                                    {tech.toUpperCase()}
+                                </span>
+                            );
+                        })}
                     </div>
                 </div>
-
-                {/* Shifting Light Sweep */}
-                <motion.div 
-                    animate={{ x: ["-100%", "200%"] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 z-10 pointer-events-none"
-                />
             </motion.div>
         </motion.div>
     );
@@ -173,40 +166,67 @@ const ProjectCard = ({ project, index }) => {
 
 const Projects = ({ projects }) => {
     return (
-        <section id="projects" className="py-20 md:py-32 relative">
-            <div className="absolute left-0 top-1/4 w-[500px] h-[500px] md:w-[800px] md:h-[800px] bg-cyan-100/40 blur-[150px] md:blur-[200px] pointer-events-none rounded-full"></div>
+        <section id="projects" className="py-24 relative overflow-visible">
+            {/* Header */}
+            <div className="flex flex-col items-center mb-20 md:mb-32 text-center max-w-4xl mx-auto">
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-700 text-[11px] font-black tracking-widest uppercase mb-8"
+                >
+                    <Code2 className="w-3.5 h-3.5" />
+                    Work Portfolio
+                </motion.div>
 
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 }}
+                    className="text-5xl md:text-8xl font-black tracking-tighter text-slate-900 mb-8"
+                    style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                >
+                    Curated <br /> <span className="text-gradient">Creations.</span>
+                </motion.h2>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.18 }}
+                    className="text-slate-500 text-lg md:text-2xl font-medium leading-relaxed"
+                >
+                    Bridging AI complexity with seamless user experiences through engineering excellence.
+                </motion.p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
+                {projects.map((project, index) => (
+                    <ProjectCard key={index} project={project} index={index} />
+                ))}
+            </div>
+
+            {/* View more link */}
             <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
-                className="relative z-10 w-full max-w-[90rem] mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="mt-20 flex justify-center"
             >
-                <div className="flex flex-col items-center mb-12 md:mb-24 text-center px-4">
-                    <motion.div
-                        initial={{ scale: 0, rotate: -180 }}
-                        whileInView={{ scale: 1, rotate: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ type: "spring", stiffness: 100, damping: 12 }}
-                        className="w-12 h-12 md:w-16 md:h-16 bg-cyan-100 rounded-full flex items-center justify-center mb-4 md:mb-6 shadow-sm border border-cyan-200"
-                    >
-                        <Code2 className="w-5 h-5 md:w-8 md:h-8 text-cyan-600" />
-                    </motion.div>
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 pb-2 leading-tight">
-                        Featured Projects
-                    </h2>
-                    <div className="w-16 md:w-32 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full mt-4 md:mt-6 shadow-md"></div>
-                    <p className="text-neutral-500 dark:text-neutral-400 mt-6 md:mt-8 max-w-2xl text-base md:text-xl leading-relaxed">
-                        A showcase of my recent work, highlighting my expertise in full-stack development, machine learning, and problem-solving.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
-                    {projects.map((project, index) => (
-                        <ProjectCard key={index} project={project} index={index} />
-                    ))}
-                </div>
+                <motion.a
+                    whileHover={{ scale: 1.05, y: -4 }}
+                    whileTap={{ scale: 0.96 }}
+                    href="https://github.com/Ayushman2005"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-10 py-5 rounded-2xl glass-card border border-slate-200 text-slate-800 font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:border-violet-300 transition-all shadow-xl"
+                >
+                    <Github className="w-5 h-5 mr-1" />
+                    GitHub Repository
+                    <ArrowUpRight className="w-4 h-4 ml-1 text-violet-500" />
+                </motion.a>
             </motion.div>
         </section>
     );

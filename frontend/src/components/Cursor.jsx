@@ -12,89 +12,63 @@ const Cursor = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
 
-    // Main Dot
-    const mainX = useSpring(0, { stiffness: 1000, damping: 50, restDelta: 0.1, restSpeed: 0.1 });
-    const mainY = useSpring(0, { stiffness: 1000, damping: 50, restDelta: 0.1, restSpeed: 0.1 });
- 
-    // Inner Ring
-    const innerX = useSpring(0, { stiffness: 400, damping: 30, restDelta: 0.5, restSpeed: 0.5 });
-    const innerY = useSpring(0, { stiffness: 400, damping: 30, restDelta: 0.5, restSpeed: 0.5 });
- 
-    // Outer Ring
-    const outerX = useSpring(0, { stiffness: 150, damping: 20, restDelta: 1, restSpeed: 1 });
-    const outerY = useSpring(0, { stiffness: 150, damping: 20, restDelta: 1, restSpeed: 1 });
+    // Main Dot — snappy
+    const mainX = useSpring(0, { stiffness: 1200, damping: 60 });
+    const mainY = useSpring(0, { stiffness: 1200, damping: 60 });
+
+    // Ring — moderate lag
+    const ringX = useSpring(0, { stiffness: 180, damping: 18 });
+    const ringY = useSpring(0, { stiffness: 180, damping: 18 });
 
     useEffect(() => {
-        const moveMouse = (e) => {
+        const move = (e) => {
             mainX.set(e.clientX);
             mainY.set(e.clientY);
-            innerX.set(e.clientX);
-            innerY.set(e.clientY);
-            outerX.set(e.clientX);
-            outerY.set(e.clientY);
+            ringX.set(e.clientX);
+            ringY.set(e.clientY);
+        };
+        const down = () => setIsPressed(true);
+        const up = () => setIsPressed(false);
+        const over = (e) => {
+            const el = e.target;
+            const interactive =
+                el.tagName.toLowerCase() === 'a' ||
+                el.tagName.toLowerCase() === 'button' ||
+                el.closest('a') ||
+                el.closest('button') ||
+                el.classList.contains('interactive');
+            setIsHovered(!!interactive);
         };
 
-        const handleMouseDown = () => setIsPressed(true);
-        const handleMouseUp = () => setIsPressed(false);
-
-        const handleMouseOver = (e) => {
-            const target = e.target;
-            if (
-                target.tagName.toLowerCase() === 'a' ||
-                target.tagName.toLowerCase() === 'button' ||
-                target.closest('a') ||
-                target.closest('button') ||
-                target.classList.contains('interactive')
-            ) {
-                setIsHovered(true);
-            } else {
-                setIsHovered(false);
-            }
-        };
-
-        window.addEventListener('mousemove', moveMouse);
-        window.addEventListener('mousedown', handleMouseDown);
-        window.addEventListener('mouseup', handleMouseUp);
-        window.addEventListener('mouseover', handleMouseOver);
+        window.addEventListener('mousemove', move, { passive: true });
+        window.addEventListener('mousedown', down);
+        window.addEventListener('mouseup', up);
+        window.addEventListener('mouseover', over);
 
         return () => {
-            window.removeEventListener('mousemove', moveMouse);
-            window.removeEventListener('mousedown', handleMouseDown);
-            window.removeEventListener('mouseup', handleMouseUp);
-            window.removeEventListener('mouseover', handleMouseOver);
+            window.removeEventListener('mousemove', move);
+            window.removeEventListener('mousedown', down);
+            window.removeEventListener('mouseup', up);
+            window.removeEventListener('mouseover', over);
         };
     }, []);
 
     return (
         <div className="fixed inset-0 pointer-events-none z-[9999]">
-            {/* Outer Follower */}
+            {/* Main dot — snappy */}
             <motion.div
-                className="absolute w-12 h-12 border-2 border-cyan-500/20 rounded-full flex items-center justify-center"
-                style={{ x: outerX, y: outerY, translateX: '-50%', translateY: '-50%' }}
-                animate={{
-                    scale: isHovered ? 2 : isPressed ? 0.8 : 1,
-                    opacity: isHovered ? 0 : 1
+                className="absolute rounded-full"
+                style={{
+                    x: mainX, y: mainY,
+                    translateX: '-50%', translateY: '-50%',
+                    width: 8, height: 8,
+                    background: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
+                    boxShadow: '0 0 10px rgba(124,58,237,0.7)',
                 }}
-            />
-
-            {/* Inner Follower */}
-            <motion.div
-                className="absolute w-8 h-8 border border-cyan-500/40 rounded-full"
-                style={{ x: innerX, y: innerY, translateX: '-50%', translateY: '-50%' }}
                 animate={{
-                    scale: isHovered ? 2.5 : isPressed ? 0.5 : 1,
-                    borderColor: isHovered ? 'rgba(6, 182, 212, 0.8)' : 'rgba(6, 182, 212, 0.4)',
-                    backgroundColor: isHovered ? 'rgba(6, 182, 212, 0.1)' : 'transparent'
+                    scale: isHovered ? 0 : isPressed ? 1.8 : 1,
                 }}
-            />
-
-            {/* Main Dot */}
-            <motion.div
-                className="absolute w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"
-                style={{ x: mainX, y: mainY, translateX: '-50%', translateY: '-50%' }}
-                animate={{
-                    scale: isHovered ? 0 : isPressed ? 1.5 : 1
-                }}
+                transition={{ duration: 0.15 }}
             />
         </div>
     );

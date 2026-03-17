@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion';
-import { Terminal, Database, Code2 } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Sparkles } from 'lucide-react';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -8,275 +8,255 @@ const isMobile = () =>
         /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
 const Hero = ({ data }) => {
-    const words = ["Machine Learning Engineer.", "Full Stack Developer.", "Problem Solver."];
-    const [currentWord, setCurrentWord] = React.useState(0);
+    const roles = ["Machine Learning Engineer.", "Full Stack Developer.", "Problem Solver.", "AI Enthusiast."];
+    const [currentRole, setCurrentRole] = React.useState(0);
     const [typedText, setTypedText] = React.useState('');
     const [isDeleting, setIsDeleting] = React.useState(false);
 
-    // Parallax & Spotlight effect with smoothing
     const { scrollY } = useScroll();
-    const smoothY = useSpring(scrollY, { stiffness: 100, damping: 30, restDelta: 0.001 });
-    
-    const y1 = useTransform(smoothY, [0, 500], [0, 100]);
-    const y2 = useTransform(smoothY, [0, 500], [0, -50]);
-    const opacity = useTransform(smoothY, [0, 500, 800], [1, 1, 0]);
+    const smoothY = useSpring(scrollY, { stiffness: 80, damping: 25 });
+    const y1 = useTransform(smoothY, [0, 600], [0, 100]);
+    const opacity = useTransform(smoothY, [0, 500, 800], [1, 0.8, 0]);
 
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
-    const handleContainerMouseMove = (e) => {
+    const handleMouseMove = (e) => {
         const { clientX, clientY, currentTarget } = e;
         const { left, top } = currentTarget.getBoundingClientRect();
         mouseX.set(clientX - left);
         mouseY.set(clientY - top);
     };
 
-    const spotlightBackground = useMotionTemplate`
-        radial-gradient(
-            600px circle at ${mouseX}px ${mouseY}px,
-            rgba(6, 182, 212, 0.1),
-            transparent 80%
-        )
-    `;
+    const spotlight = useMotionTemplate`radial-gradient(1200px circle at ${mouseX}px ${mouseY}px, rgba(124,58,237,0.08), transparent 80%)`;
 
     React.useEffect(() => {
         let timeout;
-        const typeSpeed = isDeleting ? 40 : 100;
+        const typeSpeed = isDeleting ? 35 : 90;
 
-        if (!isDeleting && typedText === words[currentWord]) {
-            timeout = setTimeout(() => setIsDeleting(true), 2500);
+        if (!isDeleting && typedText === roles[currentRole]) {
+            timeout = setTimeout(() => setIsDeleting(true), 2800);
         } else if (isDeleting && typedText === '') {
             setIsDeleting(false);
-            setCurrentWord((prev) => (prev + 1) % words.length);
-            timeout = setTimeout(() => { }, 400);
+            setCurrentRole((prev) => (prev + 1) % roles.length);
         } else {
-            const currentFullText = words[currentWord];
+            const full = roles[currentRole];
             timeout = setTimeout(() => {
-                setTypedText(currentFullText.substring(0, typedText.length + (isDeleting ? -1 : 1)));
+                setTypedText(full.substring(0, typedText.length + (isDeleting ? -1 : 1)));
             }, typeSpeed);
         }
 
         return () => clearTimeout(timeout);
-    }, [typedText, isDeleting, currentWord, words]);
+    }, [typedText, isDeleting, currentRole]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.2,
-            }
-        }
+        visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } }
     };
 
     const itemVariants = {
         hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { type: "spring", stiffness: 80, damping: 15 }
-        }
+        visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 70, damping: 14 } }
     };
 
     return (
-        <section 
-            id="hero" 
-            onMouseMove={handleContainerMouseMove}
-            className="min-h-screen flex flex-col md:flex-row items-center justify-between relative overflow-visible py-20 pointer-events-none"
+        <section
+            id="hero"
+            onMouseMove={handleMouseMove}
+            className="min-h-screen flex flex-col lg:flex-row items-center justify-between relative overflow-visible py-20 gap-16 pointer-events-none"
         >
-            {/* Spotlight and Mesh Background */}
+            {/* Spotlight */}
             {!isMobile() && (
-                <motion.div 
-                    className="absolute inset-0 z-0 opacity-50 dark:opacity-30 pointer-events-none"
-                    style={{ background: spotlightBackground }}
+                <motion.div
+                    className="absolute inset-0 z-0 pointer-events-none"
+                    style={{ background: spotlight }}
                 />
             )}
-            <div className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse-slow pointer-events-none"></div>
-            <div className="absolute bottom-1/4 -right-1/4 w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full animate-pulse-slow pointer-events-none" style={{ animationDelay: '2s' }}></div>
 
+            {/* Animated blobs - more prominent in light mode */}
+            <div className="absolute top-1/4 -left-32 w-[800px] h-[800px] bg-violet-400/10 blur-[180px] rounded-full animate-blob pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-[800px] h-[800px] bg-indigo-400/8 blur-[180px] rounded-full animate-blob animation-delay-4000 pointer-events-none" />
+
+            {/* Left Text Content */}
             <motion.div
                 style={{ y: y1, opacity }}
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="space-y-8 max-w-6xl relative z-10 w-full pointer-events-auto"
+                className="space-y-10 relative z-10 w-full lg:max-w-[55%] pointer-events-auto"
             >
-                <motion.div 
-                    variants={itemVariants} 
-                    className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl glass-card text-neutral-600 dark:text-neutral-400 font-mono text-sm tracking-widest font-bold shadow-xl border border-white/20 dark:border-white/5"
+                {/* Status badge */}
+                <motion.div
+                    variants={itemVariants}
+                    className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-card border border-white/40 text-violet-700 text-[10px] font-black tracking-widest uppercase shadow-lg"
                 >
-                    <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                    <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
                     </span>
-                    AVAILABLE FOR NEW PROJECTS
+                    Available for Work
                 </motion.div>
 
+                {/* Name */}
                 <motion.div variants={itemVariants} className="space-y-2">
-                    <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-neutral-900 dark:text-white leading-[0.9]">
-                        {data.name.split(' ').map((word, i) => (
-                            <span key={i} className="block last:text-gradient">
+                    <div className="text-xs font-black text-slate-400 tracking-[0.3em] uppercase mb-4">
+                        Hi, my name is
+                    </div>
+                    <h1 className="text-4xl sm:text-6xl md:text-7xl xl:text-9xl font-black tracking-tighter text-slate-900 leading-[0.95] md:leading-[0.9]"
+                        style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                        {data.name.split(' ').map((word, i, arr) => (
+                            <span key={i} className={`block ${i === arr.length - 1 ? 'text-gradient' : ''}`}>
                                 {word}
                             </span>
                         ))}
                     </h1>
                 </motion.div>
 
-                <motion.h2 variants={itemVariants} className="text-xl sm:text-3xl md:text-5xl font-bold text-neutral-500 dark:text-neutral-400 min-h-[1.4em] tracking-tight">
-                    I am a <span className="text-neutral-900 dark:text-white">{typedText}</span>
-                    <motion.span
-                        animate={{ opacity: [1, 0] }}
-                        transition={{ repeat: Infinity, duration: 0.8 }}
-                        className="text-cyan-500 inline-block w-[2px] h-[0.9em] bg-cyan-500 ml-1 align-middle"
-                    />
-                </motion.h2>
+                {/* Typewriter role */}
+                <motion.div variants={itemVariants} className="flex items-center gap-4 h-10">
+                    <div className="h-[3px] w-12 bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full flex-shrink-0" />
+                    <p className="text-xl md:text-3xl font-bold text-slate-500">
+                        <span className="text-slate-900">{typedText}</span>
+                        <motion.span
+                            animate={{ opacity: [1, 0] }}
+                            transition={{ repeat: Infinity, duration: 0.75 }}
+                            className="inline-block w-[3px] h-[0.85em] bg-violet-600 ml-1 align-middle"
+                        />
+                    </p>
+                </motion.div>
 
-                <motion.p variants={itemVariants} className="text-base sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl font-medium">
+                {/* Bio */}
+                <motion.p
+                    variants={itemVariants}
+                    className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl font-medium"
+                >
                     {data.bio}
                 </motion.p>
 
-                <motion.div variants={itemVariants} className="flex flex-wrap gap-6 pt-10">
+                {/* CTA Buttons */}
+                <motion.div variants={itemVariants} className="flex flex-wrap gap-5 pt-4">
                     <motion.a
                         whileHover={{ scale: 1.05, y: -4 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileTap={{ scale: 0.96 }}
                         href="#projects"
-                        className="group relative px-10 py-5 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-black rounded-2xl shadow-[0_20px_50px_rgba(6,182,212,0.3)] dark:shadow-[0_20px_50px_rgba(255,255,255,0.1)] transition-all overflow-hidden"
+                        className="btn-primary group flex items-center gap-3 px-10 py-5 font-black text-sm tracking-widest uppercase rounded-2xl"
                     >
-                        <span className="relative z-10 flex items-center gap-3">
-                            VIEW WORK
-                            <svg className="w-6 h-6 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        
-                        {/* Shifting Light Beam */}
-                        <motion.div 
-                            animate={{ x: ["-100%", "100%"] }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 z-20 pointer-events-none"
-                        />
+                        Explore Projects
+                        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </motion.a>
 
                     <motion.a
                         whileHover={{ scale: 1.05, y: -4 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileTap={{ scale: 0.96 }}
                         href="#contact"
-                        className="group flex items-center gap-3 px-10 py-5 glass-card text-neutral-900 dark:text-white font-black rounded-2xl transition-all border border-neutral-200 dark:border-white/10 hover:border-cyan-500/50 shadow-xl"
+                        className="group flex items-center gap-3 px-10 py-5 glass-card text-slate-900 font-black text-sm tracking-widest uppercase rounded-2xl border border-slate-200 hover:border-violet-300 transition-all shadow-xl"
                     >
-                        <span>LET'S TALK</span>
-                        <div className="w-2 h-2 rounded-full bg-cyan-500 group-hover:animate-ping" />
+                        Contact Me
+                        <Sparkles className="w-5 h-5 text-violet-500 group-hover:animate-spin-slow" />
                     </motion.a>
+                </motion.div>
+
+                {/* Social links */}
+                <motion.div variants={itemVariants} className="flex items-center gap-6 pt-6">
+                    <span className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">Connect</span>
+                    <div className="h-[1px] w-12 bg-slate-200" />
+                    <div className="flex gap-4">
+                        {[
+                            { href: data.github, icon: Github, label: 'GitHub' },
+                            { href: data.linkedin, icon: Linkedin, label: 'LinkedIn' },
+                        ].map(({ href, icon: Icon, label }) => (
+                            <motion.a
+                                key={label}
+                                whileHover={{ scale: 1.15, y: -5 }}
+                                whileTap={{ scale: 0.9 }}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={label}
+                                className="w-12 h-12 rounded-2xl glass-card border border-slate-200 flex items-center justify-center text-slate-500 hover:text-violet-600 hover:border-violet-300 transition-all shadow-lg"
+                            >
+                                <Icon className="w-5 h-5" />
+                            </motion.a>
+                        ))}
+                    </div>
                 </motion.div>
             </motion.div>
 
+            {/* Right Visual — Profile Card */}
             <motion.div
-                initial={{ opacity: 0, scale: 0.9, x: 50 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                transition={{ duration: 1.5, type: "spring", damping: 20 }}
-                style={{ y: y2 }}
-                className="w-full max-w-lg relative z-20 mt-20 md:mt-0 mx-auto md:mx-0 flex justify-center items-center pointer-events-auto"
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ duration: 1.5, type: "spring", damping: 20, delay: 0.4 }}
+                className="w-full lg:max-w-[42%] flex justify-center items-center relative z-20 pointer-events-auto flex-shrink-0"
             >
-                <div className="relative group p-6 sm:p-12">
-                    {/* Pulsing Background Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/30 to-blue-600/30 blur-[80px] sm:blur-[120px] opacity-20 group-hover:opacity-60 transition-opacity duration-1000 animate-pulse-slow rounded-full" />
-                    
-                    {/* Orbiting Rotating Rings */}
-                    <motion.div 
+                <div className="relative">
+                    {/* Decorative elements */}
+                    <motion.div
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-0 border-2 border-dashed border-cyan-500/20 rounded-full scale-110 pointer-events-none"
-                    />
-                    <motion.div 
-                        animate={{ rotate: -360 }}
                         transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-4 border border-blue-500/10 rounded-full scale-105 pointer-events-none"
+                        className="absolute inset-0 border-[2px] border-dashed border-violet-500/10 rounded-full scale-[1.3] pointer-events-none"
                     />
+                    
+                    {/* Profile Image with modern mask */}
+                    <motion.div
+                        whileHover={{ scale: 1.02, rotate: 1 }}
+                        className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[30rem] lg:h-[30rem] overflow-hidden border-[8px] border-white shadow-[0_50px_100px_-20px_rgba(124,58,237,0.2)] group"
+                        style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
+                    >
+                        <img
+                            src="/profile.png"
+                            alt={data.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-violet-500/20 to-transparent mix-blend-overlay" />
+                    </motion.div>
 
-                    {/* Tech Badges with Independent Orbit */}
-                    <motion.div 
-                        animate={{ y: [0, -20, 0], x: [0, 5, 0] }}
+                    {/* Floating badges with high light mode contrast */}
+                    <motion.div
+                        animate={{ y: [0, -15, 0] }}
                         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute top-0 left-0 z-40 glass-card p-3 sm:p-4 rounded-full shadow-2xl border-white/20 dark:border-white/10 hidden sm:flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16"
+                        className="absolute -top-4 -right-4 glass-card px-5 py-3 rounded-2xl border border-violet-100 shadow-2xl z-30"
                     >
-                        <Code2 className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-500" />
-                    </motion.div>
-                    <motion.div 
-                        animate={{ y: [0, 20, 0], x: [0, -5, 0] }}
-                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                        className="absolute bottom-4 right-4 z-40 glass-card p-3 sm:p-4 rounded-full shadow-2xl border-white/20 dark:border-white/10 hidden sm:flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16"
-                    >
-                        <Database className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500" />
-                    </motion.div>
-
-                    {/* Main Circular Image with 3D POV */}
-                        <motion.div
-                            style={{ 
-                                rotateX: !isMobile() ? useTransform(mouseY, [0, 500], [15, -15]) : 0,
-                                rotateY: !isMobile() ? useTransform(mouseX, [0, 500], [-15, 15]) : 0,
-                                transformStyle: "preserve-3d",
-                                perspective: "1200px"
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                            className="relative w-64 h-64 sm:w-[32rem] sm:h-[32rem] rounded-full border-[8px] sm:border-[15px] border-white dark:border-neutral-900 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)] group-hover:shadow-cyan-500/30 transition-all duration-700 overflow-visible"
-                        >
-                            {/* Status Indicator */}
-                            <div className="absolute -top-4 sm:-top-6 left-1/2 -translate-x-1/2 z-50">
-                                <motion.div 
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="glass-card px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-cyan-500/30 flex items-center gap-2 shadow-xl"
-                                >
-                                    <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-cyan-500"></span>
-                                    </span>
-                                    <span className="text-[8px] sm:text-[10px] font-black tracking-[0.2em] text-cyan-500 uppercase">System Active</span>
-                                </motion.div>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center text-xl">🧠</div>
+                            <div>
+                                <p className="text-[9px] font-black text-violet-500 uppercase tracking-widest">Expertise</p>
+                                <p className="text-sm font-black text-slate-800">AI / ML Engineer</p>
                             </div>
-
-                        {/* Inner 3D Container for Image */}
-                        <div className="absolute inset-0 rounded-full overflow-hidden bg-neutral-900">
-                            <img
-                                src="/profile.png"
-                                alt={data.name}
-                                className="w-full h-full object-cover scale-110 group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100"
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(data.name) + "&size=512&background=0a0a0a&color=fff";
-                                }}
-                            />
-                            
-                            {/* Scanning Effect */}
-                            <motion.div 
-                                animate={{ top: ["-10%", "110%"] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                className="absolute left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent z-40 blur-[2px]"
-                            />
-                            <motion.div 
-                                animate={{ top: ["-10%", "110%"] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 0.1 }}
-                                className="absolute left-0 w-full h-20 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent z-30"
-                            />
-
-                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-neutral-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                         </div>
+                    </motion.div>
 
-                        {/* Holographic HUD Elements */}
-                        <div className="absolute inset-0 rounded-full border border-cyan-500/20 z-40 pointer-events-none" />
-                        <div className="absolute inset-8 rounded-full border border-blue-500/10 z-30 pointer-events-none" />
-
-                        {/* Bottom coordinates label */}
-                        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                           <span className="text-[8px] sm:text-[10px] font-mono text-neutral-500 tracking-widest uppercase truncate max-w-[150px]">LOC: 23.49 / 85.32</span>
+                    <motion.div
+                        animate={{ y: [0, 15, 0] }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        className="absolute -bottom-8 -left-8 glass-card px-5 py-3 rounded-2xl border border-indigo-100 shadow-2xl z-30"
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-xl">⚡</div>
+                            <div>
+                                <p className="text-[9px] font-black text-indigo-500 uppercase tracking-widest">Status</p>
+                                <p className="text-sm font-black text-slate-800">Available 24/7</p>
+                            </div>
                         </div>
-
-                        {/* Depth Ring */}
-                        <div className="absolute inset-[-2px] rounded-full border-4 border-cyan-500/30 blur-sm group-hover:opacity-100 opacity-0 transition-opacity" />
                     </motion.div>
                 </div>
+            </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.5 }}
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-auto"
+            >
+                <span className="text-[9px] tracking-[0.3em] font-black text-slate-400 uppercase">Explore</span>
+                <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="w-6 h-10 border-2 border-slate-200 rounded-full flex justify-center pt-2 shadow-inner"
+                >
+                    <div className="w-1.5 h-2 bg-violet-500 rounded-full shadow-lg" />
+                </motion.div>
             </motion.div>
         </section>
     );

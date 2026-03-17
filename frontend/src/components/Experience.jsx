@@ -1,11 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Calendar, Briefcase, ChevronRight, Building2 } from 'lucide-react';
-
-const isMobile = () =>
-    typeof window !== 'undefined' &&
-    (window.matchMedia('(max-width: 768px)').matches ||
-        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
+import { Calendar, Briefcase, Building2, ChevronRight } from 'lucide-react';
 
 const Experience = ({ experience }) => {
     const ref = useRef(null);
@@ -15,69 +10,62 @@ const Experience = ({ experience }) => {
         offset: ["start center", "end end"]
     });
 
-    const pathLength = useSpring(scrollYProgress, { 
-        stiffness: 100, 
-        damping: 30,
+    const pathLength = useSpring(scrollYProgress, {
+        stiffness: 90,
+        damping: 28,
         restDelta: 0.001
     });
 
     return (
-        <section id="experience" className="py-32 relative overflow-hidden" ref={ref}>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
-
+        <section id="experience" className="py-24 relative overflow-visible" ref={ref}>
             <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="max-w-[90rem] mx-auto px-6 relative z-10"
+                className="relative z-10"
             >
-                <div className="flex flex-col items-center mb-16 md:mb-24 text-center space-y-4">
-                    <motion.span 
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                {/* Header */}
+                <div className="flex flex-col items-start mb-12 md:mb-32 space-y-6 max-w-4xl">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="text-cyan-600 dark:text-cyan-400 font-bold tracking-widest text-xs md:text-sm uppercase"
+                        className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-700 text-[11px] font-black tracking-widest uppercase"
                     >
-                        JOURNEY
-                    </motion.span>
-                    <motion.h2 
+                        <Briefcase className="w-3.5 h-3.5" />
+                        Professional Journey
+                    </motion.div>
+
+                    <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-3xl md:text-7xl font-black text-neutral-900 dark:text-white tracking-tighter"
+                        transition={{ delay: 0.1 }}
+                        className="text-5xl md:text-8xl font-black tracking-tighter text-slate-900 leading-[0.9]"
+                        style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                     >
-                        Experience <span className="text-gradient">Timeline.</span>
+                        Career <br /> <span className="text-gradient">Evolution.</span>
                     </motion.h2>
                 </div>
 
-                <div className="relative">
-                    {/* SVG Progress Line */}
-                    <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2.5px] -translate-x-1/2 opacity-30 md:opacity-100">
-                        <svg className="h-full w-full" preserveAspectRatio="none">
-                            <motion.line
-                                x1="50%" y1="0%" x2="50%" y2="100%"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeDasharray="8 8"
-                                className="text-neutral-200 dark:text-neutral-800"
-                            />
-                            <motion.line
-                                x1="50%" y1="0%" x2="50%" y2="100%"
-                                stroke="url(#line-gradient)"
-                                strokeWidth="4"
-                                strokeLinecap="round"
-                                style={{ pathLength }}
-                            />
-                            <defs>
-                                <linearGradient id="line-gradient" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#06b6d4" />
-                                    <stop offset="100%" stopColor="#3b82f6" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                {/* Timeline */}
+                <div className="relative max-w-5xl mx-auto pl-4 md:pl-0">
+                    {/* Animated vertical line */}
+                    <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[3px] -translate-x-1/2">
+                        {/* Background track */}
+                        <div className="absolute inset-0 bg-slate-100/80 rounded-full" />
+                        {/* Progress fill */}
+                        <motion.div
+                            className="absolute top-0 left-0 right-0 rounded-full origin-top"
+                            style={{
+                                scaleY: pathLength,
+                                background: 'linear-gradient(180deg, #7c3aed, #4f46e5, #ec4899)',
+                                height: '100%'
+                            }}
+                        />
                     </div>
 
-                    <div className="space-y-24">
+                    <div className="space-y-20 md:space-y-32">
                         {experience.map((job, idx) => {
                             const isEven = idx % 2 === 0;
                             return (
@@ -85,42 +73,54 @@ const Experience = ({ experience }) => {
                                     key={idx}
                                     initial={{ opacity: 0, y: 50 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ type: "spring", stiffness: 100, damping: 20, delay: idx * 0.1 }}
-                                    className={`relative flex flex-col md:flex-row items-center justify-between w-full ${isEven ? "md:flex-row-reverse" : ""}`}
+                                    viewport={{ once: true, margin: "-80px" }}
+                                    transition={{ type: "spring", stiffness: 80, damping: 18, delay: idx * 0.1 }}
+                                    className={`relative flex flex-col md:flex-row items-start md:items-center gap-12 md:gap-16 ${isEven ? '' : 'md:flex-row-reverse'}`}
                                 >
-                                    {/* Timeline dot */}
-                                    <motion.div 
-                                        whileHover={{ scale: 1.2 }}
-                                        className="absolute left-8 md:left-1/2 -translate-x-1/2 w-16 h-16 rounded-[1.5rem] bg-neutral-900 dark:bg-white border-4 border-cyan-500 z-20 shadow-2xl flex items-center justify-center p-0.5 group"
+                                    {/* Center marker */}
+                                    <motion.div
+                                        whileHover={{ scale: 1.15, rotate: 5 }}
+                                        className="absolute left-6 md:left-1/2 -translate-x-1/2 z-30 w-16 h-16 rounded-[1.5rem] border-[4px] border-white bg-white shadow-[0_15px_35px_-5px_rgba(124,58,237,0.3)] flex items-center justify-center flex-shrink-0"
                                     >
-                                        <Briefcase className="w-6 h-6 text-white dark:text-neutral-900 group-hover:rotate-12 transition-transform" />
+                                        <div className="w-10 h-10 rounded-2xl bg-violet-600 flex items-center justify-center text-white shadow-inner">
+                                            <Briefcase className="w-5 h-5" />
+                                        </div>
                                     </motion.div>
 
-                                    <div className="hidden md:block w-[45%]"></div>
+                                    {/* Spacer for other side on desktop */}
+                                    <div className="hidden md:block w-[calc(50%-4rem)]" />
 
-                                    <div className={`w-full md:w-[45%] pl-20 md:pl-0 mt-2 md:mt-0 ${isEven ? 'md:text-right' : 'md:text-left'}`}>
+                                    {/* Card Container */}
+                                    <div className={`w-full md:w-[calc(50%-4rem)] pl-24 md:pl-0`}>
                                         <motion.div
-                                            whileHover={{ y: -8 }}
-                                            className="glass-card p-10 rounded-[2.5rem] hover-glow transition-all duration-500 group border-white/10"
+                                            whileHover={{ y: -8, x: isEven ? -4 : 4 }}
+                                            className="glass-card p-8 md:p-12 rounded-[2.5rem] hover-glow border border-slate-200 bg-white/70 transition-all duration-500 group relative shadow-xl"
                                         >
-                                            <div className={`flex flex-col gap-4 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
-                                                <div className="inline-flex items-center gap-3 text-xs font-black tracking-widest text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-4 py-2 rounded-xl border border-cyan-500/20">
-                                                    <Calendar className="w-4 h-4" />
-                                                    {job.period.toUpperCase()}
-                                                </div>
-                                                
-                                                <h3 className="text-2xl md:text-3xl font-black text-neutral-900 dark:text-white tracking-tight group-hover:text-cyan-500 transition-colors">
-                                                    {job.title}
-                                                </h3>
-                                                
-                                                <div className="flex items-center gap-3 text-xl md:text-2xl font-black tracking-tight text-gradient">
-                                                    {job.company}
-                                                </div>
+                                            {/* Side connector for desktop */}
+                                            <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 w-8 h-[2px] bg-slate-100 ${isEven ? '-right-8' : '-left-8'}`} />
 
-                                                <p className="text-sm md:text-lg text-neutral-500 dark:text-neutral-400 leading-relaxed font-medium mt-4">
-                                                    {job.description}
-                                                </p>
+                                            {/* Period Badge */}
+                                            <div className="inline-flex items-center gap-2.5 text-[10px] font-black tracking-widest text-violet-700 bg-violet-50 px-4 py-2 rounded-xl border border-violet-100 mb-8 shadow-sm">
+                                                <Calendar className="w-3.5 h-3.5" />
+                                                {job.period.toUpperCase()}
+                                            </div>
+
+                                            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-violet-600 transition-colors"
+                                                style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                                                {job.title}
+                                            </h3>
+
+                                            <div className="flex items-center gap-3 mb-6 bg-slate-50 w-fit px-4 py-2 rounded-xl border border-slate-100">
+                                                <Building2 className="w-4 h-4 text-indigo-500" />
+                                                <span className="text-base font-black text-slate-700 uppercase tracking-wide">{job.company}</span>
+                                            </div>
+
+                                            <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed mb-6">
+                                                {job.description}
+                                            </p>
+
+                                            <div className="flex items-center gap-2 text-xs font-black text-violet-500 group-hover:gap-4 transition-all uppercase tracking-widest">
+                                                View Details <ChevronRight className="w-4 h-4" />
                                             </div>
                                         </motion.div>
                                     </div>
