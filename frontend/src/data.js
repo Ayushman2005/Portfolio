@@ -6,7 +6,7 @@ export const portfolioData = {
   "phone": "+91 93485 12092",
   "location": "Bargarh, Odisha, India",
   "github": "https://github.com/Ayushman2005",
-  "linkedin": "https://linkedin.com/in/ayushman-kar",
+  "linkedin": "https://www.linkedin.com/in/ayushman-kar-08370634b/",
   "skills": [
     {
       "name": "Python & C++",
