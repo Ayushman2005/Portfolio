@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { GraduationCap, MapPin, Heart, Coffee, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import ImageCarousel from './ImageCarousel';
 
 const BentoCard = ({ children, className = "", delay = 0 }) => (
     <motion.div
@@ -14,7 +16,7 @@ const BentoCard = ({ children, className = "", delay = 0 }) => (
     </motion.div>
 );
 
-const About = ({ data }) => {
+const About = ({ data, summary = false }) => {
     const containerRef = useRef(null);
 
     return (
@@ -53,12 +55,15 @@ const About = ({ data }) => {
                     <div className="space-y-6 text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
                         <p>
                             I'm an undergraduate student at <span className="text-violet-600 font-bold">GIET University</span>, 
-                            specializing in Computer Engineering. My passion lies at the intersection of 
-                            <span className="text-indigo-600 font-bold"> machine learning</span> and scalable software architecture.
+                            specializing in Computer Engineering. My journey began with a persistent curiosity about the inner workings of web applications, 
+                            which has organically grown into a profound focus on the intersection of 
+                            <span className="text-indigo-600 font-bold"> artificial intelligence</span> and scalable software architecture.
                         </p>
                         <p>
-                            I thrive on solving complex problems, from building syllabus-aware AI assistants that 
-                            eliminate hallucinations to engineering robust community management platforms.
+                            As a passionate developer, I've cultivated specialized skills bridging the gap between elegant frontend experiences and robust backend logic. I regularly employ tools like React, powerful motion libraries, and modern Node or Python ecosystems to bring comprehensive projects to life.
+                        </p>
+                        <p>
+                            I inherently thrive on dissecting complex real-world challenges—whether it's engineering a smart, syllabus-aware AI assistant that effectively mitigates hallucinations or architecting comprehensive community management platforms that scale autonomously. My core objective is building highly functional technology that is equally beautiful to use, fundamentally driving impact and pushing boundaries.
                         </p>
                     </div>
                 </BentoCard>
@@ -127,6 +132,66 @@ const About = ({ data }) => {
                         </div>
                     </div>
                 </BentoCard>
+
+                {/* Core Principles Matrix */}
+                {!summary && (
+                    <BentoCard className="md:col-span-12 group !p-6 md:!p-8" delay={0.55}>
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                                <Sparkles className="w-6 h-6" />
+                            </div>
+                            <h4 className="text-2xl font-black text-slate-900 tracking-tighter">My Core Principles</h4>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                <p className="text-[10px] font-black tracking-widest text-violet-500 uppercase mb-3 text-center">Engineering</p>
+                                <h5 className="font-bold text-slate-900 mb-2 text-center text-lg">Scalability First</h5>
+                                <p className="text-sm text-slate-600 text-center font-medium leading-relaxed">Designing clean, reusable, and modern architectures that are fully prepared to grow gracefully and dynamically alongside the user base.</p>
+                            </div>
+                            <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                <p className="text-[10px] font-black tracking-widest text-pink-500 uppercase mb-3 text-center">Innovation</p>
+                                <h5 className="font-bold text-slate-900 mb-2 text-center text-lg">Continuous Learning</h5>
+                                <p className="text-sm text-slate-600 text-center font-medium leading-relaxed">Persistently researching and rapidly implementing the absolute cutting-edge in machine learning advancements and responsive web technologies.</p>
+                            </div>
+                            <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                <p className="text-[10px] font-black tracking-widest text-indigo-500 uppercase mb-3 text-center">Experience</p>
+                                <h5 className="font-bold text-slate-900 mb-2 text-center text-lg">User-Centric Empathy</h5>
+                                <p className="text-sm text-slate-600 text-center font-medium leading-relaxed">Fostering intense dedication towards ensuring every technical deployment acts seamlessly, intuitively, and beautifully for the end user.</p>
+                            </div>
+                        </div>
+                    </BentoCard>
+                )}
+
+                {/* Life & Moments Carousel */}
+                {!summary && (
+                    <BentoCard className="md:col-span-12 !p-2 md:!p-4 bg-slate-900/5 group" delay={0.6}>
+                        <div className="w-full flex items-center justify-between px-4 md:px-6 py-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shadow-sm">
+                                    <Heart className="w-6 h-6 text-violet-600" />
+                                </div>
+                                <p className="text-lg md:text-xl font-black text-slate-900 tracking-tighter">My Life & Moments</p>
+                            </div>
+                            <div className="px-4 py-2 bg-slate-900 rounded-full">
+                                <span className="text-[10px] font-black tracking-widest text-white uppercase flex items-center gap-2">
+                                    <Sparkles className="w-3 h-3 text-violet-400" /> Moments
+                                </span>
+                            </div>
+                        </div>
+                        <div className="mt-2 text-white">
+                            <ImageCarousel />
+                        </div>
+                    </BentoCard>
+                )}
+
+                {/* Summary read more button */}
+                {summary && (
+                    <div className="md:col-span-12 flex justify-center mt-6">
+                        <Link to="/about" className="px-10 py-5 bg-violet-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-violet-700 transition-colors shadow-xl hover:-translate-y-1 hover:shadow-2xl">
+                            Read Full Biography
+                        </Link>
+                    </div>
+                )}
 
             </div>
         </section>

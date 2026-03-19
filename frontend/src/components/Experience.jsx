@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Calendar, Briefcase, Building2, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const Experience = ({ experience }) => {
+const Experience = ({ experience, summary = false }) => {
+    const displayedExperience = summary ? experience.slice(0, 2) : experience;
     const ref = useRef(null);
 
     const { scrollYProgress } = useScroll({
@@ -66,7 +68,7 @@ const Experience = ({ experience }) => {
                     </div>
 
                     <div className="space-y-20 md:space-y-32">
-                        {experience.map((job, idx) => {
+                        {displayedExperience.map((job, idx) => {
                             const isEven = idx % 2 === 0;
                             return (
                                 <motion.div
@@ -128,6 +130,14 @@ const Experience = ({ experience }) => {
                             );
                         })}
                     </div>
+
+                    {summary && (
+                        <div className="mt-20 flex justify-center pb-8">
+                            <Link to="/experience" className="px-10 py-5 bg-violet-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-violet-700 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl">
+                                Full Work History
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </motion.div>
         </section>

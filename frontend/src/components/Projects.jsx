@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Github, ExternalLink, Code2, ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -164,7 +165,9 @@ const ProjectCard = ({ project, index }) => {
     );
 };
 
-const Projects = ({ projects }) => {
+const Projects = ({ projects, summary = false }) => {
+    const displayedProjects = summary ? projects.slice(0, 2) : projects;
+
     return (
         <section id="projects" className="py-24 relative overflow-visible">
             {/* Header */}
@@ -202,7 +205,7 @@ const Projects = ({ projects }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
-                {projects.map((project, index) => (
+                {displayedProjects.map((project, index) => (
                     <ProjectCard key={index} project={project} index={index} />
                 ))}
             </div>
@@ -215,18 +218,28 @@ const Projects = ({ projects }) => {
                 transition={{ delay: 0.4 }}
                 className="mt-20 flex justify-center"
             >
-                <motion.a
-                    whileHover={{ scale: 1.05, y: -4 }}
-                    whileTap={{ scale: 0.96 }}
-                    href="https://github.com/Ayushman2005"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-10 py-5 rounded-2xl glass-card border border-slate-200 text-slate-800 font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:border-violet-300 transition-all shadow-xl"
-                >
-                    <Github className="w-5 h-5 mr-1" />
-                    GitHub Repository
-                    <ArrowUpRight className="w-4 h-4 ml-1 text-violet-500" />
-                </motion.a>
+                {summary ? (
+                    <Link
+                        to="/projects"
+                        className="flex items-center gap-3 px-10 py-5 rounded-2xl bg-violet-600 text-white font-black text-xs tracking-[0.2em] uppercase hover:bg-violet-700 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl"
+                    >
+                        View All Projects
+                        <ArrowUpRight className="w-4 h-4 ml-1 text-white" />
+                    </Link>
+                ) : (
+                    <motion.a
+                        whileHover={{ scale: 1.05, y: -4 }}
+                        whileTap={{ scale: 0.96 }}
+                        href="https://github.com/Ayushman2005"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 px-10 py-5 rounded-2xl glass-card border border-slate-200 text-slate-800 font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:border-violet-300 transition-all shadow-xl"
+                    >
+                        <Github className="w-5 h-5 mr-1" />
+                        GitHub Repository
+                        <ArrowUpRight className="w-4 h-4 ml-1 text-violet-500" />
+                    </motion.a>
+                )}
             </motion.div>
         </section>
     );

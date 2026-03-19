@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { Code2, BrainCircuit, Layout, Zap, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -74,7 +75,7 @@ const SkillCard = ({ category, delay }) => {
     );
 };
 
-const Skills = () => {
+const Skills = ({ summary = false }) => {
     const categories = [
         {
             title: "Core Programming",
@@ -122,6 +123,8 @@ const Skills = () => {
         }
     ];
 
+    const displayedCategories = summary ? categories.slice(0, 2) : categories;
+
     return (
         <section id="skills" className="py-24 relative overflow-visible">
             {/* Header */}
@@ -158,16 +161,24 @@ const Skills = () => {
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {categories.map((cat, idx) => (
+            <div className={`grid grid-cols-1 md:grid-cols-2 ${summary ? 'lg:grid-cols-2 max-w-5xl mx-auto' : 'lg:grid-cols-4'} gap-8`}>
+                {displayedCategories.map((cat, idx) => (
                     <SkillCard key={idx} category={cat} delay={idx * 0.1} />
                 ))}
             </div>
             
             {/* Scroll hint line */}
-            <div className="mt-24 flex justify-center">
-                <div className="w-[2px] h-24 bg-gradient-to-b from-violet-500/40 via-violet-500/10 to-transparent rounded-full shadow-sm" />
-            </div>
+            {summary ? (
+                <div className="mt-20 flex justify-center pb-8 border-none">
+                    <Link to="/skills" className="px-10 py-5 bg-violet-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-violet-700 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl">
+                        View Complete Arsenal
+                    </Link>
+                </div>
+            ) : (
+                <div className="mt-24 flex justify-center">
+                    <div className="w-[2px] h-24 bg-gradient-to-b from-violet-500/40 via-violet-500/10 to-transparent rounded-full shadow-sm" />
+                </div>
+            )}
         </section>
     );
 };

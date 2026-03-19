@@ -61,12 +61,14 @@ const Cursor = () => {
                 style={{
                     x: mainX, y: mainY,
                     translateX: '-50%', translateY: '-50%',
-                    width: 8, height: 8,
-                    background: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
-                    boxShadow: '0 0 10px rgba(124,58,237,0.7)',
+                    width: 32, height: 32,
+                    backgroundColor: '#fff',
+                    mixBlendMode: 'difference',
+                    pointerEvents: 'none',
+                    zIndex: 9999
                 }}
                 animate={{
-                    scale: isHovered ? 0 : isPressed ? 1.8 : 1,
+                    scale: isHovered ? 2.5 : isPressed ? 0.6 : 1,
                 }}
                 transition={{ duration: 0.15 }}
             />

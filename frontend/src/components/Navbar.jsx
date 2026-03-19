@@ -1,34 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sparkles, ArrowUp } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = ({ name }) => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [activeSection, setActiveSection] = useState('');
+    const location = useLocation();
 
     const navLinks = [
-        { name: 'About', href: '#about' },
-        { name: 'Skills', href: '#skills' },
-        { name: 'Projects', href: '#projects' },
-        { name: 'Experience', href: '#experience' },
-        { name: 'Honors', href: '#achievements' },
-        { name: 'Contact', href: '#contact' },
+        { name: 'Home', href: '/' },
+        { name: 'About', href: '/about' },
+        { name: 'Skills', href: '/skills' },
+        { name: 'Projects', href: '/projects' },
+        { name: 'Experience', href: '/experience' },
+        { name: 'Honors', href: '/achievements' },
+        { name: 'Contact', href: '/contact' },
     ];
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 30);
-            const sections = navLinks.map(l => l.href.substring(1));
-            let current = '';
-            for (const sec of sections) {
-                const el = document.getElementById(sec);
-                if (el) {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top <= 120 && rect.bottom >= 120) { current = sec; break; }
-                }
-            }
-            setActiveSection(current);
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
@@ -49,7 +41,7 @@ const Navbar = ({ name }) => {
                 >
                     <div className="flex justify-between items-center w-full">
                         {/* Logo */}
-                        <a href="#" className="flex items-center gap-2.5 group">
+                        <Link to="/" className="flex items-center gap-2.5 group">
                             <motion.div
                                 whileHover={{ scale: 1.1, rotate: 15 }}
                                 className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center overflow-hidden shadow-lg"
@@ -61,16 +53,16 @@ const Navbar = ({ name }) => {
                                 {name ? name.split(' ')[0] : 'Portfolio'}
                                 <span className="text-violet-500">.</span>
                             </span>
-                        </a>
+                        </Link>
 
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center gap-1 lg:gap-2">
                             {navLinks.map((link) => {
-                                const isActive = activeSection === link.href.substring(1);
+                                const isActive = location.pathname === link.href;
                                 return (
-                                    <a
+                                    <Link
                                         key={link.name}
-                                        href={link.href}
+                                        to={link.href}
                                         className={`relative px-4 py-2 rounded-xl text-[10px] lg:text-xs font-black tracking-widest uppercase transition-colors ${
                                             isActive
                                                 ? 'text-violet-600'
@@ -86,7 +78,7 @@ const Navbar = ({ name }) => {
                                             />
                                         )}
                                         <span className="relative z-10">{link.name}</span>
-                                    </a>
+                                    </Link>
                                 );
                             })}
                         </div>
@@ -102,16 +94,16 @@ const Navbar = ({ name }) => {
                                 Resume ↗
                             </motion.a>
 
-                            <motion.a
+                            <motion.Link
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                href="#contact"
+                                to="/contact"
                                 className="hidden sm:flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-white text-[10px] font-black tracking-[0.2em] uppercase shadow-[0_10px_30px_-5px_rgba(124,58,237,0.4)] transition-all"
                                 style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
                             >
                                 Let's Connect
                                 <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
-                            </motion.a>
+                            </motion.Link>
 
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -135,18 +127,21 @@ const Navbar = ({ name }) => {
                             >
                                 <div className="flex flex-col gap-5 py-8 px-4">
                                     {navLinks.map((link, index) => (
-                                        <motion.a
+                                        <motion.div
                                             key={link.name}
                                             initial={{ x: -20, opacity: 0 }}
                                             animate={{ x: 0, opacity: 1 }}
                                             transition={{ delay: index * 0.05 }}
-                                            href={link.href}
-                                            onClick={() => setMobileMenuOpen(false)}
-                                            className="text-2xl font-black text-slate-900 uppercase tracking-tighter hover:text-violet-600 transition-colors flex items-center justify-between group"
                                         >
-                                            <span>{link.name}</span>
-                                            <div className="w-2 h-2 rounded-full bg-violet-500 opacity-0 group-hover:opacity-100 transition-all scale-0 group-hover:scale-100" />
-                                        </motion.a>
+                                            <Link
+                                                to={link.href}
+                                                onClick={() => setMobileMenuOpen(false)}
+                                                className="text-2xl font-black text-slate-900 uppercase tracking-tighter hover:text-violet-600 transition-colors flex items-center justify-between group block w-full"
+                                            >
+                                                <span>{link.name}</span>
+                                                <div className="w-2 h-2 rounded-full bg-violet-500 opacity-0 group-hover:opacity-100 transition-all scale-0 group-hover:scale-100" />
+                                            </Link>
+                                        </motion.div>
                                     ))}
                                     <motion.div
                                         initial={{ y: 20, opacity: 0 }}
@@ -161,14 +156,14 @@ const Navbar = ({ name }) => {
                                         >
                                             Resume ↗
                                         </a>
-                                        <a
-                                            href="#contact"
+                                        <Link
+                                            to="/contact"
                                             onClick={() => setMobileMenuOpen(false)}
                                             className="w-full py-5 rounded-2xl text-white text-center font-black tracking-widest uppercase shadow-xl"
                                             style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
                                         >
                                             Let's Connect
-                                        </a>
+                                        </Link>
                                     </motion.div>
                                 </div>
                             </motion.div>

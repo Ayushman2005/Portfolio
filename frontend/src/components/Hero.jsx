@@ -1,6 +1,34 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { ArrowRight, Github, Linkedin, Sparkles } from 'lucide-react';
+
+const Magnetic = ({ children }) => {
+    const ref = useRef(null);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
+    const handleMouse = (e) => {
+        const { clientX, clientY } = e;
+        const { height, width, left, top } = ref.current.getBoundingClientRect();
+        const middleX = clientX - (left + width / 2);
+        const middleY = clientY - (top + height / 2);
+        setPosition({ x: middleX * 0.2, y: middleY * 0.2 });
+    };
+
+    const reset = () => setPosition({ x: 0, y: 0 });
+
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouse}
+            onMouseLeave={reset}
+            animate={{ x: position.x, y: position.y }}
+            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+            className="inline-block"
+        >
+            {children}
+        </motion.div>
+    );
+};
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -20,6 +48,13 @@ const Hero = ({ data }) => {
 
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+
+    const mxSpring = useSpring(mouseX, { stiffness: 100, damping: 30 });
+    const mySpring = useSpring(mouseY, { stiffness: 100, damping: 30 });
+    
+    // Convert relative mouse coords to slight rotations
+    const rotateX = useTransform(mySpring, [0, 800], [12, -12]);
+    const rotateY = useTransform(mxSpring, [0, 1200], [-12, 12]);
 
     const handleMouseMove = (e) => {
         const { clientX, clientY, currentTarget } = e;
@@ -135,25 +170,29 @@ const Hero = ({ data }) => {
 
                 {/* CTA Buttons */}
                 <motion.div variants={itemVariants} className="flex flex-wrap gap-5 pt-4">
-                    <motion.a
-                        whileHover={{ scale: 1.05, y: -4 }}
-                        whileTap={{ scale: 0.96 }}
-                        href="#projects"
-                        className="btn-primary group flex items-center gap-3 px-10 py-5 font-black text-sm tracking-widest uppercase rounded-2xl"
-                    >
-                        Explore Projects
-                        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                    </motion.a>
+                    <Magnetic>
+                        <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.96 }}
+                            href="#projects"
+                            className="btn-primary group flex items-center gap-3 px-10 py-5 font-black text-sm tracking-widest uppercase rounded-2xl"
+                        >
+                            Explore Projects
+                            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                        </motion.a>
+                    </Magnetic>
 
-                    <motion.a
-                        whileHover={{ scale: 1.05, y: -4 }}
-                        whileTap={{ scale: 0.96 }}
-                        href="#contact"
-                        className="group flex items-center gap-3 px-10 py-5 glass-card text-slate-900 font-black text-sm tracking-widest uppercase rounded-2xl border border-slate-200 hover:border-violet-300 transition-all shadow-xl"
-                    >
-                        Contact Me
-                        <Sparkles className="w-5 h-5 text-violet-500 group-hover:animate-spin-slow" />
-                    </motion.a>
+                    <Magnetic>
+                        <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.96 }}
+                            href="#contact"
+                            className="group flex items-center gap-3 px-10 py-5 glass-card text-slate-900 font-black text-sm tracking-widest uppercase rounded-2xl border border-slate-200 hover:border-violet-300 transition-all shadow-xl"
+                        >
+                            Contact Me
+                            <Sparkles className="w-5 h-5 text-violet-500 group-hover:animate-spin-slow" />
+                        </motion.a>
+                    </Magnetic>
                 </motion.div>
 
                 {/* Social links */}
@@ -165,18 +204,19 @@ const Hero = ({ data }) => {
                             { href: data.github, icon: Github, label: 'GitHub' },
                             { href: data.linkedin, icon: Linkedin, label: 'LinkedIn' },
                         ].map(({ href, icon: Icon, label }) => (
-                            <motion.a
-                                key={label}
-                                whileHover={{ scale: 1.15, y: -5 }}
-                                whileTap={{ scale: 0.9 }}
-                                href={href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={label}
-                                className="w-12 h-12 rounded-2xl glass-card border border-slate-200 flex items-center justify-center text-slate-500 hover:text-violet-600 hover:border-violet-300 transition-all shadow-lg"
-                            >
-                                <Icon className="w-5 h-5" />
-                            </motion.a>
+                            <Magnetic key={label}>
+                                <motion.a
+                                    whileHover={{ scale: 1.15 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={label}
+                                    className="w-12 h-12 rounded-2xl glass-card border border-slate-200 flex items-center justify-center text-slate-500 hover:text-violet-600 hover:border-violet-300 transition-all shadow-lg"
+                                >
+                                    <Icon className="w-5 h-5" />
+                                </motion.a>
+                            </Magnetic>
                         ))}
                     </div>
                 </motion.div>
@@ -197,18 +237,24 @@ const Hero = ({ data }) => {
                         className="absolute inset-0 border-[2px] border-dashed border-violet-500/10 rounded-full scale-[1.3] pointer-events-none"
                     />
                     
-                    {/* Profile Image with modern mask */}
+                    {/* Profile Image with 3D Parallax */}
                     <motion.div
-                        whileHover={{ scale: 1.02, rotate: 1 }}
-                        className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[30rem] lg:h-[30rem] overflow-hidden border-[8px] border-white shadow-[0_50px_100px_-20px_rgba(124,58,237,0.2)] group"
-                        style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
+                        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                        className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[30rem] lg:h-[30rem] group perspective-1000"
                     >
-                        <img
-                            src="/profile.png"
-                            alt={data.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-violet-500/20 to-transparent mix-blend-overlay" />
+                        <motion.div
+                            whileHover={{ scale: 1.02 }}
+                            className="w-full h-full overflow-hidden border-[8px] border-white shadow-[0_50px_100px_-20px_rgba(124,58,237,0.3)]"
+                            style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%', transformStyle: "preserve-3d" }}
+                        >
+                            <img
+                                src="/profile.png"
+                                alt={data.name}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 translate-z-10"
+                                style={{ transform: "translateZ(50px)" }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-violet-500/20 to-transparent mix-blend-overlay" />
+                        </motion.div>
                     </motion.div>
 
                     {/* Floating badges with high light mode contrast */}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { Trophy, Award, Target, Star, ShieldCheck, Zap, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const icons = [Trophy, Award, Target, Star, ShieldCheck, Zap];
 const iconColors = ['#7c3aed', '#4f46e5', '#ec4899', '#f97316', '#10b981', '#06b6d4'];
@@ -94,7 +95,7 @@ const AchievementCard = ({ title, index }) => {
     );
 };
 
-const Achievements = ({ achievements }) => {
+const Achievements = ({ achievements, summary = false }) => {
     const items = achievements && achievements.length > 0
         ? achievements.map(a => a.title)
         : [
@@ -103,6 +104,8 @@ const Achievements = ({ achievements }) => {
             "GDG on Campus Member – GIET University",
             "Cyber Security Club Member – GIET University",
         ];
+
+    const displayedItems = summary ? items.slice(0, 2) : items;
 
     return (
         <section id="achievements" className="py-24 relative overflow-visible">
@@ -144,15 +147,23 @@ const Achievements = ({ achievements }) => {
 
             {/* Grid Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
-                {items.map((item, idx) => (
+                {displayedItems.map((item, idx) => (
                     <AchievementCard key={idx} title={item} index={idx} />
                 ))}
             </div>
 
             {/* Bottom Accent */}
-            <div className="mt-32 flex justify-center opacity-30">
-                <div className="w-[1px] h-32 bg-gradient-to-b from-slate-300 via-slate-100 to-transparent" />
-            </div>
+            {summary ? (
+                <div className="mt-20 flex justify-center pb-8 border-none">
+                    <Link to="/achievements" className="px-10 py-5 bg-violet-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-violet-700 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl">
+                        View All Milestones
+                    </Link>
+                </div>
+            ) : (
+                <div className="mt-32 flex justify-center opacity-30">
+                    <div className="w-[1px] h-32 bg-gradient-to-b from-slate-300 via-slate-100 to-transparent" />
+                </div>
+            )}
         </section>
     );
 };

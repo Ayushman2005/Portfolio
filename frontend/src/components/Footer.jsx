@@ -9,7 +9,7 @@ const Footer = ({ data }) => {
 
     const socials = [
         { icon: Github, href: data.github || "https://github.com/Ayushman2005", label: 'GitHub' },
-        { icon: Linkedin, href: data.linkedin || "https://linkedin.com/in/ayushman-kar", label: 'LinkedIn' },
+        { icon: Linkedin, href: data.linkedin || "https://www.linkedin.com/in/ayushman-kar-08370634b/", label: 'LinkedIn' },
         { icon: Mail, href: `mailto:${data.email}`, label: 'Email' },
     ];
 
