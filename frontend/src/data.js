@@ -27,16 +27,19 @@ export const portfolioData = {
     {
       "name": "HTML/CSS/JS",
       "level": 95
-    },
-    {
-      "name": "Cybersecurity & Scapy",
-      "level": 80
     }
   ],
   "projects": [
     {
       "title": "Society Management System (SocietyPro)",
-      "description": "Comprehensive platform for managing residential societies with features like billing, maintenance requests, and community forums.",
+      "description": "A full-featured residential society management web application built with Python Flask and MySQL. SocietyPro enables seamless management of society operations including automated billing cycles, resident maintenance request tracking, notice board announcements, visitor log management, and an interactive community forum. Residents can raise complaints, view their payment history, and communicate directly with the management committee through a clean, mobile-responsive interface.",
+      "highlights": [
+        "Automated billing & invoice generation",
+        "Maintenance request ticket system",
+        "Community forums & announcements",
+        "Visitor log & security management",
+        "Role-based access control (Admin / Resident)"
+      ],
       "technologies": [
         "HTML",
         "CSS",
@@ -51,7 +54,14 @@ export const portfolioData = {
     },
     {
       "title": "Campus Insights Dashboard",
-      "description": "Interactive dashboard for university students to track academic performance, campus events, and resources.",
+      "description": "An intelligent, data-driven academic dashboard designed for university students at GIET University. The platform leverages OCR technology to parse uploaded mark sheets and automatically populates a personalized performance tracker. Students can visualise subject-wise grades, attendance trends, and upcoming campus events on a unified React interface backed by a Flask REST API and a persistent database layer.",
+      "highlights": [
+        "OCR-powered mark sheet parsing",
+        "Subject-wise grade analytics & charts",
+        "Attendance tracking with alerts",
+        "Campus event calendar integration",
+        "TypeScript-safe React frontend"
+      ],
       "technologies": [
         "React",
         "TypeScript",
@@ -64,8 +74,16 @@ export const portfolioData = {
       "demo": "#"
     },
     {
-      "title": "NeuralNotes - Syllabus-Aware AI Doubt Resolution System",
-      "description": "A production-ready, full-stack AI learning assistant that answers student questions exclusively from uploaded syllabus material, preventing hallucinations and ensuring syllabus alignment.",
+      "title": "NeuralNotes — Syllabus-Aware AI Doubt Solver",
+      "description": "A production-ready, full-stack AI learning assistant built during the PS-HK19 Hackathon. NeuralNotes uses a custom Retrieval-Augmented Generation (RAG) engine to answer student questions exclusively from uploaded syllabus PDFs, eliminating hallucinations and keeping answers curriculum-aligned. The system renders complex mathematical equations with KaTeX, persists conversation history in SQLite, and features a real-time streaming response UI — all within a slick React frontend.",
+      "highlights": [
+        "Custom RAG engine — zero hallucinations",
+        "Real-time streaming AI responses",
+        "KaTeX math equation rendering",
+        "SQLite conversation persistence",
+        "PDF syllabus ingestion & chunking pipeline",
+        "Hackathon finalist — PS-HK19 TechieDominators"
+      ],
       "technologies": [
         "Python",
         "RAG Engine",
@@ -80,24 +98,52 @@ export const portfolioData = {
   ],
   "certifications": [
     {
-      "title": "Advanced Machine Learning",
+      "title": "Advanced Machine Learning Specialization",
       "issuer": "Online Coursework",
-      "date": "2024"
+      "date": "2024",
+      "description": "Completed an in-depth specialization covering supervised & unsupervised learning, neural networks, deep learning architectures (CNN, RNN, Transformers), and model deployment best practices using TensorFlow and PyTorch.",
+      "badge": "🧠",
+      "tags": ["Deep Learning", "TensorFlow", "PyTorch", "Neural Networks"]
     },
     {
-      "title": "Web Development",
+      "title": "Full-Stack Web Development",
       "issuer": "Online Coursework",
-      "date": "2024"
+      "date": "2024",
+      "description": "Mastered modern full-stack development including React.js component architecture, Node.js REST APIs, database design with MySQL, and deployment pipelines. Built multiple production-level projects as part of the curriculum.",
+      "badge": "🌐",
+      "tags": ["React", "Node.js", "REST APIs", "MySQL"]
     },
     {
-      "title": "Cybersecurity",
-      "issuer": "Online Coursework",
-      "date": "2024"
+      "title": "NPTEL — Problem Solving through Programming in C",
+      "issuer": "NPTEL (IIT Kharagpur)",
+      "date": "2026",
+      "description": "Successfully completed the NPTEL certification on algorithmic problem solving and programming fundamentals in C, offered by IIT Kharagpur. Covered data structures, recursion, memory management, and efficient algorithm design.",
+      "badge": "🏛️",
+      "tags": ["C Programming", "Algorithms", "Data Structures", "IIT"]
     },
     {
-      "title": "NPTEL Coursework",
-      "issuer": "NPTEL",
-      "date": "2026"
+      "title": "Hackathon Finalist — PS-HK19 TechieDominators",
+      "issuer": "EduTech National Hackathon",
+      "date": "2026",
+      "description": "Reached the finals of the PS-HK19 National EduTech Hackathon as part of Team TechieDominators. Built NeuralNotes — an AI-powered, syllabus-aware doubt resolution system — under a 24-hour deadline, competing against 100+ teams nationwide.",
+      "badge": "🏆",
+      "tags": ["Hackathon", "AI/ML", "RAG", "Team Leadership"]
+    },
+    {
+      "title": "GDG on Campus — Active Member",
+      "issuer": "Google Developer Groups, GIET University",
+      "date": "2026",
+      "description": "Active participant in Google Developer Groups on Campus at GIET University. Engaged in workshops, speaker sessions, and collaborative coding events covering Google technologies, cloud computing, and AI tools.",
+      "badge": "🚀",
+      "tags": ["Google Technologies", "Cloud", "Community", "Leadership"]
+    },
+    {
+      "title": "Active LeetCode Practitioner",
+      "issuer": "LeetCode",
+      "date": "Ongoing",
+      "description": "Consistently practicing Data Structures & Algorithms on LeetCode to sharpen problem-solving skills. Solved 100+ problems spanning arrays, dynamic programming, graphs, trees, and system design challenges.",
+      "badge": "💻",
+      "tags": ["DSA", "Problem Solving", "Algorithms", "Competitive Coding"]
     }
   ],
   "experience": [

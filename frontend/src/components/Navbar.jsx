@@ -33,11 +33,7 @@ const Navbar = ({ name }) => {
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.2 }}
-                    className={`pointer-events-auto w-full max-w-[95rem] rounded-2xl transition-all duration-500 ${
-                        scrolled
-                            ? 'glass-card border border-white/40 shadow-2xl py-3 px-6'
-                            : 'bg-transparent border border-transparent py-4 px-4'
-                    }`}
+                    className="pointer-events-auto w-full max-w-[95rem] rounded-2xl transition-all duration-500 glass-card border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] py-3 px-6 bg-white/80 backdrop-blur-xl"
                 >
                     <div className="flex justify-between items-center w-full">
                         {/* Logo */}
@@ -51,7 +47,6 @@ const Navbar = ({ name }) => {
                             </motion.div>
                             <span className="font-black text-xl md:text-2xl tracking-tighter text-slate-900" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                                 {name ? name.split(' ')[0] : 'Portfolio'}
-                                <span className="text-violet-500">.</span>
                             </span>
                         </Link>
 
@@ -94,16 +89,17 @@ const Navbar = ({ name }) => {
                                 Resume ↗
                             </motion.a>
 
-                            <motion.Link
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
-                                to="/contact"
-                                className="hidden sm:flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-white text-[10px] font-black tracking-[0.2em] uppercase shadow-[0_10px_30px_-5px_rgba(124,58,237,0.4)] transition-all"
-                                style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
-                            >
-                                Let's Connect
-                                <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
-                            </motion.Link>
+                            <Link to="/contact" className="hidden sm:block">
+                                <motion.div
+                                    whileHover={{ scale: 1.05, y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-white text-[10px] font-black tracking-[0.2em] uppercase shadow-[0_10px_30px_-5px_rgba(124,58,237,0.4)] transition-all"
+                                    style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
+                                >
+                                    Let's Connect
+                                    <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
+                                </motion.div>
+                            </Link>
 
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -159,10 +155,13 @@ const Navbar = ({ name }) => {
                                         <Link
                                             to="/contact"
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className="w-full py-5 rounded-2xl text-white text-center font-black tracking-widest uppercase shadow-xl"
-                                            style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
                                         >
-                                            Let's Connect
+                                            <motion.div
+                                                className="w-full py-5 rounded-2xl text-white text-center font-black tracking-widest uppercase shadow-xl"
+                                                style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
+                                            >
+                                                Let's Connect
+                                            </motion.div>
                                         </Link>
                                     </motion.div>
                                 </div>

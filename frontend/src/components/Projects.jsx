@@ -141,9 +141,30 @@ const ProjectCard = ({ project, index }) => {
                         </div>
                     </div>
 
-                    <p className="text-base text-slate-500 leading-relaxed mb-8 flex-1 font-medium line-clamp-3">
+                    <p className="text-base text-slate-500 leading-relaxed mb-6 font-medium">
                         {project.description}
                     </p>
+
+                    {/* Highlights */}
+                    {project.highlights && project.highlights.length > 0 && (
+                        <ul className="mb-8 space-y-2">
+                            {project.highlights.map((h, i) => (
+                                <motion.li
+                                    key={i}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.06 }}
+                                    className="flex items-start gap-2.5 text-[12px] text-slate-500 font-medium leading-snug"
+                                >
+                                    <span className="mt-[3px] w-4 h-4 rounded-md bg-violet-100 border border-violet-200 flex items-center justify-center flex-shrink-0">
+                                        <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.5 6L6.5 2" stroke="#7c3aed" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                    </span>
+                                    {h}
+                                </motion.li>
+                            ))}
+                        </ul>
+                    )}
 
                     <div className="flex flex-wrap gap-2.5 pt-6 border-t border-slate-100">
                         {project.technologies.slice(0, 5).map((tech, i) => {

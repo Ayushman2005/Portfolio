@@ -160,16 +160,8 @@ const Hero = ({ data }) => {
                     </p>
                 </motion.div>
 
-                {/* Bio */}
-                <motion.p
-                    variants={itemVariants}
-                    className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl font-medium"
-                >
-                    {data.bio}
-                </motion.p>
-
                 {/* CTA Buttons */}
-                <motion.div variants={itemVariants} className="flex flex-wrap gap-5 pt-4">
+                <motion.div variants={itemVariants} className="flex flex-wrap gap-5 pt-2">
                     <Magnetic>
                         <motion.a
                             whileHover={{ scale: 1.05 }}
@@ -177,7 +169,7 @@ const Hero = ({ data }) => {
                             href="#projects"
                             className="btn-primary group flex items-center gap-3 px-10 py-5 font-black text-sm tracking-widest uppercase rounded-2xl"
                         >
-                            Explore Projects
+                            View My Work
                             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </motion.a>
                     </Magnetic>
@@ -186,11 +178,11 @@ const Hero = ({ data }) => {
                         <motion.a
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.96 }}
-                            href="#contact"
+                            href="/Resume.pdf"
+                            target="_blank"
                             className="group flex items-center gap-3 px-10 py-5 glass-card text-slate-900 font-black text-sm tracking-widest uppercase rounded-2xl border border-slate-200 hover:border-violet-300 transition-all shadow-xl"
                         >
-                            Contact Me
-                            <Sparkles className="w-5 h-5 text-violet-500 group-hover:animate-spin-slow" />
+                            Resume ↗
                         </motion.a>
                     </Magnetic>
                 </motion.div>

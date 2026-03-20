@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Trophy, Award, Target, Star, ShieldCheck, Zap, ChevronRight } from 'lucide-react';
+import { Trophy, Star, ChevronRight, Calendar, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-const icons = [Trophy, Award, Target, Star, ShieldCheck, Zap];
-const iconColors = ['#7c3aed', '#4f46e5', '#ec4899', '#f97316', '#10b981', '#06b6d4'];
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
     (window.matchMedia('(max-width: 768px)').matches ||
         /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
-const AchievementCard = ({ title, index }) => {
+const accentColors = [
+    { from: '#7c3aed', to: '#4f46e5', ring: 'rgba(124,58,237,0.18)' },
+    { from: '#3b82f6', to: '#06b6d4', ring: 'rgba(59,130,246,0.18)' },
+    { from: '#ec4899', to: '#f97316', ring: 'rgba(236,72,153,0.18)' },
+    { from: '#10b981', to: '#06b6d4', ring: 'rgba(16,185,129,0.18)' },
+    { from: '#f97316', to: '#eab308', ring: 'rgba(249,115,22,0.18)' },
+    { from: '#8b5cf6', to: '#ec4899', ring: 'rgba(139,92,246,0.18)' },
+];
+
+const AchievementCard = ({ item, index }) => {
     const [hovered, setHovered] = useState(false);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -23,23 +29,21 @@ const AchievementCard = ({ title, index }) => {
         mouseY.set(clientY - top);
     };
 
-    const Icon = icons[index % icons.length];
-    const color = iconColors[index % iconColors.length];
-
-    const spotlight = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${color}12, transparent 80%)`;
+    const accent = accentColors[index % accentColors.length];
+    const spotlight = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${accent.ring}, transparent 80%)`;
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ type: "spring", stiffness: 80, damping: 20, delay: index * 0.1 }}
+            transition={{ type: "spring", stiffness: 80, damping: 20, delay: index * 0.08 }}
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             className="group relative h-full"
         >
-            <div className="glass-card relative p-8 md:p-10 rounded-[2.5rem] overflow-hidden border border-slate-200 transition-all duration-500 bg-white/60 hover-glow group-hover:border-violet-200 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)]">
+            <div className="glass-card relative p-8 md:p-10 rounded-[2.5rem] overflow-hidden border border-slate-200 transition-all duration-500 bg-white/70 h-full flex flex-col group-hover:border-violet-200 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)]">
                 {/* Spotlight */}
                 {!isMobile() && (
                     <motion.div
@@ -48,47 +52,78 @@ const AchievementCard = ({ title, index }) => {
                     />
                 )}
 
-                {/* Corner accent */}
-                <div 
-                    className="absolute top-0 right-0 w-32 h-32 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 pointer-events-none"
-                    style={{ 
-                        background: `radial-gradient(circle at top right, ${color}, transparent 70%)`,
-                        borderRadius: '0 0 0 100%'
+                {/* Corner gradient accent */}
+                <div
+                    className="absolute top-0 right-0 w-48 h-48 opacity-[0.04] group-hover:opacity-[0.1] transition-opacity duration-700 pointer-events-none"
+                    style={{
+                        background: `radial-gradient(circle at top right, ${accent.from}, transparent 70%)`,
+                        borderRadius: '0 2.5rem 0 100%'
                     }}
                 />
 
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-8">
-                    {/* Icon Box */}
-                    <motion.div
-                        whileHover={{ rotate: 12, scale: 1.1 }}
-                        className="w-20 h-20 rounded-[1.5rem] flex items-center justify-center flex-shrink-0 shadow-2xl transition-all duration-500 border"
-                        style={{ 
-                            background: `linear-gradient(135deg, ${color}20, ${color}05)`, 
-                            borderColor: `${color}30` 
-                        }}
-                    >
-                        <Icon className="w-10 h-10" style={{ color }} />
-                    </motion.div>
+                <div className="relative z-10 flex flex-col h-full gap-5">
+                    {/* Top row: badge + meta */}
+                    <div className="flex items-start gap-5">
+                        {/* Emoji Badge */}
+                        <motion.div
+                            whileHover={{ rotate: 12, scale: 1.1 }}
+                            className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center flex-shrink-0 text-3xl shadow-xl border"
+                            style={{
+                                background: `linear-gradient(135deg, ${accent.from}18, ${accent.from}06)`,
+                                borderColor: `${accent.from}30`
+                            }}
+                        >
+                            {item.badge || '🏅'}
+                        </motion.div>
 
-                    <div className="flex-1 space-y-3">
-                        <div className="flex items-center gap-3">
-                            <span 
-                                className="px-3 py-1 rounded-lg text-[9px] font-black tracking-[0.2em] uppercase border"
-                                style={{ color, backgroundColor: `${color}10`, borderColor: `${color}20` }}
-                            >
-                                Recognition {String(index + 1).padStart(2, '0')}
-                            </span>
-                            <div className="h-[1px] flex-1 bg-slate-100 group-hover:bg-violet-100 transition-colors" />
+                        <div className="flex-1 min-w-0">
+                            {/* Issuer + Date */}
+                            <div className="flex flex-wrap items-center gap-2 mb-2">
+                                <span
+                                    className="px-3 py-1 rounded-lg text-[9px] font-black tracking-[0.2em] uppercase border"
+                                    style={{ color: accent.from, backgroundColor: `${accent.from}10`, borderColor: `${accent.from}20` }}
+                                >
+                                    {item.issuer || 'Certification'}
+                                </span>
+                                {item.date && (
+                                    <span className="flex items-center gap-1 text-[10px] font-bold text-slate-400">
+                                        <Calendar className="w-3 h-3" />
+                                        {item.date}
+                                    </span>
+                                )}
+                            </div>
+
+                            <h3 className="text-lg md:text-xl font-black text-slate-900 leading-tight tracking-tight group-hover:text-violet-700 transition-colors">
+                                {item.title}
+                            </h3>
                         </div>
-                        
-                        <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight tracking-tight group-hover:text-violet-700 transition-colors">
-                            {title}
-                        </h3>
+
+                        <div className="hidden md:flex opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0 flex-shrink-0">
+                            <ChevronRight className="w-5 h-5 text-slate-300" style={{ color: hovered ? accent.from : undefined }} />
+                        </div>
                     </div>
 
-                    <div className="hidden md:flex opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-                        <ChevronRight className="w-6 h-6 text-slate-300" style={{ color: hovered ? color : undefined }} />
-                    </div>
+                    {/* Description */}
+                    {item.description && (
+                        <p className="text-sm text-slate-500 leading-relaxed font-medium flex-1">
+                            {item.description}
+                        </p>
+                    )}
+
+                    {/* Tags */}
+                    {item.tags && item.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 mt-auto">
+                            {item.tags.map((tag, i) => (
+                                <span
+                                    key={i}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase bg-slate-50 text-slate-600 border border-slate-100 group-hover:border-violet-100 group-hover:bg-violet-50/50 group-hover:text-violet-700 transition-colors"
+                                >
+                                    <Tag className="w-2.5 h-2.5" />
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </motion.div>
@@ -97,12 +132,11 @@ const AchievementCard = ({ title, index }) => {
 
 const Achievements = ({ achievements, summary = false }) => {
     const items = achievements && achievements.length > 0
-        ? achievements.map(a => a.title)
+        ? achievements
         : [
-            "Hackathon Participant – TechieDominators (PS-HK19)",
-            "Active DSA Practice on LeetCode",
-            "GDG on Campus Member – GIET University",
-            "Cyber Security Club Member – GIET University",
+            { title: "Hackathon Participant – TechieDominators (PS-HK19)", badge: "🏆", issuer: "EduTech National Hackathon", date: "2026", description: "Reached the finals building NeuralNotes — an AI-powered, syllabus-aware doubt resolution system." },
+            { title: "Active DSA Practice on LeetCode", badge: "💻", issuer: "LeetCode", date: "Ongoing", description: "Solved 50+ problems in arrays, DP, graphs, and system design." },
+            { title: "GDG on Campus Member – GIET University", badge: "🚀", issuer: "Google Developer Groups", date: "2026", description: "Engaging in workshops, speaker sessions, and collaborative coding events." },
         ];
 
     const displayedItems = summary ? items.slice(0, 2) : items;
@@ -145,10 +179,29 @@ const Achievements = ({ achievements, summary = false }) => {
                 </motion.p>
             </div>
 
+            {/* Trophy stat row */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="grid grid-cols-3 gap-4 mb-16 max-w-2xl"
+            >
+                {[
+                    { value: `${items.length}+`, label: "Milestones" },
+                    { value: "50+", label: "LeetCode Problems" },
+                    { value: "24h", label: "Hackathon Sprint" },
+                ].map((stat, i) => (
+                    <div key={i} className="glass-card rounded-2xl p-5 border border-slate-100 text-center">
+                        <p className="text-3xl font-black text-violet-600" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{stat.value}</p>
+                        <p className="text-[10px] font-black tracking-widest uppercase text-slate-400 mt-1">{stat.label}</p>
+                    </div>
+                ))}
+            </motion.div>
+
             {/* Grid Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
                 {displayedItems.map((item, idx) => (
-                    <AchievementCard key={idx} title={item} index={idx} />
+                    <AchievementCard key={idx} item={item} index={idx} />
                 ))}
             </div>
 

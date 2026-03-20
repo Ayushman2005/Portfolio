@@ -73,10 +73,23 @@ const About = ({ data, summary = false }) => {
                     <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-sm">
                         <GraduationCap className="w-7 h-7" />
                     </div>
-                    <div>
+                    <div className="space-y-4">
                         <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase mb-2">Education</p>
-                        <p className="text-lg font-black text-slate-900 leading-tight">B.Tech - Computer Science</p>
-                        <p className="text-sm font-bold text-slate-500 mt-1">GIET University, 2024 - 2028</p>
+
+                        <div className="border-l-2 border-indigo-200 pl-4 space-y-1">
+                            <p className="text-sm font-black text-slate-900 leading-tight">B.Tech — Computer Science</p>
+                            <p className="text-xs font-bold text-violet-500">GIET University &bull; 2024 – 2028</p>
+                        </div>
+
+                        <div className="border-l-2 border-slate-200 pl-4 space-y-1">
+                            <p className="text-sm font-black text-slate-900 leading-tight">Class 12th (PCM)</p>
+                            <p className="text-xs font-bold text-slate-400">Kendriya Vidyalaya Bargarh &bull; 2024</p>
+                        </div>
+
+                        <div className="border-l-2 border-slate-100 pl-4 space-y-1">
+                            <p className="text-sm font-black text-slate-900 leading-tight">Class 10th</p>
+                            <p className="text-xs font-bold text-slate-400">Kendriya Vidyalaya Bargarh &bull; 2022</p>
+                        </div>
                     </div>
                 </BentoCard>
 
@@ -85,9 +98,18 @@ const About = ({ data, summary = false }) => {
                     <div className="w-14 h-14 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-violet-600 group-hover:text-white transition-all duration-500 shadow-sm">
                         <MapPin className="w-7 h-7" />
                     </div>
-                    <div>
+                    <div className="space-y-3">
                         <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase mb-2">Location</p>
-                        <p className="text-lg font-black text-slate-900">{data.location || "Odisha, India"}</p>
+
+                        <div className="border-l-2 border-violet-200 pl-4 space-y-0.5">
+                            <p className="text-sm font-black text-slate-900">Bargarh, Odisha</p>
+                            <p className="text-xs font-bold text-slate-400">Hometown · 768028, India</p>
+                        </div>
+
+                        <div className="border-l-2 border-slate-200 pl-4 space-y-0.5">
+                            <p className="text-sm font-black text-slate-900">Gunupur, Odisha</p>
+                            <p className="text-xs font-bold text-slate-400">Current · 765022, India</p>
+                        </div>
                     </div>
                 </BentoCard>
 

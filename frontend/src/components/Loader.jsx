@@ -40,10 +40,10 @@ const Loader = ({ onComplete, isDataReady }) => {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, filter: "blur(24px)", scale: 1.05 }}
             transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-8 overflow-hidden bg-slate-50"
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-8 overflow-hidden bg-slate-950"
         >
-            {/* Dot grid bg - Subtle in light mode */}
-            <div className="absolute inset-0 opacity-[0.4] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, rgba(124,58,237,0.1) 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
+            {/* Dot grid bg */}
+            <div className="absolute inset-0 opacity-100 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, rgba(124,58,237,0.15) 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
 
             {/* Ambient blobs */}
             <div className="absolute top-[-25%] left-[-15%] w-[60%] h-[60%] rounded-full blur-[140px] pointer-events-none bg-violet-500/10" />
@@ -70,7 +70,7 @@ const Loader = ({ onComplete, isDataReady }) => {
                 <motion.div
                     animate={{ y: [0, -10, 0] }}
                     transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                    className="relative w-36 h-36 rounded-[2.5rem] flex items-center justify-center z-10 bg-white border-2 border-slate-100 shadow-[0_40px_80px_-20px_rgba(124,58,237,0.4)]"
+                    className="relative w-36 h-36 rounded-[2.5rem] flex items-center justify-center z-10 bg-slate-900/80 backdrop-blur-md border border-white/10 shadow-[0_0_100px_rgba(124,58,237,0.3)]"
                 >
                     {/* Inner pulse */}
                     <motion.div
@@ -80,7 +80,7 @@ const Loader = ({ onComplete, isDataReady }) => {
                     />
 
                     <div className="text-center relative z-20">
-                        <p className="text-4xl font-black text-slate-900 tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                        <p className="text-4xl font-black text-white tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                             {progInt}<span className="text-violet-500 font-bold">%</span>
                         </p>
                     </div>
@@ -110,7 +110,7 @@ const Loader = ({ onComplete, isDataReady }) => {
                 </div>
 
                 {/* Progress Tracking Bar */}
-                <div className="w-80 h-2 bg-slate-200 rounded-full overflow-hidden shadow-inner p-1 flex items-center">
+                <div className="w-80 h-1.5 bg-slate-800 rounded-full overflow-hidden shadow-inner flex items-center">
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${progress}%` }}
@@ -126,8 +126,8 @@ const Loader = ({ onComplete, isDataReady }) => {
                     transition={{ delay: 0.5 }}
                     className="flex flex-col items-center gap-1"
                 >
-                    <p className="text-[9px] font-black tracking-[0.2em] text-slate-300 uppercase">Production by</p>
-                    <p className="text-slate-900 font-black text-2xl tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                    <p className="text-[9px] font-black tracking-[0.2em] text-slate-500 uppercase">Production by</p>
+                    <p className="text-white font-black text-2xl tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                         Ayushman<span className="text-violet-600">.</span>
                     </p>
                 </motion.div>
