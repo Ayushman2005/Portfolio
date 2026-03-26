@@ -43,7 +43,7 @@ const AchievementCard = ({ item, index }) => {
             onMouseLeave={() => setHovered(false)}
             className="group relative h-full"
         >
-            <div className="glass-card relative p-8 md:p-10 rounded-[2.5rem] overflow-hidden border border-slate-200 transition-all duration-500 bg-white/70 h-full flex flex-col group-hover:border-violet-200 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)]">
+            <div className="glass-card relative p-8 md:p-10 rounded-[2.5rem] overflow-hidden border border-transparent transition-all duration-500 bg-black/50 h-full flex flex-col group-hover:border-violet-200 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)]">
                 {/* Spotlight */}
                 {!isMobile() && (
                     <motion.div
@@ -93,7 +93,7 @@ const AchievementCard = ({ item, index }) => {
                                 )}
                             </div>
 
-                            <h3 className="text-lg md:text-xl font-black text-slate-900 leading-tight tracking-tight group-hover:text-violet-700 transition-colors">
+                            <h3 className="text-lg md:text-xl font-black text-white leading-tight tracking-tight group-hover:text-violet-700 transition-colors">
                                 {item.title}
                             </h3>
                         </div>
@@ -112,11 +112,11 @@ const AchievementCard = ({ item, index }) => {
 
                     {/* Tags */}
                     {item.tags && item.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100 mt-auto">
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-transparent mt-auto">
                             {item.tags.map((tag, i) => (
                                 <span
                                     key={i}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase bg-slate-50 text-slate-600 border border-slate-100 group-hover:border-violet-100 group-hover:bg-violet-50/50 group-hover:text-violet-700 transition-colors"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest uppercase bg-[#0a0a0a] text-neutral-500 border border-transparent group-hover:border-violet-100 group-hover:bg-violet-50/50 group-hover:text-violet-700 transition-colors"
                                 >
                                     <Tag className="w-2.5 h-2.5" />
                                     {tag}
@@ -161,7 +161,7 @@ const Achievements = ({ achievements, summary = false }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9]"
+                        className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9]"
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                     >
                         Honors & <br /> <span className="text-gradient">Distinctions.</span>
@@ -191,7 +191,7 @@ const Achievements = ({ achievements, summary = false }) => {
                     { value: "50+", label: "LeetCode Problems" },
                     { value: "24h", label: "Hackathon Sprint" },
                 ].map((stat, i) => (
-                    <div key={i} className="glass-card rounded-2xl p-5 border border-slate-100 text-center">
+                    <div key={i} className="glass-card rounded-2xl p-5 border border-transparent text-center">
                         <p className="text-3xl font-black text-violet-600" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{stat.value}</p>
                         <p className="text-[10px] font-black tracking-widest uppercase text-slate-400 mt-1">{stat.label}</p>
                     </div>

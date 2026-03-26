@@ -28,14 +28,14 @@ const Navbar = ({ name }) => {
 
     return (
         <>
-            <header className="fixed top-0 left-0 right-0 z-[110] px-4 md:px-8 pt-5 flex justify-center pointer-events-none">
+            <header className="fixed top-0 left-0 right-0 z-[110] flex justify-center pointer-events-none">
                 <motion.nav
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ type: "spring", stiffness: 80, damping: 18, delay: 0.2 }}
-                    className="pointer-events-auto w-full max-w-[95rem] rounded-2xl transition-all duration-500 glass-card border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] py-3 px-6 bg-white/80 backdrop-blur-xl"
+                    className="pointer-events-auto w-full transition-all duration-500 bg-black/50 backdrop-blur-2xl border-b border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]"
                 >
-                    <div className="flex justify-between items-center w-full">
+                    <div className="flex justify-between items-center w-full max-w-[100rem] mx-auto px-6 md:px-12 py-4">
                         {/* Logo */}
                         <Link to="/" className="flex items-center gap-2.5 group">
                             <motion.div
@@ -45,7 +45,7 @@ const Navbar = ({ name }) => {
                             >
                                 <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-white" />
                             </motion.div>
-                            <span className="font-black text-xl md:text-2xl tracking-tighter text-slate-900" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                            <span className="font-black text-xl md:text-2xl tracking-tighter text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                                 {name ? name.split(' ')[0] : 'Portfolio'}
                             </span>
                         </Link>
@@ -61,7 +61,7 @@ const Navbar = ({ name }) => {
                                         className={`relative px-4 py-2 rounded-xl text-[10px] lg:text-xs font-black tracking-widest uppercase transition-colors ${
                                             isActive
                                                 ? 'text-violet-600'
-                                                : 'text-slate-500 hover:text-slate-900'
+                                                : 'text-slate-500 hover:text-white'
                                         }`}
                                     >
                                         {isActive && (
@@ -84,7 +84,7 @@ const Navbar = ({ name }) => {
                                 whileTap={{ scale: 0.95 }}
                                 href="/Resume.pdf"
                                 target="_blank"
-                                className="hidden lg:flex items-center gap-2 px-6 py-2.5 rounded-xl border-2 border-slate-100 text-slate-700 text-[10px] font-black tracking-[0.15em] uppercase transition-all hover:border-violet-200 hover:text-violet-600"
+                                className="hidden lg:flex items-center gap-2 px-6 py-2.5 rounded-xl border-2 border-transparent text-neutral-400 text-[10px] font-black tracking-[0.15em] uppercase transition-all hover:border-violet-200 hover:text-violet-600"
                             >
                                 Resume ↗
                             </motion.a>
@@ -97,13 +97,13 @@ const Navbar = ({ name }) => {
                                     style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
                                 >
                                     Let's Connect
-                                    <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-black/40 animate-pulse" />
                                 </motion.div>
                             </Link>
 
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                                className="md:hidden text-slate-700 p-2.5 rounded-xl hover:bg-slate-100 transition-all flex items-center justify-center"
+                                className="md:hidden text-neutral-400 p-2.5 rounded-xl hover:bg-[#121212]/5 transition-all flex items-center justify-center"
                                 aria-label="Toggle Menu"
                             >
                                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -119,7 +119,7 @@ const Navbar = ({ name }) => {
                                 animate={{ height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-                                className="md:hidden border-t border-slate-100 mt-5 overflow-hidden"
+                                className="md:hidden border-t border-transparent mt-5 overflow-hidden"
                             >
                                 <div className="flex flex-col gap-5 py-8 px-4">
                                     {navLinks.map((link, index) => (
@@ -132,7 +132,7 @@ const Navbar = ({ name }) => {
                                             <Link
                                                 to={link.href}
                                                 onClick={() => setMobileMenuOpen(false)}
-                                                className="text-2xl font-black text-slate-900 uppercase tracking-tighter hover:text-violet-600 transition-colors flex items-center justify-between group block w-full"
+                                                className="text-2xl font-black text-white uppercase tracking-tighter hover:text-violet-600 transition-colors flex items-center justify-between group block w-full"
                                             >
                                                 <span>{link.name}</span>
                                                 <div className="w-2 h-2 rounded-full bg-violet-500 opacity-0 group-hover:opacity-100 transition-all scale-0 group-hover:scale-100" />
@@ -148,7 +148,7 @@ const Navbar = ({ name }) => {
                                         <a
                                             href="/Resume.pdf"
                                             target="_blank"
-                                            className="w-full py-5 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-900 text-center font-black tracking-widest uppercase"
+                                            className="w-full py-5 rounded-2xl bg-[#0a0a0a] border-2 border-transparent text-white text-center font-black tracking-widest uppercase"
                                         >
                                             Resume ↗
                                         </a>
@@ -179,7 +179,7 @@ const Navbar = ({ name }) => {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.5, y: 20 }}
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="fixed bottom-8 right-8 z-[100] w-14 h-14 rounded-2xl bg-white shadow-2xl border border-slate-100 flex items-center justify-center text-violet-600 hover:bg-violet-600 hover:text-white transition-all group"
+                        className="fixed bottom-8 right-8 z-[100] w-14 h-14 rounded-2xl bg-[#121212] shadow-2xl border border-transparent flex items-center justify-center text-violet-600 hover:bg-violet-600 hover:text-white transition-all group"
                         aria-label="Back to Top"
                     >
                         <ArrowUp className="w-6 h-6 transition-transform group-hover:-translate-y-1" />

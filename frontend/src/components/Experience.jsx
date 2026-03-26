@@ -43,7 +43,7 @@ const Experience = ({ experience, summary = false }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-8xl font-black tracking-tighter text-slate-900 leading-[0.9]"
+                        className="text-5xl md:text-8xl font-black tracking-tighter text-white leading-[0.9]"
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                     >
                         Career <br /> <span className="text-gradient">Evolution.</span>
@@ -55,7 +55,7 @@ const Experience = ({ experience, summary = false }) => {
                     {/* Animated vertical line */}
                     <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[3px] -translate-x-1/2">
                         {/* Background track */}
-                        <div className="absolute inset-0 bg-slate-100/80 rounded-full" />
+                        <div className="absolute inset-0 bg-[#121212]/5 rounded-full" />
                         {/* Progress fill */}
                         <motion.div
                             className="absolute top-0 left-0 right-0 rounded-full origin-top"
@@ -82,7 +82,7 @@ const Experience = ({ experience, summary = false }) => {
                                     {/* Center marker */}
                                     <motion.div
                                         whileHover={{ scale: 1.15, rotate: 5 }}
-                                        className="absolute left-6 md:left-1/2 -translate-x-1/2 z-30 w-16 h-16 rounded-[1.5rem] border-[4px] border-white bg-white shadow-[0_15px_35px_-5px_rgba(124,58,237,0.3)] flex items-center justify-center flex-shrink-0"
+                                        className="absolute left-6 md:left-1/2 -translate-x-1/2 z-30 w-16 h-16 rounded-[1.5rem] border-[4px] border-transparent bg-[#121212] shadow-[0_15px_35px_-5px_rgba(124,58,237,0.3)] flex items-center justify-center flex-shrink-0"
                                     >
                                         <div className="w-10 h-10 rounded-2xl bg-violet-600 flex items-center justify-center text-white shadow-inner">
                                             <Briefcase className="w-5 h-5" />
@@ -96,10 +96,10 @@ const Experience = ({ experience, summary = false }) => {
                                     <div className={`w-full md:w-[calc(50%-4rem)] pl-24 md:pl-0`}>
                                         <motion.div
                                             whileHover={{ y: -8, x: isEven ? -4 : 4 }}
-                                            className="glass-card p-8 md:p-12 rounded-[2.5rem] hover-glow border border-slate-200 bg-white/70 transition-all duration-500 group relative shadow-xl"
+                                            className="glass-card p-8 md:p-12 rounded-[2.5rem] hover-glow border border-transparent bg-black/50 transition-all duration-500 group relative shadow-xl"
                                         >
                                             {/* Side connector for desktop */}
-                                            <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 w-8 h-[2px] bg-slate-100 ${isEven ? '-right-8' : '-left-8'}`} />
+                                            <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 w-8 h-[2px] bg-[#121212]/5 ${isEven ? '-right-8' : '-left-8'}`} />
 
                                             {/* Period Badge */}
                                             <div className="inline-flex items-center gap-2.5 text-[10px] font-black tracking-widest text-violet-700 bg-violet-50 px-4 py-2 rounded-xl border border-violet-100 mb-8 shadow-sm">
@@ -107,17 +107,17 @@ const Experience = ({ experience, summary = false }) => {
                                                 {job.period.toUpperCase()}
                                             </div>
 
-                                            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-violet-600 transition-colors"
+                                            <h3 className="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight group-hover:text-violet-600 transition-colors"
                                                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                                                 {job.title}
                                             </h3>
 
-                                            <div className="flex items-center gap-3 mb-6 bg-slate-50 w-fit px-4 py-2 rounded-xl border border-slate-100">
+                                            <div className="flex items-center gap-3 mb-6 bg-[#0a0a0a] w-fit px-4 py-2 rounded-xl border border-transparent">
                                                 <Building2 className="w-4 h-4 text-indigo-500" />
-                                                <span className="text-base font-black text-slate-700 uppercase tracking-wide">{job.company}</span>
+                                                <span className="text-base font-black text-neutral-400 uppercase tracking-wide">{job.company}</span>
                                             </div>
 
-                                            <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed mb-6">
+                                            <p className="text-base md:text-lg text-neutral-500 font-medium leading-relaxed mb-6">
                                                 {job.description}
                                             </p>
 

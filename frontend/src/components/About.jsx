@@ -10,7 +10,7 @@ const BentoCard = ({ children, className = "", delay = 0 }) => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-        className={`glass-card p-6 md:p-8 rounded-[2.5rem] border border-slate-200 hover-glow transition-all duration-500 bg-white/50 flex flex-col ${className}`}
+        className={`glass-card p-6 md:p-8 rounded-[2.5rem] border border-transparent hover-glow transition-all duration-500 bg-black/30 flex flex-col ${className}`}
     >
         {children}
     </motion.div>
@@ -37,7 +37,7 @@ const About = ({ data, summary = false }) => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter"
+                    className="text-5xl md:text-7xl font-black text-white tracking-tighter"
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                     Deep Dive <span className="text-gradient">About Me.</span>
@@ -49,10 +49,10 @@ const About = ({ data, summary = false }) => {
                 
                 {/* Main Bio - Large Card */}
                 <BentoCard className="md:col-span-8 md:row-span-2 justify-center">
-                    <h3 className="text-3xl md:text-4xl font-black mb-8 text-slate-900 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                    <h3 className="text-3xl md:text-4xl font-black mb-8 text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                         Architecting Intelligent <br />Digital Solutions.
                     </h3>
-                    <div className="space-y-6 text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
+                    <div className="space-y-6 text-neutral-500 text-lg md:text-xl leading-relaxed font-medium">
                         <p>
                             I'm an undergraduate student at <span className="text-violet-600 font-bold">GIET University</span>, 
                             specializing in Computer Engineering. My journey began with a persistent curiosity about the inner workings of web applications, 
@@ -77,17 +77,17 @@ const About = ({ data, summary = false }) => {
                         <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase mb-2">Education</p>
 
                         <div className="border-l-2 border-indigo-200 pl-4 space-y-1">
-                            <p className="text-sm font-black text-slate-900 leading-tight">B.Tech — Computer Science</p>
+                            <p className="text-sm font-black text-white leading-tight">B.Tech — Computer Science</p>
                             <p className="text-xs font-bold text-violet-500">GIET University &bull; 2024 – 2028</p>
                         </div>
 
-                        <div className="border-l-2 border-slate-200 pl-4 space-y-1">
-                            <p className="text-sm font-black text-slate-900 leading-tight">Class 12th (PCM)</p>
+                        <div className="border-l-2 border-transparent pl-4 space-y-1">
+                            <p className="text-sm font-black text-white leading-tight">Class 12th (PCM)</p>
                             <p className="text-xs font-bold text-slate-400">Kendriya Vidyalaya Bargarh &bull; 2024</p>
                         </div>
 
-                        <div className="border-l-2 border-slate-100 pl-4 space-y-1">
-                            <p className="text-sm font-black text-slate-900 leading-tight">Class 10th</p>
+                        <div className="border-l-2 border-transparent pl-4 space-y-1">
+                            <p className="text-sm font-black text-white leading-tight">Class 10th</p>
                             <p className="text-xs font-bold text-slate-400">Kendriya Vidyalaya Bargarh &bull; 2022</p>
                         </div>
                     </div>
@@ -102,12 +102,12 @@ const About = ({ data, summary = false }) => {
                         <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase mb-2">Location</p>
 
                         <div className="border-l-2 border-violet-200 pl-4 space-y-0.5">
-                            <p className="text-sm font-black text-slate-900">Bargarh, Odisha</p>
+                            <p className="text-sm font-black text-white">Bargarh, Odisha</p>
                             <p className="text-xs font-bold text-slate-400">Hometown · 768028, India</p>
                         </div>
 
-                        <div className="border-l-2 border-slate-200 pl-4 space-y-0.5">
-                            <p className="text-sm font-black text-slate-900">Gunupur, Odisha</p>
+                        <div className="border-l-2 border-transparent pl-4 space-y-0.5">
+                            <p className="text-sm font-black text-white">Gunupur, Odisha</p>
                             <p className="text-xs font-bold text-slate-400">Current · 765022, India</p>
                         </div>
                     </div>
@@ -119,11 +119,11 @@ const About = ({ data, summary = false }) => {
                         <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center group-hover:bg-violet-600 group-hover:text-white transition-all shadow-sm">
                             <Heart className="w-6 h-6" />
                         </div>
-                        <p className="text-lg font-black text-slate-900 uppercase tracking-tighter">Interests</p>
+                        <p className="text-lg font-black text-white uppercase tracking-tighter">Interests</p>
                     </div>
                     <div className="flex flex-wrap gap-2.5">
                         {["Machine Learning", "Cybersecurity", "Web Development", "Arificial Intelligence"].map((item, i) => (
-                            <span key={i} className="px-4 py-2 bg-slate-100 rounded-xl text-[11px] font-black text-slate-600 uppercase tracking-wide">
+                            <span key={i} className="px-4 py-2 bg-[#121212]/5 rounded-xl text-[11px] font-black text-neutral-500 uppercase tracking-wide">
                                 {item}
                             </span>
                         ))}
@@ -135,7 +135,7 @@ const About = ({ data, summary = false }) => {
                    <Coffee className="w-10 h-10 text-violet-500 mb-8" />
                    <div className="relative">
                        <span className="absolute -top-6 -left-2 text-6xl text-violet-500/20 font-serif">"</span>
-                       <p className="text-xl italic font-bold text-slate-800 leading-relaxed relative z-10">
+                       <p className="text-xl italic font-bold text-neutral-300 leading-relaxed relative z-10">
                            Code is the medium through which I translate complex ideas into impactful realities.
                        </p>
                    </div>
@@ -144,11 +144,11 @@ const About = ({ data, summary = false }) => {
                 {/* Stats Card */}
                 <BentoCard className="md:col-span-4 group" delay={0.5}>
                     <div className="grid grid-cols-2 gap-6 h-full">
-                        <div className="text-center p-6 rounded-[2rem] bg-slate-50 flex flex-col justify-center border border-slate-100 shadow-inner">
+                        <div className="text-center p-6 rounded-[2rem] bg-[#0a0a0a] flex flex-col justify-center border border-transparent shadow-inner">
                             <p className="text-4xl font-black text-gradient">03+</p>
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">Projects</p>
                         </div>
-                        <div className="text-center p-6 rounded-[2rem] bg-slate-50 flex flex-col justify-center border border-slate-100 shadow-inner">
+                        <div className="text-center p-6 rounded-[2rem] bg-[#0a0a0a] flex flex-col justify-center border border-transparent shadow-inner">
                             <p className="text-4xl font-black text-gradient">02+</p>
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">Impact</p>
                         </div>
@@ -162,23 +162,23 @@ const About = ({ data, summary = false }) => {
                             <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
                                 <Sparkles className="w-6 h-6" />
                             </div>
-                            <h4 className="text-2xl font-black text-slate-900 tracking-tighter">My Core Principles</h4>
+                            <h4 className="text-2xl font-black text-white tracking-tighter">My Core Principles</h4>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <div className="p-6 rounded-[2rem] bg-[#0a0a0a] border border-transparent hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 <p className="text-[10px] font-black tracking-widest text-violet-500 uppercase mb-3 text-center">Engineering</p>
-                                <h5 className="font-bold text-slate-900 mb-2 text-center text-lg">Scalability First</h5>
-                                <p className="text-sm text-slate-600 text-center font-medium leading-relaxed">Designing clean, reusable, and modern architectures that are fully prepared to grow gracefully and dynamically alongside the user base.</p>
+                                <h5 className="font-bold text-white mb-2 text-center text-lg">Scalability First</h5>
+                                <p className="text-sm text-neutral-500 text-center font-medium leading-relaxed">Designing clean, reusable, and modern architectures that are fully prepared to grow gracefully and dynamically alongside the user base.</p>
                             </div>
-                            <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <div className="p-6 rounded-[2rem] bg-[#0a0a0a] border border-transparent hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 <p className="text-[10px] font-black tracking-widest text-pink-500 uppercase mb-3 text-center">Innovation</p>
-                                <h5 className="font-bold text-slate-900 mb-2 text-center text-lg">Continuous Learning</h5>
-                                <p className="text-sm text-slate-600 text-center font-medium leading-relaxed">Persistently researching and rapidly implementing the absolute cutting-edge in machine learning advancements and responsive web technologies.</p>
+                                <h5 className="font-bold text-white mb-2 text-center text-lg">Continuous Learning</h5>
+                                <p className="text-sm text-neutral-500 text-center font-medium leading-relaxed">Persistently researching and rapidly implementing the absolute cutting-edge in machine learning advancements and responsive web technologies.</p>
                             </div>
-                            <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <div className="p-6 rounded-[2rem] bg-[#0a0a0a] border border-transparent hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 <p className="text-[10px] font-black tracking-widest text-indigo-500 uppercase mb-3 text-center">Experience</p>
-                                <h5 className="font-bold text-slate-900 mb-2 text-center text-lg">User-Centric Empathy</h5>
-                                <p className="text-sm text-slate-600 text-center font-medium leading-relaxed">Fostering intense dedication towards ensuring every technical deployment acts seamlessly, intuitively, and beautifully for the end user.</p>
+                                <h5 className="font-bold text-white mb-2 text-center text-lg">User-Centric Empathy</h5>
+                                <p className="text-sm text-neutral-500 text-center font-medium leading-relaxed">Fostering intense dedication towards ensuring every technical deployment acts seamlessly, intuitively, and beautifully for the end user.</p>
                             </div>
                         </div>
                     </BentoCard>
@@ -192,7 +192,7 @@ const About = ({ data, summary = false }) => {
                                 <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shadow-sm">
                                     <Heart className="w-6 h-6 text-violet-600" />
                                 </div>
-                                <p className="text-lg md:text-xl font-black text-slate-900 tracking-tighter">My Life & Moments</p>
+                                <p className="text-lg md:text-xl font-black text-white tracking-tighter">My Life & Moments</p>
                             </div>
                             <div className="px-4 py-2 bg-slate-900 rounded-full">
                                 <span className="text-[10px] font-black tracking-widest text-white uppercase flex items-center gap-2">

@@ -8,13 +8,16 @@ const SmoothScroll = ({ children }) => {
         if (!isDesktop) return;
 
         const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+            duration: 2.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
             direction: 'vertical',
             gestureDirection: 'vertical',
             smooth: true,
-            mouseMultiplier: 1.1,
+            mouseMultiplier: 0.9,
+            wheelMultiplier: 0.9,
+            lerp: 0.08,
             smoothTouch: false,
+            touchMultiplier: 2,
             infinite: false,
         });
 

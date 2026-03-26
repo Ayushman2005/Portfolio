@@ -68,7 +68,7 @@ const ProjectCard = ({ project, index }) => {
         >
             <motion.div
                 style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="glass-card relative rounded-[2.5rem] overflow-hidden flex flex-col h-full border border-slate-200 transition-all duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(124,58,237,0.15)] group-hover:border-violet-200"
+                className="glass-card relative rounded-[2.5rem] overflow-hidden flex flex-col h-full border border-transparent transition-all duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(124,58,237,0.15)] group-hover:border-violet-200"
             >
                 {/* Spotlight layer */}
                 {!isMobile() && (
@@ -99,7 +99,7 @@ const ProjectCard = ({ project, index }) => {
 
                     {/* Left side badge */}
                     <div className="absolute top-6 left-6 z-20">
-                        <span className="px-4 py-1.5 rounded-xl text-[10px] font-black tracking-widest text-violet-700 uppercase border border-white/80 bg-white/60 backdrop-blur-md shadow-sm">
+                        <span className="px-4 py-1.5 rounded-xl text-[10px] font-black tracking-widest text-violet-700 uppercase border border-transparent bg-black/40 backdrop-blur-md shadow-sm">
                             Case {String(index + 1).padStart(2, '0')}
                         </span>
                     </div>
@@ -111,7 +111,7 @@ const ProjectCard = ({ project, index }) => {
                                 href={project.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-12 h-12 rounded-2xl bg-white shadow-xl border border-slate-100 flex items-center justify-center text-slate-800 hover:text-violet-600 transition-all"
+                                className="w-12 h-12 rounded-2xl bg-[#121212] shadow-xl border border-transparent flex items-center justify-center text-neutral-300 hover:text-violet-600 transition-all"
                             >
                                 <Github className="w-5.5 h-5.5" />
                             </a>
@@ -132,11 +132,11 @@ const ProjectCard = ({ project, index }) => {
                 {/* Content */}
                 <div className="p-8 md:p-10 flex-1 flex flex-col relative z-20">
                     <div className="flex items-start justify-between mb-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight group-hover:text-violet-600 transition-colors flex-1 mr-4"
+                        <h3 className="text-2xl md:text-3xl font-black text-white leading-tight group-hover:text-violet-600 transition-colors flex-1 mr-4"
                             style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                             {project.title}
                         </h3>
-                        <div className="w-10 h-10 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-violet-200 group-hover:bg-violet-50 transition-all shrink-0">
+                        <div className="w-10 h-10 rounded-full border border-transparent flex items-center justify-center group-hover:border-violet-200 group-hover:bg-violet-50 transition-all shrink-0">
                             <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-violet-500 transition-all" />
                         </div>
                     </div>
@@ -166,7 +166,7 @@ const ProjectCard = ({ project, index }) => {
                         </ul>
                     )}
 
-                    <div className="flex flex-wrap gap-2.5 pt-6 border-t border-slate-100">
+                    <div className="flex flex-wrap gap-2.5 pt-6 border-t border-transparent">
                         {project.technologies.slice(0, 5).map((tech, i) => {
                             const icon = getTechIcon(tech);
                             return (
@@ -208,7 +208,7 @@ const Projects = ({ projects, summary = false }) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
-                    className="text-5xl md:text-8xl font-black tracking-tighter text-slate-900 mb-8"
+                    className="text-5xl md:text-8xl font-black tracking-tighter text-white mb-8"
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                     Curated <br /> <span className="text-gradient">Creations.</span>
@@ -254,7 +254,7 @@ const Projects = ({ projects, summary = false }) => {
                         href="https://github.com/Ayushman2005"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-3 px-10 py-5 rounded-2xl glass-card border border-slate-200 text-slate-800 font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:border-violet-300 transition-all shadow-xl"
+                        className="flex items-center gap-3 px-10 py-5 rounded-2xl glass-card border border-transparent text-neutral-300 font-black text-xs tracking-[0.2em] uppercase hover:bg-[#121212] hover:border-violet-300 transition-all shadow-xl"
                     >
                         <Github className="w-5 h-5 mr-1" />
                         GitHub Repository

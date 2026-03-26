@@ -19,7 +19,7 @@ const Footer = ({ data }) => {
             <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
             <div className="max-w-[100rem] mx-auto px-6 relative z-10">
-                <div className="glass-card rounded-[3rem] p-12 md:p-16 border border-slate-200 bg-white shadow-2xl shadow-slate-200/50">
+                <div className="glass-card rounded-[3rem] p-12 md:p-16 border border-transparent bg-[#121212] shadow-2xl shadow-none">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
                         {/* Brand Column */}
                         <div className="lg:col-span-5 space-y-8">
@@ -27,7 +27,7 @@ const Footer = ({ data }) => {
                                 <div className="w-12 h-12 rounded-[1.25rem] flex items-center justify-center shadow-2xl" style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}>
                                     <Sparkles className="w-6 h-6 text-white" />
                                 </div>
-                                <span className="text-3xl font-black text-slate-900 tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                                <span className="text-3xl font-black text-white tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                                     {data.name ? data.name.split(' ')[0] : 'Ayushman'}<span className="text-violet-500">.</span>
                                 </span>
                             </div>
@@ -46,7 +46,7 @@ const Footer = ({ data }) => {
                                         href={href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-violet-600 hover:border-violet-500 hover:text-white transition-all shadow-md group"
+                                        className="w-12 h-12 rounded-2xl bg-[#121212] border border-transparent flex items-center justify-center text-neutral-500 hover:bg-violet-600 hover:border-violet-500 hover:text-white transition-all shadow-md group"
                                     >
                                         <Icon className="w-5.5 h-5.5 transition-transform" />
                                     </motion.a>
@@ -63,7 +63,7 @@ const Footer = ({ data }) => {
                                         <a
                                             key={link}
                                             href={`#${link.toLowerCase()}`}
-                                            className="text-base text-slate-600 font-black hover:text-violet-600 transition-all uppercase tracking-tight"
+                                            className="text-base text-neutral-500 font-black hover:text-violet-600 transition-all uppercase tracking-tight"
                                         >
                                             {link}
                                         </a>
@@ -88,7 +88,7 @@ const Footer = ({ data }) => {
                     </div>
 
                     {/* Horizontal Line */}
-                    <div className="h-[1px] bg-slate-100 mb-10" />
+                    <div className="h-[1px] bg-[#121212]/5 mb-10" />
 
                     {/* Bottom Info Row */}
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8">

@@ -50,49 +50,65 @@ const Loader = ({ onComplete, isDataReady }) => {
             <div className="absolute bottom-[-20%] right-[-10%] w-[55%] h-[55%] rounded-full blur-[140px] pointer-events-none bg-indigo-500/10" />
 
             {/* Loader core container */}
-            <div className="relative flex items-center justify-center mb-24">
-                {/* Orbital Rings */}
-                {[...Array(isMobile() ? 1 : 3)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
-                        transition={{ repeat: Infinity, duration: 10 + i * 5, ease: "linear" }}
-                        className="absolute rounded-[2.5rem]"
+            <div className="relative flex items-center justify-center mb-20 md:mb-28">
+                {/* SVG Circular Progress Bar */}
+                <svg className="absolute w-56 h-56 md:w-72 md:h-72 -rotate-90 pointer-events-none">
+                    <circle
+                        cx="50%"
+                        cy="50%"
+                        r="45%"
+                        className="stroke-slate-800/30 fill-none"
+                        strokeWidth="2"
+                    />
+                    <motion.circle
+                        cx="50%"
+                        cy="50%"
+                        r="45%"
+                        className="stroke-violet-500 fill-none"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: progress / 100 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
                         style={{
-                            width: `${160 + i * 60}px`,
-                            height: `${160 + i * 60}px`,
-                            border: `1.5px ${i === 1 ? 'dashed' : 'solid'} rgba(124,58,237,${0.25 - i * 0.05})`,
+                            filter: 'drop-shadow(0 0 12px rgba(124,58,237,0.8))'
                         }}
                     />
-                ))}
+                </svg>
 
-                {/* Central Identity Capsule */}
+                {/* Rotating Outer Ring Dotted */}
                 <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                    className="relative w-36 h-36 rounded-[2.5rem] flex items-center justify-center z-10 bg-slate-900/80 backdrop-blur-md border border-white/10 shadow-[0_0_100px_rgba(124,58,237,0.3)]"
-                >
-                    {/* Inner pulse */}
-                    <motion.div
-                        className="absolute inset-0 rounded-[2.5rem] bg-violet-600"
-                        animate={{ scale: [1, 1.2, 1.4], opacity: [0.15, 0.05, 0] }}
-                        transition={{ repeat: Infinity, duration: 2.5, ease: "easeOut" }}
-                    />
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+                    className="absolute w-64 h-64 md:w-80 md:h-80 rounded-full border border-dashed border-violet-500/20"
+                />
 
-                    <div className="text-center relative z-20">
-                        <p className="text-4xl font-black text-white tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                            {progInt}<span className="text-violet-500 font-bold">%</span>
-                        </p>
+                {/* Central Image Container */}
+                <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="relative w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden p-2 bg-[#0a0a0a] border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+                >
+                    <div className="w-full h-full rounded-full overflow-hidden relative">
+                         <img
+                            src="/profile.png"
+                            alt="Loading Profile"
+                            className="w-full h-full object-cover filter brightness-90 grayscale-[0.2]"
+                        />
+                        {/* Scanning beam overlay */}
+                        <motion.div 
+                            animate={{ top: ["-100%", "200%"] }}
+                            transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                            className="absolute left-0 right-0 h-10 bg-gradient-to-b from-transparent via-violet-500/30 to-transparent pointer-events-none"
+                        />
                     </div>
                 </motion.div>
 
-                {/* Spinning highlighter */}
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-                    className="absolute w-56 h-56 rounded-[2.5rem]"
-                    style={{ borderTop: '4px solid rgba(124,58,237,0.8)', borderRight: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: '4px solid transparent' }}
-                />
+                {/* Floating percentage next to ring */}
+                <div className="absolute top-[85%] font-black text-2xl md:text-3xl text-white tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                    {progInt}<span className="text-violet-500">%</span>
+                </div>
             </div>
 
             {/* Information Overlay */}

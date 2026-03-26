@@ -28,7 +28,7 @@ const SkillCard = ({ category, delay }) => {
             className="group relative h-full"
             onMouseMove={handleMouseMove}
         >
-            <div className="glass-card relative z-10 p-8 rounded-[2.5rem] h-full flex flex-col hover-glow overflow-hidden border border-slate-200 transition-all duration-500 bg-white/60">
+            <div className="glass-card relative z-10 p-8 rounded-[2.5rem] h-full flex flex-col hover-glow overflow-hidden border border-transparent transition-all duration-500 bg-black/40">
                 {/* Spotlight */}
                 {!isMobile() && (
                     <motion.div
@@ -46,11 +46,11 @@ const SkillCard = ({ category, delay }) => {
                 )}
 
                 {/* Icon */}
-                <div className={`w-16 h-16 rounded-[1.25rem] flex items-center justify-center mb-6 shadow-xl border border-white/40 bg-gradient-to-br ${category.gradient} group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
+                <div className={`w-16 h-16 rounded-[1.25rem] flex items-center justify-center mb-6 shadow-xl border border-transparent bg-gradient-to-br ${category.gradient} group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
                     <category.icon className="w-8 h-8 text-white" />
                 </div>
 
-                <h3 className="text-2xl font-black mb-2 text-slate-900 tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="text-2xl font-black mb-2 text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                     {category.title}
                 </h3>
 
@@ -64,7 +64,7 @@ const SkillCard = ({ category, delay }) => {
                         <span className="text-[10px] font-black tracking-widest uppercase text-slate-400">Proficiency</span>
                         <span className="text-[11px] font-black text-violet-600">{category.proficiency}%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 bg-[#121212]/5 rounded-full overflow-hidden">
                         <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: `${category.proficiency}%` }}
@@ -81,7 +81,7 @@ const SkillCard = ({ category, delay }) => {
                         <motion.div
                             key={i}
                             whileHover={{ y: -3, scale: 1.05 }}
-                            className="flex items-center gap-2.5 px-4 py-2 bg-slate-100 text-slate-700 rounded-xl border border-slate-200/50 text-[11px] font-black tracking-widest uppercase transition-all hover:bg-white hover:text-violet-600 hover:border-violet-200 hover:shadow-md"
+                            className="flex items-center gap-2.5 px-4 py-2 bg-[#121212]/5 text-neutral-400 rounded-xl border border-transparent text-[11px] font-black tracking-widest uppercase transition-all hover:bg-[#121212] hover:text-violet-600 hover:border-violet-200 hover:shadow-md"
                         >
                             {skill.logo ? (
                                 <img src={skill.logo} alt={skill.name} className="w-4 h-4 object-contain filter grayscale group-hover:grayscale-0 transition-all" />
@@ -186,7 +186,7 @@ const Skills = ({ summary = false }) => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="text-5xl md:text-7xl font-black text-slate-900 mb-8 tracking-tighter"
+                    className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter"
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                     Mastery & <span className="text-gradient">Versatility.</span>

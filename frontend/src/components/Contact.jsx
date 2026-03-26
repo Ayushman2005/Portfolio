@@ -18,7 +18,7 @@ const InputField = ({ label, id, type = "text", name, value, onChange, placehold
             onChange={onChange}
             placeholder={placeholder}
             required={required}
-            className="w-full bg-slate-50 border-2 border-slate-100 focus:border-violet-500 focus:bg-white rounded-[1.5rem] px-6 py-5 text-slate-900 font-bold outline-none transition-all placeholder:text-slate-300 text-sm shadow-inner"
+            className="w-full bg-[#0a0a0a] border-2 border-transparent focus:border-violet-500 focus:bg-[#121212] rounded-[1.5rem] px-6 py-5 text-white font-bold outline-none transition-all placeholder:text-neutral-600 text-sm shadow-inner"
         />
     </div>
 );
@@ -105,7 +105,7 @@ const Contact = ({ data }) => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.1 }}
-                                className="text-5xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9]"
+                                className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9]"
                                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                             >
                                 Let's <br /> <span className="text-gradient">Innovate.</span>
@@ -133,24 +133,24 @@ const Contact = ({ data }) => {
                                     transition={{ delay: 0.1 * i }}
                                 >
                                     {href ? (
-                                        <a href={href} className="glass-card p-6 md:p-8 rounded-[2rem] flex items-center gap-6 border border-slate-200 bg-white/50 hover:bg-white hover:border-violet-300 transition-all group shadow-sm hover:shadow-xl">
+                                        <a href={href} className="glass-card p-6 md:p-8 rounded-[2rem] flex items-center gap-6 border border-transparent bg-black/30 hover:bg-[#121212] hover:border-violet-300 transition-all group shadow-sm hover:shadow-xl">
                                             <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110" style={{ background: `${color}15`, border: `1.5px solid ${color}25` }}>
                                                 <Icon className="w-7 h-7" style={{ color }} />
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase mb-1">{label}</p>
-                                                <p className="text-lg font-black text-slate-900 transition-colors group-hover:text-violet-600 truncate">{value}</p>
+                                                <p className="text-lg font-black text-white transition-colors group-hover:text-violet-600 truncate">{value}</p>
                                             </div>
                                             <ArrowRight className="w-6 h-6 text-slate-300 group-hover:text-violet-500 group-hover:translate-x-1 transition-all" />
                                         </a>
                                     ) : (
-                                        <div className="glass-card p-6 md:p-8 rounded-[2rem] flex items-center gap-6 border border-slate-200 bg-white/50 shadow-sm">
+                                        <div className="glass-card p-6 md:p-8 rounded-[2rem] flex items-center gap-6 border border-transparent bg-black/30 shadow-sm">
                                             <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center flex-shrink-0 shadow-lg" style={{ background: `${color}15`, border: `1.5px solid ${color}25` }}>
                                                 <Icon className="w-7 h-7" style={{ color }} />
                                             </div>
                                             <div>
                                                 <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase mb-1">{label}</p>
-                                                <p className="text-lg font-black text-slate-900">{value}</p>
+                                                <p className="text-lg font-black text-white">{value}</p>
                                             </div>
                                         </div>
                                     )}
@@ -167,7 +167,7 @@ const Contact = ({ data }) => {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.3, type: "spring" }}
-                            className="glass-card relative p-10 md:p-16 rounded-[3rem] overflow-hidden border border-slate-200 bg-white shadow-2xl shadow-violet-100"
+                            className="glass-card relative p-10 md:p-16 rounded-[3rem] overflow-hidden border border-transparent bg-[#121212] shadow-2xl shadow-violet-900/20"
                         >
                             {/* Spotlight */}
                             {!isMobile() && (
@@ -181,8 +181,8 @@ const Contact = ({ data }) => {
                             <div className="absolute top-0 left-0 right-0 h-1.5"
                                 style={{ background: 'linear-gradient(90deg, #7c3aed, #4f46e5, #ec4899)' }} />
 
-                            <div className="relative z-10 mb-10 border-b border-slate-100 pb-10">
-                                <h3 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                            <div className="relative z-10 mb-10 border-b border-transparent pb-10">
+                                <h3 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
                                     Quick Message <Sparkles className="w-6 h-6 text-violet-500" />
                                 </h3>
                                 <p className="text-slate-500 font-medium mt-2">I'll respond within the next technical cycle.</p>
@@ -221,7 +221,7 @@ const Contact = ({ data }) => {
                                         rows="6"
                                         placeholder="Describe your project or just say hi..."
                                         required
-                                        className="w-full bg-slate-50 border-2 border-slate-100 focus:border-violet-500 focus:bg-white rounded-[1.5rem] px-6 py-5 text-slate-900 font-bold outline-none transition-all resize-none placeholder:text-slate-300 text-sm shadow-inner"
+                                        className="w-full bg-[#0a0a0a] border-2 border-transparent focus:border-violet-500 focus:bg-[#121212] rounded-[1.5rem] px-6 py-5 text-white font-bold outline-none transition-all resize-none placeholder:text-neutral-600 text-sm shadow-inner"
                                     />
                                 </div>
 
@@ -247,7 +247,7 @@ const Contact = ({ data }) => {
                                     <span className="relative z-10 flex items-center justify-center gap-4">
                                         {loading ? (
                                             <>
-                                                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }} className="w-5 h-5 border-3 border-white/40 border-t-white rounded-full" />
+                                                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }} className="w-5 h-5 border-3 border-transparent border-t-white rounded-full" />
                                                 Processing...
                                             </>
                                         ) : (

@@ -3,14 +3,14 @@
 
 @layer base {
   :root {
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.5);
-    --glass-shadow: rgba(124, 58, 237, 0.08);
+    --glass-bg: rgba(15, 15, 15, 0.65);
+    --glass-border: transparent;
+    --glass-shadow: rgba(0, 0, 0, 0.5);
 
-    --accent-1: #7c3aed; /* violet-600 */
-    --accent-2: #4f46e5; /* indigo-600 */
-    --accent-3: #f97316; /* orange-500 */
-    --gradient-text: linear-gradient(135deg, #7c3aed, #4f46e5, #ec4899);
+    --accent-1: #a78bfa; /* violet-400 */
+    --accent-2: #818cf8; /* indigo-400 */
+    --accent-3: #f472b6; /* pink-400 */
+    --gradient-text: linear-gradient(135deg, #a78bfa, #818cf8, #f472b6);
   }
 
   html {
@@ -19,22 +19,22 @@
     scroll-behavior: smooth;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     min-height: 100%;
-    background-color: #f8fafc;
+    background-color: #050505;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.12) 0px, transparent 55%),
-      radial-gradient(at 100% 0%, rgba(79, 70, 229, 0.1) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.08) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, rgba(124, 58, 237, 0.08) 0px, transparent 50%),
-      radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, rgba(244, 63, 94, 0.04) 0px, transparent 40%),
-      radial-gradient(at 20% 50%, rgba(139, 92, 246, 0.04) 0px, transparent 40%);
+      radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(79, 70, 229, 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(124, 58, 237, 0.1) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, rgba(244, 63, 94, 0.06) 0px, transparent 40%),
+      radial-gradient(at 20% 50%, rgba(139, 92, 246, 0.06) 0px, transparent 40%);
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased overflow-x-hidden;
+    @apply bg-[#050505] text-slate-100 antialiased overflow-x-hidden;
     font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
     text-rendering: optimizeLegibility;
     touch-action: pan-y;
@@ -49,8 +49,8 @@
   }
 
   ::selection {
-    background: rgba(124, 58, 237, 0.2);
-    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.4);
+    color: #ffffff;
   }
 
   /* Custom Scrollbar */
@@ -101,16 +101,16 @@
 
   .dashboard-grid {
     background-size: 40px 40px;
-    background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
   }
 
   /* Tag pill */
   .tag-pill {
     @apply px-3 py-1.5 rounded-xl text-xs font-bold tracking-wide;
-    background: rgba(124, 58, 237, 0.1);
-    border: 1px solid rgba(124, 58, 237, 0.2);
-    color: #7c3aed;
+    background: rgba(167, 139, 250, 0.1);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    color: #a78bfa;
   }
 
   .section-label {
@@ -132,9 +132,10 @@
 /* Mobile optimizations */
 @media (max-width: 768px) {
   .glass-card {
-    background: rgba(255, 255, 255, 0.98) !important;
+    background: rgba(15, 15, 15, 0.98) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
   }
 
   .mesh-bg {

@@ -96,7 +96,7 @@ const ImageCarousel = () => {
                             className={`absolute w-[75%] md:w-[44%] h-[75%] md:h-[82%] rounded-[2rem] overflow-hidden shadow-2xl ${
                                 isActive
                                     ? 'border-2 border-violet-500/60 cursor-grab active:cursor-grabbing'
-                                    : 'border border-white/10 cursor-pointer'
+                                    : 'border border-transparent cursor-pointer'
                             }`}
                             style={{ willChange: 'transform, opacity' }}
                         >

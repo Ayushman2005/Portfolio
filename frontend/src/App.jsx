@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring, MotionConfig } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, MotionConfig, useMotionValue, useTransform } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -14,6 +14,8 @@ import Footer from './components/Footer';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
 import AmbientParticles from './components/AmbientParticles';
+import YouTubeMusicCard from './components/YouTubeMusicCard';
+import Clock from './components/Clock';
 import { portfolioData } from './data';
 
 // Detect mobile/touch devices to skip heavy GPU animations
@@ -22,10 +24,88 @@ const isMobileDevice = () =>
   (window.matchMedia('(max-width: 768px)').matches ||
     /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
+const GlobalMouseGlow = () => {
+  const { scrollY } = useScroll();
+  const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+  const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
+  const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+  const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  if (isMobileDevice()) return null;
+
+  return (
+    <motion.div
+      className="fixed w-[600px] h-[600px] rounded-full blur-[150px] opacity-30 pointer-events-none z-[1] mix-blend-screen"
+      style={{
+        background: 'radial-gradient(circle, rgba(167,139,250,0.4) 0%, rgba(59,130,246,0.1) 50%, transparent 80%)',
+        left: useTransform(smoothX, x => x - 300),
+        top: useTransform(smoothY, y => y - 300)
+      }}
+    />
+  );
+};
+
+const EntranceReveal = ({ name, onComplete }) => {
+  useEffect(() => {
+    const timer = setTimeout(onComplete, 2200);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, y: -100 }}
+      transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+      className="fixed inset-0 z-[99999] bg-[#050505] flex items-center justify-center overflow-hidden"
+    >
+      <div className="relative w-full whitespace-nowrap">
+        <motion.h1
+          initial={{ x: "-100%" }}
+          animate={{ x: "100%" }}
+          transition={{ duration: 2.2, ease: "easeInOut" }}
+          className="text-[12rem] md:text-[20rem] lg:text-[28rem] font-black uppercase text-white tracking-tighter opacity-10 absolute top-1/2 -translate-y-1/2"
+        >
+          {name} — {name}
+        </motion.h1>
+        
+        <div className="relative z-10 flex flex-col items-center">
+            <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+                className="flex flex-col items-center mb-4"
+            >
+                <span className="text-violet-500 font-black tracking-[0.5em] uppercase text-xs mb-4">Establishing Connection</span>
+                <h1 className="text-7xl md:text-9xl font-black text-white tracking-tighter text-center leading-none">
+                     {name.split(' ')[0]}<span className="text-gradient">.</span>
+                </h1>
+            </motion.div>
+            <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: "200px" }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
+                className="h-[2px] bg-gradient-to-r from-transparent via-violet-500 to-transparent"
+            />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 function App() {
   const [data] = useState(portfolioData);
   const [dataLoaded] = useState(true);
   const [terminalFinished, setTerminalFinished] = useState(false);
+  const [introFinished, setIntroFinished] = useState(false);
   const location = useLocation();
 
   // Instantly scroll to top when changing routes
@@ -56,11 +136,27 @@ function App() {
     setTerminalFinished(true);
   }, []);
 
+  const handleIntroComplete = useCallback(() => {
+    setIntroFinished(true);
+  }, []);
+
   const isAppReady = dataLoaded && terminalFinished;
+  const isFullyLoaded = isAppReady && introFinished;
 
   return (
     <SmoothScroll>
-      <div className="relative min-h-screen text-slate-900 selection:bg-violet-500/20 font-sans overflow-x-hidden">
+      <div className="dark relative min-h-screen bg-transparent text-slate-100 selection:bg-violet-500/30 font-sans overflow-x-hidden">
+        
+        {/* Premium Grid Matrix Background for the WHOLE app */}
+        <div className="fixed inset-0 bg-[#050505] -z-20"></div>
+        <div className="fixed inset-0 opacity-[0.15] -z-10" style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+            backgroundSize: '100px 100px',
+            maskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 100%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 100%)'
+        }}></div>
+        <GlobalMouseGlow />
+
         <MotionConfig transition={{ type: "spring", stiffness: 100, damping: 40 }}>
           <AnimatePresence mode="wait">
             {!isAppReady && (
@@ -70,11 +166,19 @@ function App() {
                 onComplete={handleLoaderComplete}
               />
             )}
+            {isAppReady && !introFinished && (
+               <EntranceReveal 
+                key="entrance" 
+                name={data.name} 
+                onComplete={handleIntroComplete} 
+               />
+            )}
           </AnimatePresence>
 
-          {isAppReady && data && (
+          {isFullyLoaded && data && (
             <>
               <Navbar name={data.name} />
+              <YouTubeMusicCard />
               {/* Scroll Progress Bar */}
               <motion.div
                 className="fixed top-0 left-0 right-0 h-[3px] origin-left z-[110]"
@@ -87,7 +191,7 @@ function App() {
           )}
 
           <AnimatePresence>
-            {isAppReady && (
+            {isFullyLoaded && (
               <motion.div
                 key="main-app"
                 initial={{ opacity: 0, scale: 0.99 }}
@@ -131,10 +235,11 @@ function App() {
                           </Routes>
                         </AnimatePresence>
                       </main>
+                      <Clock />
                       <Footer data={data} />
                     </>
                   ) : (
-                    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 space-y-6 text-slate-900">
+                    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 space-y-6 text-slate-100">
                       <h1 className="text-4xl font-bold">
                         Something went wrong.
                       </h1>
