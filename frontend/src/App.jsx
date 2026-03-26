@@ -113,6 +113,32 @@ function App() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  // Disable right-click (inspect) and common developer tool shortcuts
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+    
+    const handleKeydown = (e) => {
+      // Disable F12, Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+Shift+C (Inspect Element), Ctrl+U (View Source)
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'U')
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeydown);
+    
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, []);
+
   const PageTransition = ({ children }) => (
     <motion.div
       initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
