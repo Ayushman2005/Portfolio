@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, MotionConfig, useMotionValue, useTransform } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/next"
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
