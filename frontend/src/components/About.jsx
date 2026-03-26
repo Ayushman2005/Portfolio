@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, MapPin, Heart, Coffee, Sparkles } from 'lucide-react';
+import { GraduationCap, MapPin, Heart, Coffee, Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ImageCarousel from './ImageCarousel';
 
@@ -10,7 +10,7 @@ const BentoCard = ({ children, className = "", delay = 0 }) => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-        className={`glass-card p-6 md:p-8 rounded-[2.5rem] border border-transparent hover-glow transition-all duration-500 bg-black/30 flex flex-col ${className}`}
+        className={`glass-card p-6 md:p-8 flex flex-col ${className}`}
     >
         {children}
     </motion.div>
@@ -209,8 +209,13 @@ const About = ({ data, summary = false }) => {
                 {/* Summary read more button */}
                 {summary && (
                     <div className="md:col-span-12 flex justify-center mt-6">
-                        <Link to="/about" className="px-10 py-5 bg-violet-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-violet-700 transition-colors shadow-xl hover:-translate-y-1 hover:shadow-2xl">
-                            Read Full Biography
+                        <Link to="/about" className="group relative px-12 py-6 rounded-[2rem] bg-[#0a0a0a]/50 backdrop-blur-xl border border-white/5 hover:border-violet-500/30 transition-all duration-500 overflow-hidden shadow-2xl">
+                            {/* Hover Aurora Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-violet-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <span className="relative z-10 text-white font-black text-xs md:text-sm uppercase tracking-[0.4em] flex items-center gap-4">
+                                Read Full Biography
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                            </span>
                         </Link>
                     </div>
                 )}

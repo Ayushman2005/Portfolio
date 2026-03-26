@@ -133,7 +133,7 @@ const Contact = ({ data }) => {
                                     transition={{ delay: 0.1 * i }}
                                 >
                                     {href ? (
-                                        <a href={href} className="glass-card p-6 md:p-8 rounded-[2rem] flex items-center gap-6 border border-transparent bg-black/30 hover:bg-[#121212] hover:border-violet-300 transition-all group shadow-sm hover:shadow-xl">
+                                        <a href={href} className="glass-card p-6 md:p-8 flex items-center gap-6 group">
                                             <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110" style={{ background: `${color}15`, border: `1.5px solid ${color}25` }}>
                                                 <Icon className="w-7 h-7" style={{ color }} />
                                             </div>
@@ -144,7 +144,7 @@ const Contact = ({ data }) => {
                                             <ArrowRight className="w-6 h-6 text-slate-300 group-hover:text-violet-500 group-hover:translate-x-1 transition-all" />
                                         </a>
                                     ) : (
-                                        <div className="glass-card p-6 md:p-8 rounded-[2rem] flex items-center gap-6 border border-transparent bg-black/30 shadow-sm">
+                                        <div className="glass-card p-6 md:p-8 flex items-center gap-6">
                                             <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center flex-shrink-0 shadow-lg" style={{ background: `${color}15`, border: `1.5px solid ${color}25` }}>
                                                 <Icon className="w-7 h-7" style={{ color }} />
                                             </div>
@@ -167,7 +167,7 @@ const Contact = ({ data }) => {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.3, type: "spring" }}
-                            className="glass-card relative p-10 md:p-16 rounded-[3rem] overflow-hidden border border-transparent bg-[#121212] shadow-2xl shadow-violet-900/20"
+                            className="glass-card p-10 md:p-16"
                         >
                             {/* Spotlight */}
                             {!isMobile() && (

@@ -28,7 +28,7 @@ const SkillCard = ({ category, delay }) => {
             className="group relative h-full"
             onMouseMove={handleMouseMove}
         >
-            <div className="glass-card relative z-10 p-8 rounded-[2.5rem] h-full flex flex-col hover-glow overflow-hidden border border-transparent transition-all duration-500 bg-black/40">
+            <div className="glass-card p-8 h-full flex flex-col">
                 {/* Spotlight */}
                 {!isMobile() && (
                     <motion.div

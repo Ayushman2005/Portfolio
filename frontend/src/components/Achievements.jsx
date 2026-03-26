@@ -43,7 +43,7 @@ const AchievementCard = ({ item, index }) => {
             onMouseLeave={() => setHovered(false)}
             className="group relative h-full"
         >
-            <div className="glass-card relative p-8 md:p-10 rounded-[2.5rem] overflow-hidden border border-transparent transition-all duration-500 bg-black/50 h-full flex flex-col group-hover:border-violet-200 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)]">
+            <div className="glass-card p-8 md:p-10 h-full flex flex-col">
                 {/* Spotlight */}
                 {!isMobile() && (
                     <motion.div

@@ -96,7 +96,7 @@ const Experience = ({ experience, summary = false }) => {
                                     <div className={`w-full md:w-[calc(50%-4rem)] pl-24 md:pl-0`}>
                                         <motion.div
                                             whileHover={{ y: -8, x: isEven ? -4 : 4 }}
-                                            className="glass-card p-8 md:p-12 rounded-[2.5rem] hover-glow border border-transparent bg-black/50 transition-all duration-500 group relative shadow-xl"
+                                            className="glass-card p-8 md:p-12 group"
                                         >
                                             {/* Side connector for desktop */}
                                             <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 w-8 h-[2px] bg-[#121212]/5 ${isEven ? '-right-8' : '-left-8'}`} />

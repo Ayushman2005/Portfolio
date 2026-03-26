@@ -23,7 +23,7 @@ const YouTubeMusicCard = () => {
             className="mb-4 w-[320px] origin-bottom-left relative group select-none cursor-pointer"
           >
             <a href={playlistLink} target="_blank" rel="noopener noreferrer" className="block relative">
-              <div className="w-full rounded-[24px] p-5 relative overflow-hidden bg-[#e5e7eb] dark:bg-black/60 backdrop-blur-2xl border border-transparent shadow-xl">
+              <div className="glass-card w-full p-5 shadow-xl">
                  {/* Subtle gradient glowing backgrounds */}
                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF0000]/20 rounded-full blur-[50px] -z-10 mix-blend-screen pointer-events-none"></div>
                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#121212]/5 rounded-full blur-[40px] -z-10 mix-blend-screen pointer-events-none"></div>

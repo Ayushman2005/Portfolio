@@ -68,7 +68,7 @@ const ProjectCard = ({ project, index }) => {
         >
             <motion.div
                 style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="glass-card relative rounded-[2.5rem] overflow-hidden flex flex-col h-full border border-transparent transition-all duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(124,58,237,0.15)] group-hover:border-violet-200"
+                className="glass-card flex flex-col h-full"
             >
                 {/* Spotlight layer */}
                 {!isMobile() && (
