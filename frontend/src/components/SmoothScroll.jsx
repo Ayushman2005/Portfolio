@@ -4,22 +4,22 @@ import Lenis from 'lenis';
 const SmoothScroll = ({ children }) => {
     useEffect(() => {
         // Native scrolling is always smoother on mobile — only enable Lenis on desktop
-        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
-        if (!isDesktop) return;
-
         const lenis = new Lenis({
-            duration: 2.2,
+            duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
             direction: 'vertical',
             gestureDirection: 'vertical',
             smooth: true,
-            mouseMultiplier: 0.9,
-            wheelMultiplier: 0.9,
-            lerp: 0.08,
-            smoothTouch: false,
+            mouseMultiplier: 1,
+            wheelMultiplier: 1,
+            lerp: 0.1,
+            smoothTouch: true,
             touchMultiplier: 2,
             infinite: false,
         });
+
+        // Expose lenis to window for use in navigation
+        window.lenis = lenis;
 
         let rafId;
         function raf(time) {

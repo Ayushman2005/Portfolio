@@ -76,3 +76,6 @@ Desktop.ini
 *.ntvs*
 *.njsproj
 *.sln
+
+frontend/build_err.txt
+frontend/clean_build_err.txt

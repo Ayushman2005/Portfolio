@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Trophy, Star, ChevronRight, Calendar, Tag } from 'lucide-react';
+import { Trophy, Star, ChevronRight, Calendar, Tag, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { GitHubCalendar } from 'react-github-calendar';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -168,16 +169,161 @@ const Achievements = ({ achievements, summary = false }) => {
                     </motion.h2>
                 </div>
 
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
-                    className="max-w-md text-lg md:text-xl text-slate-500 font-medium leading-relaxed"
-                >
-                    Celebrating competitive achievements, community leadership, and certifications that define my growth.
-                </motion.p>
+                <div className="flex flex-col gap-8 max-w-md">
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed"
+                    >
+                        Celebrating competitive achievements, community leadership, and certifications that define my growth.
+                    </motion.p>
+                    
+                    {!summary && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-emerald-500/80 text-[10px] font-black uppercase tracking-[0.2em] w-fit"
+                        >
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            Live Data Integration Active
+                        </motion.div>
+                    )}
+                </div>
             </div>
+
+            {/* Live Stats Performance Dashboard */}
+            {!summary && (
+                <div className="flex flex-col gap-8 mb-20 md:mb-32">
+                    {/* Full-Width GitHub Contributions Heatmap */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="glass-card p-6 md:p-10 w-full overflow-hidden relative group"
+                    >
+                        <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
+                            <Github className="w-24 h-24 text-emerald-500" />
+                        </div>
+                        
+                        <div className="relative z-10 w-full flex flex-col gap-6">
+                            <div className="flex items-center gap-4 mb-2">
+                                <div className="w-12 h-12 rounded-xl bg-[#0a0a0a] border border-white/5 flex items-center justify-center">
+                                    <Github className="w-6 h-6 text-emerald-400" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">Open Source Activity</h3>
+                                    <p className="text-[10px] font-black tracking-widest text-emerald-500 uppercase mt-1">Yearly Contributions Heatmap</p>
+                                </div>
+                            </div>
+            
+                            <div className="w-full overflow-x-auto overflow-y-hidden pt-2 pb-6 custom-scrollbar">
+                                <div className="w-fit min-w-[700px] mx-auto bg-[#050505]/40 p-6 md:p-8 rounded-2xl border border-white/5 backdrop-blur-sm">
+                                    <GitHubCalendar 
+                                        username="Ayushman2005"
+                                        colorScheme="dark"
+                                        blockSize={14}
+                                        blockMargin={5}
+                                        fontSize={14}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Half-Width Stats Metrics */}
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="glass-card p-10 relative group overflow-hidden"
+                        >
+                        <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
+                            <Star className="w-24 h-24 text-violet-500" />
+                        </div>
+                        <div className="relative z-10 flex flex-col gap-6">
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-black tracking-widest text-violet-500 uppercase">Competitive Matrix</p>
+                                    <h3 className="text-3xl font-black text-white tracking-tight">LeetCode Activity</h3>
+                                </div>
+                                <div className="w-12 h-12 rounded-xl bg-[#0a0a0a] border border-white/5 flex items-center justify-center">
+                                    <Trophy className="w-6 h-6 text-yellow-500" />
+                                </div>
+                            </div>
+                            
+                            <div className="w-full overflow-hidden rounded-2xl border border-white/5 bg-[#050505]/40 p-4 min-h-[160px] flex items-center justify-center backdrop-blur-sm">
+                                <img 
+                                    src="https://leetcard.jacoblin.cool/Ayushman005?theme=dark&font=Space%20Grotesk&ext=activity" 
+                                    alt="LeetCode Stats" 
+                                    className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                                />
+                            </div>
+                            
+                            <div className="flex items-center gap-6 mt-2">
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Efficiency</span>
+                                    <span className="text-lg font-black text-white">Consistent</span>
+                                </div>
+                                <div className="w-[1px] h-8 bg-white/10"></div>
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Focus</span>
+                                    <span className="text-lg font-black text-white">DSA & Logic</span>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="glass-card p-10 relative group overflow-hidden"
+                    >
+                        <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
+                            <Star className="w-24 h-24 text-indigo-500" />
+                        </div>
+                        <div className="relative z-10 flex flex-col gap-6">
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-1">
+                                    <p className="text-[10px] font-black tracking-widest text-indigo-500 uppercase">Engineering Pulse</p>
+                                    <h3 className="text-3xl font-black text-white tracking-tight">GitHub Ecosystem</h3>
+                                </div>
+                                <div className="w-12 h-12 rounded-xl bg-[#0a0a0a] border border-white/5 flex items-center justify-center">
+                                    <Star className="w-6 h-6 text-indigo-500" />
+                                </div>
+                            </div>
+                            
+                            <div className="w-full overflow-hidden rounded-2xl border border-white/5 bg-[#050505]/40 p-4 min-h-[160px] flex items-center justify-center backdrop-blur-sm">
+                                <img 
+                                    src="https://streak-stats.demolab.com/?user=Ayushman2005&theme=dark&hide_border=true&background=00000000&ring=7c3aed&fire=7c3aed&currStreakNum=ffffff&currStreakLabel=a78bfa&sideNums=ffffff&sideLabels=94a3b8&dates=94a3b8" 
+                                    alt="GitHub Stats" 
+                                    className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                                />
+                            </div>
+                            
+                            <div className="flex items-center gap-6 mt-2">
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Velocity</span>
+                                    <span className="text-lg font-black text-white">High Impact</span>
+                                </div>
+                                <div className="w-[1px] h-8 bg-white/10"></div>
+                                <div className="flex flex-col">
+                                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Environment</span>
+                                    <span className="text-lg font-black text-white">Open Source</span>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
+            )}
 
             {/* Trophy stat row */}
             <motion.div

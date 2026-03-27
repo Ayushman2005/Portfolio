@@ -27,6 +27,7 @@ const Navbar = ({ name }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+
     return (
         <>
             <header className="fixed top-0 left-0 right-0 z-[110] flex justify-center pointer-events-none">
@@ -156,7 +157,7 @@ const Navbar = ({ name }) => {
                                         <motion.div
                                             key={link.name}
                                             initial={{ x: -40, opacity: 0, rotateX: -20 }}
-                                            whileInView={{ x: 0, opacity: 1, rotateX: 0 }}
+                                            animate={{ x: 0, opacity: 1, rotateX: 0 }}
                                             transition={{ 
                                                 type: "spring", 
                                                 stiffness: 300, 

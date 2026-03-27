@@ -186,7 +186,7 @@ const Hero = ({ data }) => {
                         <div className="absolute inset-0 border border-white/10 bg-[#0a0a0a]/60 backdrop-blur-3xl rounded-[2rem] overflow-hidden flex items-center justify-center shadow-2xl transition-all duration-700">
                             {/* Inner Profile Image with cinematic styling */}
                             <img 
-                                src="/profile.png" 
+                                src="https://github.com/Ayushman2005.png" 
                                 alt={data.name} 
                                 className="w-full h-full object-cover object-top scale-100 opacity-90 mix-blend-luminosity filter contrast-125 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105 group-hover:mix-blend-normal"
                             />
