@@ -1,11 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const YouTubeMusicCard = () => {
   const [isHovered, setIsHovered] = useState(false);
   
-  // Replace this with your exact playlist URL
-  const playlistLink = "https://music.youtube.com/playlist?list=PLQdYle6qwS4nDmf7ZNZEuZGxozT_PYZyD";
+  // Fallback in case of API failure or loading state
+  const [currentSong, setCurrentSong] = useState({
+    title: "Loading...",
+    artist: "Getting playlist",
+    thumbnail: "https://i.ytimg.com/vi/4NRXx6U8ABQ/hqdefault.jpg",
+    url: "https://music.youtube.com/playlist?list=PLQdYle6qwS4nDmf7ZNZEuZGxozT_PYZyD"
+  });
+
+  useEffect(() => {
+    const fetchPlaylist = async () => {
+      try {
+        const playlistId = "PLQdYle6qwS4nDmf7ZNZEuZGxozT_PYZyD";
+        const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        const data = await response.json();
+
+        if (data.status === 'ok' && data.items.length > 0) {
+          // Calculate the day of the year
+          const now = new Date();
+          const start = new Date(now.getFullYear(), 0, 0);
+          const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+          const oneDay = 1000 * 60 * 60 * 24;
+          const dayOfYear = Math.floor(diff / oneDay);
+          
+          const targetSong = data.items[dayOfYear % data.items.length];
+          
+          // Clean up " - Topic" from YouTube music authors
+          let artistName = targetSong.author;
+          if (artistName.endsWith(" - Topic")) {
+            artistName = artistName.replace(" - Topic", "");
+          }
+
+          setCurrentSong({
+            title: targetSong.title,
+            artist: artistName,
+            thumbnail: targetSong.thumbnail,
+            url: targetSong.link
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch YouTube playlist:", error);
+        setCurrentSong({
+          title: "Blinding Lights",
+          artist: "The Weeknd",
+          thumbnail: "https://i.ytimg.com/vi/4NRXx6U8ABQ/hqdefault.jpg",
+          url: "https://music.youtube.com/watch?v=4NRXx6U8ABQ"
+        });
+      }
+    };
+
+    fetchPlaylist();
+  }, []);
 
   return (
     <div 
@@ -22,7 +72,7 @@ const YouTubeMusicCard = () => {
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="mb-4 w-[320px] origin-bottom-left relative group select-none cursor-pointer"
           >
-            <a href={playlistLink} target="_blank" rel="noopener noreferrer" className="block relative">
+            <a href={currentSong.url} target="_blank" rel="noopener noreferrer" className="block relative">
               <div className="glass-card w-full p-5 shadow-xl">
                  {/* Subtle gradient glowing backgrounds */}
                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF0000]/20 rounded-full blur-[50px] -z-10 mix-blend-screen pointer-events-none"></div>
@@ -55,7 +105,7 @@ const YouTubeMusicCard = () => {
                     <div className="relative shrink-0">
                        <div className="w-16 h-16 bg-gradient-to-br from-neutral-200 to-neutral-400 dark:from-neutral-800 dark:to-neutral-900 rounded-2xl flex items-center justify-center shadow-lg border border-transparent overflow-hidden relative">
                           <img 
-                            src="https://i.ytimg.com/pl_c/PLQdYle6qwS4nDmf7ZNZEuZGxozT_PYZyD/studio_square_thumbnail.jpg?sqp=CJyQlM4G-oaymwEKCKAEEKAEIABIWqLzl_8DBgiVjtDKBg&rs=AMzJL3nzZ53PulNhLVHhTji18UNUGPtFtQ" 
+                            src={currentSong.thumbnail} 
                             alt="Album Cover" 
                             className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-500"
                           />
@@ -72,13 +122,13 @@ const YouTubeMusicCard = () => {
                           UPDATED DAILY
                        </span>
                        <h3 className="text-black dark:text-white text-[15px] font-extrabold truncate leading-tight mb-0.5 tracking-tight shadow-sm">
-                          My Portfolio Mix
+                          {currentSong.title}
                        </h3>
                        <p className="text-neutral-600 dark:text-neutral-400 text-[13px] font-medium truncate leading-tight mb-0.5">
-                          Various Artists
+                          {currentSong.artist}
                        </p>
                        <p className="text-neutral-500 text-[11px] truncate leading-tight">
-                          YouTube Music | Daily Rotation
+                          YouTube Music | Song of the Day
                        </p>
                     </div>
                  </div>

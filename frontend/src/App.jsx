@@ -16,6 +16,7 @@ import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
 import AmbientParticles from './components/AmbientParticles';
 import YouTubeMusicCard from './components/YouTubeMusicCard';
+import Chatbot from './components/Chatbot';
 import Clock from './components/Clock';
 import { portfolioData } from './data';
 
@@ -206,6 +207,7 @@ function App() {
             <>
               <Navbar name={data.name} />
               <YouTubeMusicCard />
+              <Chatbot />
               {/* Scroll Progress Bar */}
               <motion.div
                 className="fixed top-0 left-0 right-0 h-[3px] origin-left z-[110]"
