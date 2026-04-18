@@ -208,22 +208,6 @@ const Navbar = ({ name }) => {
                     </AnimatePresence>
                 </motion.nav>
             </header>
-
-            {/* Back to top button */}
-            <AnimatePresence>
-                {scrolled && (
-                    <motion.button
-                        initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className="fixed bottom-8 right-8 z-[100] w-14 h-14 rounded-2xl bg-[#121212] shadow-2xl border border-transparent flex items-center justify-center text-violet-600 hover:bg-violet-600 hover:text-white transition-all group"
-                        aria-label="Back to Top"
-                    >
-                        <ArrowUp className="w-6 h-6 transition-transform group-hover:-translate-y-1" />
-                    </motion.button>
-                )}
-            </AnimatePresence>
         </>
     );
 };

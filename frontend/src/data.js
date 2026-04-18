@@ -135,7 +135,7 @@ export const portfolioData = {
       "tags": ["Hackathon", "AI/ML", "RAG", "Team Leadership"]
     },
     {
-      "title": "GDG on Campus — Active Member",
+      "title": "GDG on Campus — Active Participant",
       "issuer": "Google Developer Groups, GIET University",
       "date": "2026",
       "description": "Active participant in Google Developer Groups on Campus at GIET University. Engaged in workshops, speaker sessions, and collaborative coding events covering Google technologies, cloud computing, and AI tools.",
@@ -146,7 +146,7 @@ export const portfolioData = {
       "title": "Active LeetCode Practitioner",
       "issuer": "LeetCode",
       "date": "Ongoing",
-      "description": "Consistently practicing Data Structures & Algorithms on LeetCode to sharpen problem-solving skills. Solved 100+ problems spanning arrays, dynamic programming, graphs, trees, and system design challenges.",
+      "description": "Consistently practicing Data Structures & Algorithms on LeetCode to sharpen problem-solving skills. Solved 50+ problems spanning arrays, dynamic programming, graphs, trees, and system design challenges.",
       "badge": "💻",
       "tags": ["DSA", "Problem Solving", "Algorithms", "Competitive Coding"]
     }

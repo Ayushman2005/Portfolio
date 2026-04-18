@@ -14,9 +14,9 @@ const Footer = ({ data }) => {
     ];
 
     return (
-        <footer className="relative w-full overflow-hidden mt-20 pt-20 border-t border-white/10 bg-[#050505]/80 backdrop-blur-3xl z-40">
+        <footer className="relative w-full overflow-hidden mt-20 pt-20 border-t border-white/10 bg-[#050505]/95 backdrop-blur-md z-40" style={{ willChange: "transform" }}>
             {/* Dynamic Background Glows */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-600/20 blur-[150px] pointer-events-none rounded-full"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] pointer-events-none rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(124,58,237,0.15) 0%, transparent 70%)", willChange: "opacity" }}></div>
             
             {/* Glowing top lip */}
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-violet-500/50 to-transparent"></div>

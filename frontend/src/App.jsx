@@ -258,8 +258,8 @@ function App() {
                 {!isMobileDevice() && (
                   <>
                     <AmbientParticles />
-                    <div className="fixed top-[-15%] left-[-10%] w-[60%] h-[60%] bg-violet-600/[0.05] blur-[100px] rounded-full pointer-events-none animate-blob" style={{ willChange: 'transform' }} />
-                    <div className="fixed bottom-[-10%] right-[-10%] w-[55%] h-[55%] bg-indigo-600/[0.04] blur-[100px] rounded-full pointer-events-none animate-blob animation-delay-4000" style={{ willChange: 'transform' }} />
+                    <div className="fixed top-[-15%] left-[-10%] w-[60%] h-[60%] pointer-events-none animate-blob" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 60%)", willChange: 'transform' }} />
+                    <div className="fixed bottom-[-10%] right-[-10%] w-[55%] h-[55%] pointer-events-none animate-blob animation-delay-4000" style={{ background: "radial-gradient(circle, rgba(79,70,229,0.04) 0%, transparent 60%)", willChange: 'transform' }} />
                   </>
                 )}
 

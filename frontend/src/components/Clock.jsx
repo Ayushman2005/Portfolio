@@ -80,7 +80,8 @@ const Clock = () => {
           animate={{ scale: 1.2, opacity: 1, rotateZ: 0 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           viewBox="0 0 300 300" 
-          className="w-full h-full fill-white drop-shadow-[0_0_80px_rgba(255,255,255,0.4)]"
+          className="w-full h-full fill-white/80"
+          style={{ willChange: "transform, opacity" }}
         >
           <path d={silhouettes[zone] || silhouettes['India']} />
         </motion.svg>
@@ -91,7 +92,7 @@ const Clock = () => {
             animate={{ opacity: 1, x: 0 }}
             className="absolute top-1/2 right-4 md:right-12 -translate-y-1/2 flex flex-col items-end gap-1 opacity-20"
         >
-            <span className="text-8xl md:text-[12rem] font-black uppercase text-white tracking-widest leading-none select-none drop-shadow-[0_0_30px_white]">{zone.charAt(0)}</span>
+            <span className="text-8xl md:text-[12rem] font-black uppercase text-white tracking-widest leading-none select-none">{zone.charAt(0)}</span>
             <span className="text-xs font-black text-white tracking-[1em] uppercase border-t border-white/40 pt-2">{zone}</span>
         </motion.div>
       </div>
@@ -115,11 +116,11 @@ const Clock = () => {
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d", willChange: "transform" }}
         className="relative w-full max-w-[100rem] mx-auto px-6 md:px-16 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24 z-10"
       >
         {/* Dynamic Multi-Color Aurora Background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-violet-600/20 via-indigo-600/20 to-blue-600/20 blur-[150px] rounded-full pointer-events-none opacity-40 group-hover:opacity-80 group-hover:scale-110 transition-all duration-[2000ms]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none opacity-40 group-hover:opacity-80 transition-all duration-[2000ms] rounded-full" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, rgba(79,70,229,0.15) 40%, transparent 70%)", willChange: "opacity" }}></div>
         
         {/* Pattern overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] select-none mix-blend-overlay" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
@@ -130,7 +131,7 @@ const Clock = () => {
              style={{ transform: "translateZ(80px)" }}
              className="absolute inset-0 flex items-center justify-center w-full h-full"
           >
-            <svg className="w-full h-full -rotate-90 drop-shadow-[0_0_30px_rgba(139,92,246,0.3)] filter overflow-visible" viewBox="-130 -130 260 260">
+            <svg className="w-full h-full -rotate-90 overflow-visible" style={{ willChange: "transform" }} viewBox="-130 -130 260 260">
                 <defs>
                   <filter id="glow-sec">
                      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -266,9 +267,9 @@ const Clock = () => {
               { label: 'Minutes', val: minutes, color: 'indigo' },
               { label: 'Seconds', val: seconds, color: 'violet' }
             ].map((item, idx) => (
-              <motion.div key={item.label} whileHover={{ y: -5, scale: 1.05, rotateX: 10, translateZ: 20 }} className={`group/card flex flex-col p-6 rounded-3xl glass-card border border-white/5 backdrop-blur-2xl shadow-2xl transition-all duration-300 relative overflow-hidden`}>
+              <motion.div key={item.label} whileHover={{ y: -5, scale: 1.05, rotateX: 10, translateZ: 20 }} className={`group/card flex flex-col p-6 rounded-3xl glass-card border border-white/5 backdrop-blur-md shadow-xl transition-all duration-300 relative overflow-hidden`} style={{ willChange: "transform" }}>
                 {/* Glow ring */}
-                <div className={`absolute -inset-0.5 bg-gradient-to-br from-${item.color}-600/0 via-${item.color}-600/30 to-transparent rounded-3xl opacity-0 group-hover/card:opacity-100 blur-sm transition-opacity duration-500`} />
+                <div className={`absolute -inset-0.5 bg-gradient-to-br from-${item.color}-600/0 via-${item.color}-600/30 to-transparent rounded-3xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`} />
                 <div className={`absolute inset-0 bg-gradient-to-br from-${item.color}-600/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`}></div>
                 
                 <span className={`text-[11px] uppercase tracking-[0.3em] text-${item.color}-400 font-black mb-2 relative z-10 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]`}>{item.label}</span>
