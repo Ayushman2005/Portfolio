@@ -31,35 +31,62 @@ export const portfolioData = {
   ],
   "projects": [
     {
+      "title": "NeuralNotes — Syllabus-Aware AI Doubt Solver",
+      "type": "AI / ML System",
+      "description": "A production-ready, full-stack AI learning assistant built during the PS-HK19 Hackathon. Uses custom RAG to answer questions strictly from curriculum PDFs.",
+      "problem": "Generative AI models often hallucinate academic answers or provide out-of-syllabus information, making them unreliable for strict academic environments.",
+      "solution": "Engineered a custom Retrieval-Augmented Generation (RAG) engine that ingests syllabus PDFs, chunks data, and restricts AI query responses strictly to curriculum context.",
+      "results": "Achieved zero hallucinations for syllabus questions. Reached the finals of the National EduTech Hackathon competing against 100+ teams.",
+      "highlights": [
+        "Custom RAG engine pipeline",
+        "Real-time streaming AI responses",
+        "KaTeX math equation rendering",
+        "Hackathon finalist project"
+      ],
+      "technologies": [
+        "Python",
+        "RAG Engine",
+        "React",
+        "Flask",
+        "SQLite"
+      ],
+      "image": "/images/Neural_Notes.png",
+      "github": "https://github.com/Ayushman2005/PS-HK19_TECHIEDOMINATORS_EDUTECH.git",
+      "demo": "https://github.com/Ayushman2005/PS-HK19_TECHIEDOMINATORS_EDUTECH.git"
+    },
+    {
       "title": "Society Management System (SocietyPro)",
-      "description": "A full-featured residential society management web application built with Python Flask and MySQL. SocietyPro enables seamless management of society operations including automated billing cycles, resident maintenance request tracking, notice board announcements, visitor log management, and an interactive community forum. Residents can raise complaints, view their payment history, and communicate directly with the management committee through a clean, mobile-responsive interface.",
+      "type": "Full-Stack Web App",
+      "description": "A comprehensive residential society management platform handling automated billing, ticketing, and community management.",
+      "problem": "Residential societies rely on manual logbooks and disconnected WhatsApp groups, causing delayed billing, lost maintenance requests, and security risks.",
+      "solution": "Developed a secure Flask + MySQL dashboard with role-based access control, automated invoice generation, and a centralized notice board.",
+      "results": "Streamlined operational management; automated 100% of recurring invoice cycles and drastically reduced resident ticket resolution times.",
       "highlights": [
         "Automated billing & invoice generation",
         "Maintenance request ticket system",
-        "Community forums & announcements",
-        "Visitor log & security management",
         "Role-based access control (Admin / Resident)"
       ],
       "technologies": [
-        "HTML",
-        "CSS",
-        "JavaScript",
         "Python",
         "Flask",
-        "MySQL"
+        "MySQL",
+        "JavaScript",
+        "HTML/CSS"
       ],
       "image": "/images/Society_Pro.png",
       "github": "https://github.com/Ayushman2005/SocietyPro",
-      "demo": "#"
+      "demo": "https://github.com/Ayushman2005/SocietyPro"
     },
     {
       "title": "Campus Insights Dashboard",
-      "description": "An intelligent, data-driven academic dashboard designed for university students at GIET University. The platform leverages OCR technology to parse uploaded mark sheets and automatically populates a personalized performance tracker. Students can visualise subject-wise grades, attendance trends, and upcoming campus events on a unified React interface backed by a Flask REST API and a persistent database layer.",
+      "type": "Data Automation & Analytics",
+      "description": "An intelligent academic dashboard leveraging OCR to parse student mark sheets and visualize trends.",
+      "problem": "University students struggle to track cumulative academic performance and attendances from rigid, static PDF marksheets provided by institutions.",
+      "solution": "Integrated an OCR data-extraction pipeline within a Flask REST API to parse PDFs, feeding parsed data into a personalized React performance tracking UI.",
+      "results": "Eliminated manual data entry, providing students with instant graphical analytics of their academic trajectory and predictive attendance alerts.",
       "highlights": [
         "OCR-powered mark sheet parsing",
         "Subject-wise grade analytics & charts",
-        "Attendance tracking with alerts",
-        "Campus event calendar integration",
         "TypeScript-safe React frontend"
       ],
       "technologies": [
@@ -71,29 +98,7 @@ export const portfolioData = {
       ],
       "image": "/images/Campus_Insights.png",
       "github": "https://github.com/Ayushman2005/campus-insight",
-      "demo": "#"
-    },
-    {
-      "title": "NeuralNotes — Syllabus-Aware AI Doubt Solver",
-      "description": "A production-ready, full-stack AI learning assistant built during the PS-HK19 Hackathon. NeuralNotes uses a custom Retrieval-Augmented Generation (RAG) engine to answer student questions exclusively from uploaded syllabus PDFs, eliminating hallucinations and keeping answers curriculum-aligned. The system renders complex mathematical equations with KaTeX, persists conversation history in SQLite, and features a real-time streaming response UI — all within a slick React frontend.",
-      "highlights": [
-        "Custom RAG engine — zero hallucinations",
-        "Real-time streaming AI responses",
-        "KaTeX math equation rendering",
-        "SQLite conversation persistence",
-        "PDF syllabus ingestion & chunking pipeline",
-        "Hackathon finalist — PS-HK19 TechieDominators"
-      ],
-      "technologies": [
-        "Python",
-        "RAG Engine",
-        "React",
-        "KaTeX",
-        "SQLite"
-      ],
-      "image": "/images/Neural_Notes.png",
-      "github": "https://github.com/Ayushman2005/PS-HK19_TECHIEDOMINATORS_EDUTECH.git",
-      "demo": "#"
+      "demo": "https://github.com/Ayushman2005/campus-insight"
     }
   ],
   "certifications": [

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Code2, BrainCircuit, Layout, Server, Zap } from 'lucide-react';
+import { Code2, BrainCircuit, Layout, Server, Zap, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const isMobile = () =>
@@ -213,8 +213,13 @@ const Skills = ({ summary = false }) => {
             {/* Scroll hint line */}
             {summary ? (
                 <div className="mt-20 flex justify-center pb-8 border-none">
-                    <Link to="/skills" className="px-10 py-5 bg-violet-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-violet-700 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl">
-                        View Complete Arsenal
+                    <Link to="/skills" className="group relative px-12 py-6 rounded-[2rem] bg-[#0a0a0a]/50 backdrop-blur-xl border border-white/5 hover:border-violet-500/30 transition-all duration-500 overflow-hidden shadow-2xl">
+                        {/* Hover Aurora Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-violet-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <span className="relative z-10 text-white font-black text-xs md:text-sm uppercase tracking-[0.4em] flex items-center gap-4">
+                            View Complete Arsenal
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                        </span>
                     </Link>
                 </div>
             ) : (

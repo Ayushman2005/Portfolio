@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Github, ExternalLink, Code2, ArrowUpRight } from 'lucide-react';
+import { Github, ExternalLink, Code2, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const isMobile = () =>
@@ -141,9 +141,44 @@ const ProjectCard = ({ project, index }) => {
                         </div>
                     </div>
 
-                    <p className="text-base text-slate-500 leading-relaxed mb-6 font-medium">
-                        {project.description}
-                    </p>
+                    {project.description && (
+                        <p className="text-base text-slate-500 leading-relaxed mb-4 font-medium">
+                            {project.description}
+                        </p>
+                    )}
+
+                    <div className="space-y-4 mb-6 relative z-10">
+                        {project.problem && (
+                            <div>
+                                <h4 className="text-[11px] font-black text-rose-400 uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                                    <span className="w-1 h-1 rounded-full bg-rose-500"></span> Problem Statement
+                                </h4>
+                                <p className="text-sm text-slate-400 leading-relaxed">{project.problem}</p>
+                            </div>
+                        )}
+                        {project.solution && (
+                            <div>
+                                <h4 className="text-[11px] font-black text-blue-400 uppercase tracking-widest mb-1.5 flex items-center gap-2">
+                                    <span className="w-1 h-1 rounded-full bg-blue-500"></span> Solution
+                                </h4>
+                                <p className="text-sm text-slate-400 leading-relaxed">{project.solution}</p>
+                            </div>
+                        )}
+                        {project.results && (
+                            <div className="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl mt-2">
+                                <h4 className="text-[11px] font-black text-emerald-400 uppercase tracking-widest mb-1 flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Results & Impact
+                                </h4>
+                                <p className="text-sm text-emerald-100/90 leading-relaxed font-semibold">{project.results}</p>
+                            </div>
+                        )}
+                        
+                        {project.type && (
+                            <div className="inline-block px-3 py-1 bg-violet-600/10 border border-violet-500/20 rounded-lg mt-2">
+                                <span className="text-[10px] font-black text-violet-400 uppercase tracking-widest">{project.type}</span>
+                            </div>
+                        )}
+                    </div>
 
                     {/* Highlights */}
                     {project.highlights && project.highlights.length > 0 && (
@@ -200,7 +235,7 @@ const Projects = ({ projects, summary = false }) => {
                     className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-700 text-[11px] font-black tracking-widest uppercase mb-8"
                 >
                     <Code2 className="w-3.5 h-3.5" />
-                    Work Portfolio
+                    Featured Projects
                 </motion.div>
 
                 <motion.h2
@@ -242,10 +277,14 @@ const Projects = ({ projects, summary = false }) => {
                 {summary ? (
                     <Link
                         to="/projects"
-                        className="flex items-center gap-3 px-10 py-5 rounded-2xl bg-violet-600 text-white font-black text-xs tracking-[0.2em] uppercase hover:bg-violet-700 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl"
+                        className="group relative px-12 py-6 rounded-[2rem] bg-[#0a0a0a]/50 backdrop-blur-xl border border-white/5 hover:border-violet-500/30 transition-all duration-500 overflow-hidden shadow-2xl"
                     >
-                        View All Projects
-                        <ArrowUpRight className="w-4 h-4 ml-1 text-white" />
+                        {/* Hover Aurora Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-violet-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <span className="relative z-10 text-white font-black text-xs md:text-sm uppercase tracking-[0.4em] flex items-center gap-4">
+                            View All Projects
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                        </span>
                     </Link>
                 ) : (
                     <motion.a

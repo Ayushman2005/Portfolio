@@ -16,7 +16,6 @@ import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
 import AmbientParticles from './components/AmbientParticles';
 import YouTubeMusicCard from './components/YouTubeMusicCard';
-import Chatbot from './components/Chatbot';
 import Clock from './components/Clock';
 import { portfolioData } from './data';
 
@@ -53,6 +52,33 @@ const GlobalMouseGlow = () => {
         top: useTransform(smoothY, y => y - 300)
       }}
     />
+  );
+};
+
+const GlobalMarquee = ({ name }) => {
+  return (
+    <div className="fixed inset-0 w-[100vw] h-[100vh] opacity-[0.06] select-none pointer-events-none z-0 flex flex-col justify-center overflow-hidden">
+        {/* Rotation adds a highly requested premium tilt without risking sharp bounding boxes cutting it oddly */}
+        <div className="absolute inset-x-[-50%] top-[-50%] bottom-[-50%] flex flex-col justify-center -rotate-[4deg]">
+            {[...Array(12)].map((_, rowIndex) => (
+                <motion.div
+                    key={rowIndex}
+                    animate={{ x: rowIndex % 2 === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+                    transition={{ duration: 30 + rowIndex * 5, repeat: Infinity, ease: "linear" }}
+                    className="flex whitespace-nowrap my-[-1%]"
+                >
+                    {[...Array(12)].map((_, i) => (
+                        <div key={i} className="flex items-center shrink-0">
+                            <h1 className="text-[12rem] md:text-[18rem] lg:text-[24rem] font-black uppercase text-white tracking-tighter leading-none drop-shadow-xl">
+                                {name}
+                            </h1>
+                            <span className="text-[8rem] md:text-[12rem] text-white/20 px-8 md:px-16 font-black">—</span>
+                        </div>
+                    ))}
+                </motion.div>
+            ))}
+        </div>
+    </div>
   );
 };
 
@@ -184,8 +210,9 @@ function App() {
             WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, #000 30%, transparent 100%)'
         }}></div>
         <GlobalMouseGlow />
+        {data && <GlobalMarquee name={data.name} />}
 
-        <MotionConfig transition={{ type: "spring", stiffness: 100, damping: 40 }}>
+        <MotionConfig transition={{ type: "spring", stiffness: 70, damping: 20, mass: 0.8 }}>
           <AnimatePresence mode="wait">
             {!isAppReady && (
               <Loader
@@ -207,7 +234,6 @@ function App() {
             <>
               <Navbar name={data.name} />
               <YouTubeMusicCard />
-              <Chatbot />
               {/* Scroll Progress Bar */}
               <motion.div
                 className="fixed top-0 left-0 right-0 h-[3px] origin-left z-[110]"

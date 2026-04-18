@@ -43,8 +43,8 @@ const Hero = ({ data }) => {
     // Smooth cursor follow
     const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
     const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
-    const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-    const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+    const smoothX = useSpring(mouseX, { stiffness: 40, damping: 20 });
+    const smoothY = useSpring(mouseY, { stiffness: 40, damping: 20 });
 
     const handleMouseMove = (e) => {
         const { clientX, clientY } = e;
@@ -63,24 +63,8 @@ const Hero = ({ data }) => {
         <section
             id="hero"
             onMouseMove={handleMouseMove}
-            className="min-h-[100svh] relative flex items-center justify-center pt-32 pb-20 overflow-hidden pointer-events-none"
+            className="min-h-screen relative flex items-center justify-center pt-24 lg:pt-32 pb-16 pointer-events-none"
         >
-            {/* Massive Parallax Background Name Tracking Scroll */}
-            <motion.div style={{ y: y1 }} className="absolute whitespace-nowrap top-1/4 -left-[10%] opacity-[0.02] select-none pointer-events-none z-0">
-                <h1 className="text-[12rem] md:text-[18rem] lg:text-[24rem] font-black uppercase text-white tracking-tighter leading-none">
-                    {data.name} — {data.name}
-                </h1>
-            </motion.div>
-
-            {/* Premium Grid Matrix Background */}
-            <div className="absolute inset-0 bg-[#050505] -z-20"></div>
-            <div className="absolute inset-0 opacity-20 -z-10" style={{
-                backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-                backgroundSize: '100px 100px',
-                maskImage: 'radial-gradient(ellipse 80% 50% at 50% 50%, #000 20%, transparent 100%)',
-                WebkitMaskImage: 'radial-gradient(ellipse 80% 50% at 50% 50%, #000 20%, transparent 100%)'
-            }}></div>
-            
             {/* Interactive Flashlight Glow following Cursor */}
             {!isMobile() && (
                 <motion.div
@@ -93,7 +77,7 @@ const Hero = ({ data }) => {
                 />
             )}
 
-            <div className="w-full max-w-[100rem] mx-auto px-6 md:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-20 lg:gap-8">
+            <div className="w-full max-w-[100rem] mx-auto px-6 md:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
                 
                 {/* Left Side: Typography & Interactions */}
                 <motion.div 
@@ -114,7 +98,7 @@ const Hero = ({ data }) => {
                         <h2 className="text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-[0.3em] mb-4">
                             System Initialized //
                         </h2>
-                        <h1 className="text-6xl sm:text-7xl md:text-8xl xl:text-9xl font-black text-white tracking-tighter leading-[0.9] flex flex-col">
+                        <h1 className="text-5xl sm:text-7xl md:text-8xl xl:text-9xl font-black text-white tracking-tighter leading-[0.9] flex flex-col mt-2">
                             <span className="drop-shadow-sm">{firstName}</span> 
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-blue-400 drop-shadow-md mt-1">
                                 {lastName}
@@ -122,9 +106,22 @@ const Hero = ({ data }) => {
                         </h1>
                     </div>
 
-                    <p className="text-lg md:text-xl text-neutral-400 max-w-lg mb-12 leading-relaxed border-l-2 border-violet-500/40 pl-6 shadow-sm">
+                    <p className="text-lg md:text-xl text-neutral-400 max-w-lg mb-8 leading-relaxed border-l-2 border-violet-500/40 pl-6 shadow-sm">
                         Bridging the gap between cutting-edge Artificial Intelligence and robust Full-Stack Architecture.
                     </p>
+
+                    {/* Power Headline */}
+                    <div className="flex flex-col gap-3 mb-12 border-l-2 border-fuchsia-500/40 pl-6 shadow-sm">
+                        <p className="text-sm md:text-base text-neutral-300 font-bold tracking-wide">
+                            <span className="text-violet-400">Python</span> <span className="text-neutral-500">&rarr;</span> Built ML models + APIs
+                        </p>
+                        <p className="text-sm md:text-base text-neutral-300 font-bold tracking-wide">
+                            <span className="text-blue-400">React</span> <span className="text-neutral-500">&rarr;</span> Built responsive dashboards
+                        </p>
+                        <p className="text-sm md:text-base text-neutral-300 font-bold tracking-wide">
+                            <span className="text-fuchsia-400">ML</span> <span className="text-neutral-500">&rarr;</span> Worked on RAG + prediction systems
+                        </p>
+                    </div>
 
                     <div className="flex flex-col sm:flex-row flex-wrap items-center gap-6 w-full">
                         <Magnetic strength={0.2}>
@@ -178,12 +175,12 @@ const Hero = ({ data }) => {
                 >
                     <motion.div 
                         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                        className="relative w-[280px] h-[360px] sm:w-[320px] sm:h-[400px] lg:w-[380px] lg:h-[480px] rounded-[2rem] mx-auto lg:mx-0 group"
+                        className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[380px] lg:h-[380px] rounded-full mx-auto lg:mx-0 group"
                     >
                         {/* Huge Ambient Glow behind the card */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-transparent to-blue-600 rounded-[2rem] opacity-20 blur-3xl group-hover:opacity-40 transition-opacity duration-700"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-transparent to-blue-600 rounded-full opacity-20 blur-3xl group-hover:opacity-40 transition-opacity duration-700"></div>
                         
-                        <div className="absolute inset-0 border border-white/10 bg-[#0a0a0a]/60 backdrop-blur-3xl rounded-[2rem] overflow-hidden flex items-center justify-center shadow-2xl transition-all duration-700">
+                        <div className="absolute inset-0 border border-white/10 bg-[#0a0a0a]/60 backdrop-blur-3xl rounded-full overflow-hidden flex items-center justify-center shadow-2xl transition-all duration-700">
                             {/* Inner Profile Image with cinematic styling */}
                             <img 
                                 src="https://github.com/Ayushman2005.png" 
@@ -194,44 +191,12 @@ const Hero = ({ data }) => {
                             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700"></div>
                             
                             {/* Inner abstract geometric decoration */}
-                            <div className="absolute top-0 right-0 p-6 flex flex-col items-end gap-1.5 opacity-40">
+                            <div className="absolute top-8 right-8 flex flex-col items-end gap-1.5 opacity-40">
                                 <div className="w-8 h-1 bg-violet-500 rounded-full"></div>
                                 <div className="w-5 h-1 bg-blue-500 rounded-full"></div>
                                 <div className="w-3 h-1 bg-white rounded-full"></div>
                             </div>
                         </div>
-
-                        {/* Floating Status Card 1 */}
-                        <motion.div 
-                            animate={{ y: [0, -12, 0] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                            style={{ transform: "translateZ(60px)" }}
-                            className="absolute -left-4 lg:-left-16 top-1/4 bg-[#121212]/95 border border-white/5 backdrop-blur-xl p-3.5 md:p-5 rounded-2xl shadow-2xl flex items-center gap-3 md:gap-4"
-                        >
-                            <div className="w-10 h-10 md:w-12 md:h-12 bg-violet-500/10 border border-violet-500/20 rounded-xl flex items-center justify-center">
-                                <Cpu className="w-5 h-5 md:w-6 md:h-6 text-violet-400" />
-                            </div>
-                            <div className="pr-2">
-                                <p className="text-[9px] md:text-[10px] text-neutral-500 font-black uppercase tracking-widest leading-none mb-1 md:mb-1.5">Logic Pipeline</p>
-                                <p className="text-xs md:text-sm text-white font-extrabold tracking-tight leading-none">AI Architecture</p>
-                            </div>
-                        </motion.div>
-
-                        {/* Floating Status Card 2 */}
-                        <motion.div 
-                            animate={{ y: [0, 12, 0] }}
-                            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                            style={{ transform: "translateZ(80px)" }}
-                            className="absolute -right-4 lg:-right-12 bottom-1/4 bg-[#121212]/95 border border-white/5 backdrop-blur-xl p-3.5 md:p-5 rounded-2xl shadow-2xl flex items-center gap-3 md:gap-4"
-                        >
-                            <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-center justify-center">
-                                <Code2 className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
-                            </div>
-                            <div className="pr-2">
-                                <p className="text-[9px] md:text-[10px] text-neutral-500 font-black uppercase tracking-widest leading-none mb-1 md:mb-1.5">Stack</p>
-                                <p className="text-xs md:text-sm text-white font-extrabold tracking-tight leading-none">Full-Stack Dev</p>
-                            </div>
-                        </motion.div>
                     </motion.div>
                 </motion.div>
             </div>

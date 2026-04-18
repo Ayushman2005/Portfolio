@@ -52,7 +52,7 @@ const Navbar = ({ name }) => {
                                 <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-white" />
                             </motion.div>
                             <span className="font-black text-xl md:text-2xl tracking-tighter text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                                {name ? name.split(' ')[0] : 'Portfolio'}
+                                {name ? name.split(' ')[0] : 'Ayushman'}
                             </span>
                         </Link>
 

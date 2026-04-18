@@ -5,17 +5,12 @@ const SmoothScroll = ({ children }) => {
     useEffect(() => {
         // Native scrolling is always smoother on mobile — only enable Lenis on desktop
         const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            wheelMultiplier: 1,
-            lerp: 0.1,
-            smoothTouch: true,
+            lerp: 0.06, // Ultra-smooth scroll interpolation
+            wheelMultiplier: 1.1, // Slight boost for native speed matching
+            smoothWheel: true,
+            syncTouch: true,
+            smoothTouch: false,
             touchMultiplier: 2,
-            infinite: false,
         });
 
         // Expose lenis to window for use in navigation
