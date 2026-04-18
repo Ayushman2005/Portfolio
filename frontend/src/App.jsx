@@ -26,7 +26,6 @@ const isMobileDevice = () =>
     /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
 
 const GlobalMouseGlow = () => {
-  const { scrollY } = useScroll();
   const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
   const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
   const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
@@ -45,11 +44,12 @@ const GlobalMouseGlow = () => {
 
   return (
     <motion.div
-      className="fixed w-[600px] h-[600px] rounded-full blur-[150px] opacity-30 pointer-events-none z-[1] mix-blend-screen"
+      className="fixed top-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-[1]"
       style={{
-        background: 'radial-gradient(circle, rgba(167,139,250,0.4) 0%, rgba(59,130,246,0.1) 50%, transparent 80%)',
-        left: useTransform(smoothX, x => x - 300),
-        top: useTransform(smoothY, y => y - 300)
+        background: 'radial-gradient(circle, rgba(167,139,250,0.15) 0%, rgba(59,130,246,0.05) 50%, transparent 70%)',
+        x: useTransform(smoothX, x => x - 300),
+        y: useTransform(smoothY, y => y - 300),
+        willChange: 'transform'
       }}
     />
   );
@@ -57,22 +57,23 @@ const GlobalMouseGlow = () => {
 
 const GlobalMarquee = ({ name }) => {
   return (
-    <div className="fixed inset-0 w-[100vw] h-[100vh] opacity-[0.06] select-none pointer-events-none z-0 flex flex-col justify-center overflow-hidden">
+    <div className="fixed inset-0 w-full h-full opacity-[0.04] select-none pointer-events-none z-0 flex flex-col justify-center overflow-hidden" style={{ willChange: 'transform' }}>
         {/* Rotation adds a highly requested premium tilt without risking sharp bounding boxes cutting it oddly */}
-        <div className="absolute inset-x-[-50%] top-[-50%] bottom-[-50%] flex flex-col justify-center -rotate-[4deg]">
-            {[...Array(12)].map((_, rowIndex) => (
+        <div className="absolute inset-x-[-20%] top-[-20%] bottom-[-20%] flex flex-col justify-center -rotate-[4deg]">
+            {[...Array(6)].map((_, rowIndex) => (
                 <motion.div
                     key={rowIndex}
                     animate={{ x: rowIndex % 2 === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
-                    transition={{ duration: 30 + rowIndex * 5, repeat: Infinity, ease: "linear" }}
+                    transition={{ duration: 45 + rowIndex * 5, repeat: Infinity, ease: "linear" }}
                     className="flex whitespace-nowrap my-[-1%]"
+                    style={{ willChange: 'transform' }}
                 >
-                    {[...Array(12)].map((_, i) => (
+                    {[...Array(4)].map((_, i) => (
                         <div key={i} className="flex items-center shrink-0">
-                            <h1 className="text-[12rem] md:text-[18rem] lg:text-[24rem] font-black uppercase text-white tracking-tighter leading-none drop-shadow-xl">
+                            <h1 className="text-[10rem] md:text-[14rem] lg:text-[18rem] font-black uppercase text-white tracking-tighter leading-none">
                                 {name}
                             </h1>
-                            <span className="text-[8rem] md:text-[12rem] text-white/20 px-8 md:px-16 font-black">—</span>
+                            <span className="text-[6rem] md:text-[10rem] text-white/20 px-8 md:px-16 font-black">—</span>
                         </div>
                     ))}
                 </motion.div>
@@ -257,8 +258,8 @@ function App() {
                 {!isMobileDevice() && (
                   <>
                     <AmbientParticles />
-                    <div className="fixed top-[-15%] left-[-10%] w-[60%] h-[60%] bg-violet-600/[0.07] blur-[160px] rounded-full pointer-events-none animate-blob" />
-                    <div className="fixed bottom-[-10%] right-[-10%] w-[55%] h-[55%] bg-indigo-600/[0.06] blur-[140px] rounded-full pointer-events-none animate-blob animation-delay-4000" />
+                    <div className="fixed top-[-15%] left-[-10%] w-[60%] h-[60%] bg-violet-600/[0.05] blur-[100px] rounded-full pointer-events-none animate-blob" style={{ willChange: 'transform' }} />
+                    <div className="fixed bottom-[-10%] right-[-10%] w-[55%] h-[55%] bg-indigo-600/[0.04] blur-[100px] rounded-full pointer-events-none animate-blob animation-delay-4000" style={{ willChange: 'transform' }} />
                   </>
                 )}
 

@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 const AmbientParticles = () => {
-    // We generate 30 particles with random properties
-    const particles = useMemo(() => Array.from({ length: 30 }).map((_, i) => ({
+    // We generate 15 particles with random properties for better performance
+    const particles = useMemo(() => Array.from({ length: 15 }).map((_, i) => ({
         id: i,
         size: Math.random() * 8 + 3, // 3px to 11px
         x: Math.random() * 100, // vw
@@ -13,7 +13,7 @@ const AmbientParticles = () => {
     })), []);
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-[0] overflow-hidden h-screen w-screen">
+        <div className="fixed inset-0 pointer-events-none z-[0] overflow-hidden h-screen w-screen" style={{ willChange: 'transform' }}>
             {particles.map((p) => (
                 <motion.div
                     key={p.id}
@@ -23,7 +23,8 @@ const AmbientParticles = () => {
                         height: p.size,
                         left: `${p.x}vw`,
                         top: `${p.y}vh`,
-                        boxShadow: '0 0 15px rgba(124,58,237,0.4)',
+                        boxShadow: '0 0 15px rgba(124,58,237,0.3)',
+                        willChange: 'transform, opacity'
                     }}
                     animate={{
                         y: [-200, -800],
