@@ -137,10 +137,21 @@ function App() {
   const [introFinished, setIntroFinished] = useState(false);
   const location = useLocation();
 
-  // Instantly scroll to top when changing routes
+  // Instantly scroll to top when changing routes and update document title
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+    
+    const baseTitle = data?.name || "Ayushman Kar";
+    const path = location.pathname;
+    
+    if (path === '/') {
+      document.title = `${baseTitle} | AI/ML Engineer & Full Stack Developer`;
+    } else {
+      const section = path.substring(1);
+      const sectionName = section.charAt(0).toUpperCase() + section.slice(1);
+      document.title = `${sectionName} | ${baseTitle}`;
+    }
+  }, [location.pathname, data]);
 
   // Disable right-click (inspect) and common developer tool shortcuts
   useEffect(() => {
