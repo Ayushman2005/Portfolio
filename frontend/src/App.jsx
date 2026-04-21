@@ -14,6 +14,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
+import PageTransition from './components/PageTransition';
 import AmbientParticles from './components/AmbientParticles';
 import YouTubeMusicCard from './components/YouTubeMusicCard';
 import Clock from './components/Clock';
@@ -137,9 +138,11 @@ function App() {
   const [introFinished, setIntroFinished] = useState(false);
   const location = useLocation();
 
-  // Instantly scroll to top when changing routes and update document title
+  // Scroll to top with delay to match transition and update document title
   useEffect(() => {
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 600);
     
     const baseTitle = data?.name || "Ayushman Kar";
     const path = location.pathname;
@@ -178,18 +181,6 @@ function App() {
       document.removeEventListener('keydown', handleKeydown);
     };
   }, []);
-
-  const PageTransition = ({ children }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      exit={{ opacity: 0, filter: 'blur(10px)', scale: 0.98 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="w-full"
-    >
-      {children}
-    </motion.div>
-  );
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
