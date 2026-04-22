@@ -18,6 +18,8 @@ import PageTransition from './components/PageTransition';
 import AmbientParticles from './components/AmbientParticles';
 import YouTubeMusicCard from './components/YouTubeMusicCard';
 import Clock from './components/Clock';
+import Chatbot from './components/Chatbot';
+import Cursor from './components/Cursor';
 import { portfolioData } from './data';
 
 // Detect mobile/touch devices to skip heavy GPU animations
@@ -203,7 +205,7 @@ function App() {
   return (
     <SmoothScroll>
       <div className="dark relative min-h-screen bg-transparent text-slate-100 selection:bg-violet-500/30 font-sans overflow-x-hidden">
-        
+        <Cursor />
         {/* Premium Grid Matrix Background for the WHOLE app */}
         <div className="fixed inset-0 bg-[#050505] -z-20"></div>
         <div className="fixed inset-0 opacity-[0.15] -z-10" style={{
@@ -237,6 +239,7 @@ function App() {
             <>
               <Navbar name={data.name} />
               <YouTubeMusicCard />
+              <Chatbot />
               {/* Scroll Progress Bar */}
               <motion.div
                 className="fixed top-0 left-0 right-0 h-[3px] origin-left z-[110]"
