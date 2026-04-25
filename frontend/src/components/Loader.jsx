@@ -19,7 +19,7 @@ const ScrambleText = ({ text }) => {
             );
             if (iteration >= text.length) clearInterval(interval);
             iteration += 1 / 2;
-        }, 30);
+        }, 80);
         return () => clearInterval(interval);
     }, [text]);
 
@@ -29,7 +29,6 @@ const ScrambleText = ({ text }) => {
 const Loader = ({ onComplete, isDataReady }) => {
     const [progress, setProgress] = useState(0);
     const [phase, setPhase] = useState(0);
-    const [hexString, setHexString] = useState('');
 
     const phases = [
         'INITIALIZING_CORE_SYSTEMS', 
@@ -37,18 +36,6 @@ const Loader = ({ onComplete, isDataReady }) => {
         'DECRYPTING_UI_ASSETS', 
         'SYNCHRONIZING_NEURAL_LINK'
     ];
-
-    // Background raw hex memory streams
-    useEffect(() => {
-        const hInterval = setInterval(() => {
-            let str = '';
-            for(let i=0; i<8; i++) {
-                str += Math.floor(Math.random()*16).toString(16).toUpperCase() + (i%2 !== 0 ? ' ' : '');
-            }
-            setHexString(str);
-        }, 100);
-        return () => clearInterval(hInterval);
-    }, []);
 
     // Stutter/blip linear incrementation for technical simulation
     useEffect(() => {
@@ -82,18 +69,6 @@ const Loader = ({ onComplete, isDataReady }) => {
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-6 md:p-8 overflow-hidden bg-[#050505]"
         >
-            {/* Hacker-style binary & hex ambient bg overlay (Desktop only) */}
-            <div className="absolute inset-x-0 top-10 flex justify-between px-10 opacity-30 pointer-events-none text-violet-500 font-mono text-[10px] tracking-widest hidden md:flex">
-                <div className="flex flex-col gap-2">
-                    <p>SYS.INIT_MEM: 0x00F83</p>
-                    <p>LD_V: {hexString}</p>
-                </div>
-                <div className="flex flex-col gap-2 text-right">
-                    <p>KERNEL_PANIC: FALSE</p>
-                    <p>T_SEC: {(progress * 0.04).toFixed(3)}s</p>
-                </div>
-            </div>
-
             {/* Glowing noise background */}
             <div className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-screen" 
                  style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
@@ -149,15 +124,6 @@ const Loader = ({ onComplete, isDataReady }) => {
                             src="/profile.png"
                             alt="System Initializing"
                             className="w-full h-full object-cover filter brightness-75 contrast-125 sepia-[0.3] hue-rotate-[-30deg] saturate-[1.2]"
-                        />
-                        {/* Heavy CRT/Scanning line effect mapping */}
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.3)_50%),linear-gradient(90deg,rgba(255,0,0,0.04),rgba(0,255,0,0.01),rgba(0,0,255,0.04))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-60 mix-blend-overlay"></div>
-                        
-                        {/* Scanning beam overlay */}
-                        <motion.div 
-                            animate={{ top: ["-100%", "200%"] }}
-                            transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
-                            className="absolute left-0 right-0 h-16 bg-gradient-to-b from-transparent via-violet-300/30 to-transparent pointer-events-none mix-blend-screen"
                         />
                     </div>
                 </motion.div>
@@ -223,29 +189,6 @@ const Loader = ({ onComplete, isDataReady }) => {
                 </motion.div>
             </div>
             
-            {/* Random glowing particles overlay */}
-            {[...Array(8)].map((_, i) => (
-                <motion.div
-                    key={i}
-                    animate={{
-                        y: [0, Math.random() * -60 - 20],
-                        opacity: [0, 0.8, 0],
-                        scale: [0, Math.random() + 0.5, 0]
-                    }}
-                    transition={{
-                        duration: Math.random() * 3 + 2,
-                        repeat: Infinity,
-                        ease: "easeOut",
-                        delay: Math.random() * 2
-                    }}
-                    className="absolute w-1.5 h-1.5 bg-violet-400 rounded-full mix-blend-screen pointer-events-none"
-                    style={{
-                        left: `${20 + Math.random() * 60}%`,
-                        bottom: `${20 + Math.random() * 30}%`,
-                        filter: "blur(1px)"
-                    }}
-                />
-            ))}
         </motion.div>
     );
 };

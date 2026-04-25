@@ -39,12 +39,6 @@
     touch-action: pan-y;
   }
 
-  @media (pointer: fine) {
-    *, *::before, *::after {
-      cursor: none !important;
-    }
-  }
-
   /* Subtle noise texture */
   body::before {
     content: "";

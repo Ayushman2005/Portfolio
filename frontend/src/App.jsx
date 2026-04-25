@@ -14,12 +14,10 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
-import PageTransition from './components/PageTransition';
 import AmbientParticles from './components/AmbientParticles';
 import YouTubeMusicCard from './components/YouTubeMusicCard';
 import Clock from './components/Clock';
 import Chatbot from './components/Chatbot';
-import Cursor from './components/Cursor';
 import { portfolioData } from './data';
 
 // Detect mobile/touch devices to skip heavy GPU animations
@@ -206,7 +204,6 @@ function App() {
   return (
     <SmoothScroll>
       <div className="dark relative min-h-screen bg-transparent text-slate-100 selection:bg-violet-500/30 font-sans overflow-x-hidden">
-        <Cursor />
         {/* Premium Grid Matrix Background for the WHOLE app */}
         <div className="fixed inset-0 bg-[#050505] -z-20"></div>
         <div className="fixed inset-0 opacity-[0.15] -z-10" style={{
@@ -276,7 +273,6 @@ function App() {
                         <AnimatePresence mode="wait">
                           <Routes location={location} key={location.pathname}>
                             <Route path="/" element={
-                              <PageTransition>
                                 <div className="space-y-28 md:space-y-44 w-full">
                                   <Hero data={data} />
                                   <About data={data} summary={true} />
@@ -286,14 +282,13 @@ function App() {
                                   <Achievements achievements={data.certifications} summary={true} />
                                   <Contact data={data} />
                                 </div>
-                              </PageTransition>
                             } />
-                            <Route path="/about" element={<PageTransition><About data={data} /></PageTransition>} />
-                            <Route path="/skills" element={<PageTransition><Skills skills={data.skills} /></PageTransition>} />
-                            <Route path="/projects" element={<PageTransition><Projects projects={data.projects} /></PageTransition>} />
-                            <Route path="/experience" element={<PageTransition><Experience experience={data.experience} /></PageTransition>} />
-                            <Route path="/achievements" element={<PageTransition><Achievements achievements={data.certifications} /></PageTransition>} />
-                            <Route path="/contact" element={<PageTransition><Contact data={data} /></PageTransition>} />
+                            <Route path="/about" element={<About data={data} />} />
+                            <Route path="/skills" element={<Skills skills={data.skills} />} />
+                            <Route path="/projects" element={<Projects projects={data.projects} />} />
+                            <Route path="/experience" element={<Experience experience={data.experience} />} />
+                            <Route path="/achievements" element={<Achievements achievements={data.certifications} />} />
+                            <Route path="/contact" element={<Contact data={data} />} />
                           </Routes>
                         </AnimatePresence>
                       </main>

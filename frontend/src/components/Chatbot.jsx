@@ -11,37 +11,7 @@ const initialMessages = [
   }
 ];
 
-const getBotResponseFromText = (text) => {
-  const lowerText = text.toLowerCase();
-  
-  if (lowerText.includes('project') || lowerText.includes('build') || lowerText.includes('work') || lowerText.includes('portfolio') || lowerText.includes('made')) {
-    const projectNames = portfolioData.projects.map(p => `• **${p.title}**`).join('\n');
-    return `Here are some of his top projects:\n${projectNames}\n\nYou can find more details in the Projects section!`;
-  }
-  
-  if (lowerText.includes('skill') || lowerText.includes('tech') || lowerText.includes('tool') || lowerText.includes('language') || lowerText.includes('framework') || lowerText.includes('know')) {
-    const skillsList = portfolioData.skills.map(s => s.name).join(', ');
-    return `Ayushman is highly skilled in: ${skillsList}. He actively uses Python, C++, React, Node.js, and Flask to build scalable applications.`;
-  }
-  
-  if (lowerText.includes('experience') || lowerText.includes('cert') || lowerText.includes('achieve') || lowerText.includes('hackathon') || lowerText.includes('intern') || lowerText.includes('job') || lowerText.includes('work')) {
-    return `He is an active member of GDG on Campus and the Cyber Security Club at GIETU. He was also a hackathon finalist (PS-HK19) and holds an NPTEL certification in C Programming from IIT Kharagpur!`;
-  }
-  
-  if (lowerText.includes('contact') || lowerText.includes('email') || lowerText.includes('phone') || lowerText.includes('hire') || lowerText.includes('reach') || lowerText.includes('talk') || lowerText.includes('message')) {
-    return `You can reach him at ${portfolioData.email} or call ${portfolioData.phone}. Connect with him on LinkedIn or check out his GitHub (@Ayushman2005).`;
-  }
-  
-  if (lowerText.includes('hi') || lowerText.includes('hello') || lowerText.includes('hey') || lowerText.includes('greetings')) {
-    return "Hello! I can tell you about Ayushman's projects, skills, experience, or contact information. What would you like to know?";
-  }
-  
-  if (lowerText.includes('who') || lowerText.includes('about') || lowerText.includes('education') || lowerText.includes('university') || lowerText.includes('study') || lowerText.includes('student') || lowerText.includes('background')) {
-      return `Ayushman is an undergraduate Computer Engineering student at GIET University (2024–2028). He specializes in Machine Learning, AI, and Full Stack Development.`;
-  }
 
-  return "I'm not exactly sure what you mean, but you can ask me about his **projects**, **skills**, **experience**, or **contact** info!";
-};
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +28,7 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages, isTyping, isOpen]);
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     if (e) e.preventDefault();
     if (!inputValue.trim() || isTyping) return;
 
@@ -69,17 +39,53 @@ const Chatbot = () => {
     setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: userText }]);
     setIsTyping(true);
 
-    // Simulate bot thinking/typing
-    setTimeout(() => {
-      const responseText = getBotResponseFromText(userText);
-      setIsTyping(false);
-      
-      setMessages(prev => [
-        ...prev, 
-        { id: Date.now(), type: 'bot', text: responseText }
-      ]);
+    try {
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      if (!apiKey) {
+        setTimeout(() => {
+          setMessages(prev => [...prev, { id: Date.now(), type: 'bot', text: "Please add your VITE_GEMINI_API_KEY in the .env file to enable AI responses!" }]);
+          setIsTyping(false);
+        }, 1000);
+        return;
+      }
 
-    }, 1000);
+      const history = messages.slice(1).map(m => ({
+        role: m.type === 'bot' ? 'model' : 'user',
+        parts: [{ text: m.text }]
+      }));
+      history.push({ role: 'user', parts: [{ text: userText }] });
+
+      const payload = {
+        system_instruction: {
+          parts: { text: `You are Ayushman's AI Assistant. You must answer all questions SHORTLY and concisely (max 2-3 sentences). The current date and time is ${new Date().toLocaleString()}. Here is his portfolio data: ${JSON.stringify(portfolioData)}. Use this to answer questions about him, but you can also answer general questions like what the time is.` }
+        },
+        contents: history,
+        generationConfig: {
+          maxOutputTokens: 800,
+        }
+      };
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      const responseText = data.candidates[0].content.parts[0].text;
+      
+      setMessages(prev => [...prev, { id: Date.now(), type: 'bot', text: responseText }]);
+    } catch (error) {
+      console.error('Gemini API Error:', error);
+      setMessages(prev => [...prev, { id: Date.now(), type: 'bot', text: "Sorry, I encountered an error connecting to the AI. Please check your API key." }]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const renderTextWithFormatting = (text) => {
