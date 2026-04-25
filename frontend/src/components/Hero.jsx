@@ -182,10 +182,12 @@ const Hero = ({ data }) => {
                         
                         <div className="absolute inset-0 border border-white/10 bg-[#0a0a0a]/60 backdrop-blur-3xl rounded-full overflow-hidden flex items-center justify-center shadow-2xl transition-all duration-700">
                             {/* Inner Profile Image with cinematic styling */}
-                            <img 
+                            <motion.img 
                                 src="https://github.com/Ayushman2005.png" 
                                 alt={data.name} 
-                                className="w-full h-full object-cover object-top scale-100 opacity-90 mix-blend-luminosity filter contrast-125 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105 group-hover:mix-blend-normal"
+                                animate={{ rotate: [0, 360] }}
+                                transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
+                                className="w-full h-full object-cover object-top opacity-100 transition-all duration-700 group-hover:scale-105"
                             />
                             {/* Bottom Fade Overlay for sleek text integration */}
                             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700"></div>

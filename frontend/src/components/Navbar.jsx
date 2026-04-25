@@ -49,7 +49,7 @@ const Navbar = ({ name }) => {
                                 className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center overflow-hidden shadow-lg"
                                 style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
                             >
-                                <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                                <span className="font-black text-white text-base md:text-lg tracking-tighter" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AK</span>
                             </motion.div>
                             <span className="font-black text-xl md:text-2xl tracking-tighter text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                                 {name ? name.split(' ')[0] : 'Ayushman'}
