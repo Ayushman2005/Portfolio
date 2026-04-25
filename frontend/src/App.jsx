@@ -57,7 +57,8 @@ const GlobalMouseGlow = () => {
 };
 
 const GlobalMarquee = ({ name }) => {
-  const rowCount = isMobileDevice() ? 3 : 6;
+  if (isMobileDevice()) return null;
+  const rowCount = 6;
   return (
     <div className="fixed inset-0 w-full h-full opacity-[0.04] select-none pointer-events-none z-0 flex flex-col justify-center overflow-hidden" style={{ willChange: 'transform' }}>
         {/* Rotation adds a highly requested premium tilt without risking sharp bounding boxes cutting it oddly */}
