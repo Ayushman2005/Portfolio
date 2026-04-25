@@ -53,8 +53,8 @@ const Hero = ({ data }) => {
     };
 
     // Calculate rotation strictly limited limits to prevent extreme flips
-    const rotateX = useTransform(smoothY, [0, typeof window !== 'undefined' ? window.innerHeight : 1000], [12, -12]);
-    const rotateY = useTransform(smoothX, [0, typeof window !== 'undefined' ? window.innerWidth : 1000], [-12, 12]);
+    const rotateX = useTransform(smoothY, [0, typeof window !== 'undefined' ? window.innerHeight : 1000], isMobile() ? [0, 0] : [12, -12]);
+    const rotateY = useTransform(smoothX, [0, typeof window !== 'undefined' ? window.innerWidth : 1000], isMobile() ? [0, 0] : [-12, 12]);
 
     const firstName = data.name.split(' ')[0] || "Portfolio";
     const lastName = data.name.split(' ').slice(1).join(' ');

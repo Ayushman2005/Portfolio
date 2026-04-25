@@ -59,11 +59,12 @@ const GlobalMouseGlow = () => {
 };
 
 const GlobalMarquee = ({ name }) => {
+  const rowCount = isMobileDevice() ? 3 : 6;
   return (
     <div className="fixed inset-0 w-full h-full opacity-[0.04] select-none pointer-events-none z-0 flex flex-col justify-center overflow-hidden" style={{ willChange: 'transform' }}>
         {/* Rotation adds a highly requested premium tilt without risking sharp bounding boxes cutting it oddly */}
         <div className="absolute inset-x-[-20%] top-[-20%] bottom-[-20%] flex flex-col justify-center -rotate-[4deg]">
-            {[...Array(6)].map((_, rowIndex) => (
+            {[...Array(rowCount)].map((_, rowIndex) => (
                 <motion.div
                     key={rowIndex}
                     animate={{ x: rowIndex % 2 === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}

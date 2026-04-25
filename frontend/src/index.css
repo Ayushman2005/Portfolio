@@ -15,7 +15,7 @@
 
   html {
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: none;
+    overscroll-behavior: auto; /* Changed to auto to prevent mobile scroll locking */
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     min-height: 100%;
     background-color: #050505;
