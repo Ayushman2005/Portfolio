@@ -52,7 +52,7 @@ export const portfolioData = {
       ],
       "image": "/images/Neural_Notes.png",
       "github": "https://github.com/Ayushman2005/PS-HK19_TECHIEDOMINATORS_EDUTECH.git",
-      "demo": "https://github.com/Ayushman2005/PS-HK19_TECHIEDOMINATORS_EDUTECH.git"
+      "demo": "https://neuralnotes-site.netlify.app/"
     },
     {
       "title": "Society Management System (SocietyPro)",
@@ -75,7 +75,7 @@ export const portfolioData = {
       ],
       "image": "/images/Society_Pro.png",
       "github": "https://github.com/Ayushman2005/SocietyPro",
-      "demo": "https://github.com/Ayushman2005/SocietyPro"
+      "demo": "https://society-pro-beige.vercel.app/"
     },
     {
       "title": "Campus Insights Dashboard",
@@ -98,7 +98,7 @@ export const portfolioData = {
       ],
       "image": "/images/Campus_Insights.png",
       "github": "https://github.com/Ayushman2005/campus-insight",
-      "demo": "https://github.com/Ayushman2005/campus-insight"
+      "demo": "https://campus-insights.netlify.app/"
     }
   ],
   "certifications": [
