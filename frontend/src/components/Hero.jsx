@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { ArrowRight, Github, Linkedin, Cpu, Code2 } from 'lucide-react';
+import KineticText from './KineticText';
 
 const Magnetic = ({ children, strength = 0.2 }) => {
     const ref = useRef(null);
@@ -99,27 +100,32 @@ const Hero = ({ data }) => {
                             System Initialized //
                         </h2>
                         <h1 className="text-5xl sm:text-7xl md:text-8xl xl:text-9xl font-black text-white tracking-tighter leading-[0.9] flex flex-col mt-2">
-                            <span className="drop-shadow-sm">{firstName}</span> 
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-blue-400 drop-shadow-md mt-1">
-                                {lastName}
-                            </span>
+                            <span className="drop-shadow-sm">
+                                <KineticText text={firstName} delay={0.2} stagger={0.05} />
+                            </span> 
+                            <KineticText 
+                                text={lastName} 
+                                delay={0.6} 
+                                stagger={0.05} 
+                                className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-blue-400 drop-shadow-md mt-1"
+                            />
                         </h1>
                     </div>
 
                     <p className="text-lg md:text-xl text-neutral-400 max-w-lg mb-8 leading-relaxed border-l-2 border-violet-500/40 pl-6 shadow-sm">
-                        Bridging the gap between cutting-edge Artificial Intelligence and robust Full-Stack Architecture.
+                        <KineticText text="Bridging the gap between cutting-edge Artificial Intelligence and robust Full-Stack Architecture." delay={1.0} stagger={0.01} />
                     </p>
 
                     {/* Power Headline */}
                     <div className="flex flex-col gap-3 mb-12 border-l-2 border-fuchsia-500/40 pl-6 shadow-sm">
                         <p className="text-sm md:text-base text-neutral-300 font-bold tracking-wide">
-                            <span className="text-violet-400">Python</span> <span className="text-neutral-500">&rarr;</span> Built ML models + APIs
+                            <span className="text-violet-400">Python</span> <span className="text-neutral-500">&rarr;</span> <KineticText text="Built ML models + APIs" delay={1.2} />
                         </p>
                         <p className="text-sm md:text-base text-neutral-300 font-bold tracking-wide">
-                            <span className="text-blue-400">React</span> <span className="text-neutral-500">&rarr;</span> Built responsive dashboards
+                            <span className="text-blue-400">React</span> <span className="text-neutral-500">&rarr;</span> <KineticText text="Built responsive dashboards" delay={1.4} />
                         </p>
                         <p className="text-sm md:text-base text-neutral-300 font-bold tracking-wide">
-                            <span className="text-fuchsia-400">ML</span> <span className="text-neutral-500">&rarr;</span> Worked on RAG + prediction systems
+                            <span className="text-fuchsia-400">ML</span> <span className="text-neutral-500">&rarr;</span> <KineticText text="Worked on RAG + prediction systems" delay={1.6} />
                         </p>
                     </div>
 

@@ -18,6 +18,7 @@ import AmbientParticles from './components/AmbientParticles';
 import YouTubeMusicCard from './components/YouTubeMusicCard';
 import Clock from './components/Clock';
 import Chatbot from './components/Chatbot';
+import Guestbook from './components/Guestbook';
 import { portfolioData } from './data';
 
 // Detect mobile/touch devices to skip heavy GPU animations
@@ -281,6 +282,7 @@ function App() {
                                   <Projects projects={data.projects} summary={true} />
                                   <Experience experience={data.experience} summary={true} />
                                   <Achievements achievements={data.certifications} summary={true} />
+                                  <Guestbook ownerEmail={data.email} />
                                   <Contact data={data} />
                                 </div>
                             } />
@@ -289,6 +291,7 @@ function App() {
                             <Route path="/projects" element={<Projects projects={data.projects} />} />
                             <Route path="/experience" element={<Experience experience={data.experience} />} />
                             <Route path="/achievements" element={<Achievements achievements={data.certifications} />} />
+                            <Route path="/guestbook" element={<Guestbook ownerEmail={data.email} />} />
                             <Route path="/contact" element={<Contact data={data} />} />
                           </Routes>
                         </AnimatePresence>

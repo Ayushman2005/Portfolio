@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { Send, MapPin, Mail, MessageSquare, ArrowRight, Sparkles } from 'lucide-react';
+import KineticText from './KineticText';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -108,7 +109,7 @@ const Contact = ({ data }) => {
                                 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9]"
                                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                             >
-                                Let's <br /> <span className="text-gradient">Innovate.</span>
+                                <KineticText text="Let's" /> <br /> <KineticText text="Innovate." delay={0.2} className="text-gradient" />
                             </motion.h2>
 
                             <motion.p

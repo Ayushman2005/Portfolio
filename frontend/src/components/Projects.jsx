@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Github, ExternalLink, Code2, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import KineticText from './KineticText';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -246,7 +247,7 @@ const Projects = ({ projects, summary = false }) => {
                     className="text-5xl md:text-8xl font-black tracking-tighter text-white mb-8"
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
-                    Curated <br /> <span className="text-gradient">Creations.</span>
+                    <KineticText text="Curated" /> <br /> <KineticText text="Creations." delay={0.2} className="text-gradient" />
                 </motion.h2>
 
                 <motion.p

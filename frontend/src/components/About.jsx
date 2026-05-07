@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { GraduationCap, MapPin, Heart, Coffee, Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ImageCarousel from './ImageCarousel';
+import KineticText from './KineticText';
 
 const BentoCard = ({ children, className = "", delay = 0 }) => (
     <motion.div
@@ -40,7 +41,7 @@ const About = ({ data, summary = false }) => {
                     className="text-5xl md:text-7xl font-black text-white tracking-tighter"
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
-                    Deep Dive <span className="text-gradient">About Me.</span>
+                    <KineticText text="Deep Dive" delay={0.1} /> <KineticText text="About Me." delay={0.3} className="text-gradient" />
                 </motion.h2>
             </div>
 
@@ -50,7 +51,7 @@ const About = ({ data, summary = false }) => {
                 {/* Main Bio - Large Card */}
                 <BentoCard className="md:col-span-8 md:row-span-2 justify-center">
                     <h3 className="text-3xl md:text-4xl font-black mb-8 text-white leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                        Architecting Intelligent <br />Digital Solutions.
+                        <KineticText text="Architecting Intelligent" /> <br /> <KineticText text="Digital Solutions." delay={0.2} />
                     </h3>
                     <div className="space-y-6 text-neutral-500 text-lg md:text-xl leading-relaxed font-medium">
                         <p>

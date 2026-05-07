@@ -3,6 +3,7 @@ import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { Trophy, Star, ChevronRight, Calendar, Tag, Github, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { GitHubCalendar } from 'react-github-calendar';
+import KineticText from './KineticText';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -165,7 +166,7 @@ const Achievements = ({ achievements, summary = false }) => {
                         className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9]"
                         style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                     >
-                        Honors & <br /> <span className="text-gradient">Distinctions.</span>
+                        <KineticText text="Honors &" /> <br /> <KineticText text="Distinctions." delay={0.2} className="text-gradient" />
                     </motion.h2>
                 </div>
 

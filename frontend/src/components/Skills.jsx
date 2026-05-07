@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { Code2, BrainCircuit, Layout, Server, Zap, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import KineticText from './KineticText';
 
 const isMobile = () =>
     typeof window !== 'undefined' &&
@@ -189,7 +190,7 @@ const Skills = ({ summary = false }) => {
                     className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter"
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
-                    Mastery & <span className="text-gradient">Versatility.</span>
+                    <KineticText text="Mastery &" /> <KineticText text="Versatility." delay={0.2} className="text-gradient" />
                 </motion.h2>
 
                 <motion.p
