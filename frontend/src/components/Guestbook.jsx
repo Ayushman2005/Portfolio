@@ -87,6 +87,7 @@ const Guestbook = ({ ownerEmail = "karayushman736@gmail.com" }) => {
             await signInWithPopup(auth, googleProvider);
         } catch (error) {
             console.error("Login failed:", error);
+            alert(`Login Error: ${error.message}\n\nPlease check if 'localhost' is added to your Authorized Domains in Firebase console.`);
         }
     };
 
