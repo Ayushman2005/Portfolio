@@ -15,7 +15,7 @@ import Footer from './components/Footer';
 import Loader from './components/Loader';
 import SmoothScroll from './components/SmoothScroll';
 import AmbientParticles from './components/AmbientParticles';
-import YouTubeMusicCard from './components/YouTubeMusicCard';
+import SpotifyMusicCard from './components/SpotifyMusicCard';
 import Clock from './components/Clock';
 import Chatbot from './components/Chatbot';
 import Guestbook from './components/Guestbook';
@@ -238,7 +238,7 @@ function App() {
           {isFullyLoaded && data && (
             <>
               <Navbar name={data.name} />
-              <YouTubeMusicCard />
+              <SpotifyMusicCard />
               <Chatbot />
               {/* Scroll Progress Bar */}
               <motion.div
