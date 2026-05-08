@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, MapPin, Heart, Coffee, Sparkles, ArrowRight } from 'lucide-react';
+import { GraduationCap, MapPin, Heart, Coffee, Sparkles, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ImageCarousel from './ImageCarousel';
 import KineticText from './KineticText';
@@ -19,6 +19,62 @@ const BentoCard = ({ children, className = "", delay = 0 }) => (
 
 const About = ({ data, summary = false }) => {
     const containerRef = useRef(null);
+    const [thought, setThought] = useState({
+        quote: "Fetching daily inspiration...",
+        author: "System"
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDailyThought = async () => {
+            const today = new Date().toDateString();
+            const cached = localStorage.getItem('daily_thought');
+            const cachedDate = localStorage.getItem('daily_thought_date');
+
+            if (cached && cachedDate === today) {
+                setThought(JSON.parse(cached));
+                setLoading(false);
+                return;
+            }
+
+            try {
+                // Try primary API (Quotable)
+                const response = await fetch('https://api.quotable.io/random?tags=technology|famous-quotes');
+                if (response.ok) {
+                    const result = await response.json();
+                    const newThought = { quote: result.content, author: result.author };
+                    setThought(newThought);
+                    localStorage.setItem('daily_thought', JSON.stringify(newThought));
+                    localStorage.setItem('daily_thought_date', today);
+                    return;
+                }
+            } catch (e) {
+                console.warn("Primary quote API failed, falling back to repository-based selection.");
+            }
+
+            // Robust Fallback: Fetch a large list from a stable source and pick one based on the date
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/skolakoda/programming-quotes-api/master/backup/quotes.json');
+                if (response.ok) {
+                    const quotes = await response.json();
+                    // Use a simple hash of the date string to select an index
+                    const dateHash = today.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                    const selected = quotes[dateHash % quotes.length];
+                    const newThought = { quote: selected.en, author: selected.author };
+                    setThought(newThought);
+                    localStorage.setItem('daily_thought', JSON.stringify(newThought));
+                    localStorage.setItem('daily_thought_date', today);
+                }
+            } catch (err) {
+                console.error("All internet sources failed. Using static fallback.");
+                // Static fallback is already in the initial state
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDailyThought();
+    }, []);
 
     return (
         <section id="about" className="py-24 relative overflow-visible" ref={containerRef}>
@@ -132,13 +188,25 @@ const About = ({ data, summary = false }) => {
                 </BentoCard>
 
                 {/* Quote / Philosophy Card - Middle */}
-                <BentoCard className="md:col-span-4 md:row-span-1 bg-gradient-to-br from-violet-600/5 to-transparent border-violet-100" delay={0.4}>
-                   <Coffee className="w-10 h-10 text-violet-500 mb-8" />
+                <BentoCard className="md:col-span-4 md:row-span-1 bg-gradient-to-br from-violet-600/5 to-transparent border-violet-100 min-h-[240px] justify-center" delay={0.4}>
+                   <div className="flex items-center justify-between mb-6">
+                      <Coffee className={`w-8 h-8 text-violet-500 ${loading ? 'animate-pulse' : ''}`} />
+                      {loading && <Loader2 className="w-4 h-4 text-violet-400 animate-spin" />}
+                   </div>
                    <div className="relative">
                        <span className="absolute -top-6 -left-2 text-6xl text-violet-500/20 font-serif">"</span>
-                       <p className="text-xl italic font-bold text-neutral-300 leading-relaxed relative z-10">
-                           Code is the medium through which I translate complex ideas into impactful realities.
+                       <p className="text-lg md:text-xl italic font-bold text-neutral-300 leading-relaxed relative z-10 transition-opacity duration-500" style={{ opacity: loading ? 0.5 : 1 }}>
+                           {thought.quote}
                        </p>
+                       {!loading && (
+                           <motion.p 
+                             initial={{ opacity: 0 }}
+                             animate={{ opacity: 1 }}
+                             className="text-[10px] font-black tracking-[0.2em] text-violet-500 uppercase mt-4 text-right"
+                           >
+                             — {thought.author}
+                           </motion.p>
+                       )}
                    </div>
                 </BentoCard>
 

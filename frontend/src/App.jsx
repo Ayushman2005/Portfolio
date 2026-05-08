@@ -217,7 +217,7 @@ function App() {
         <GlobalMouseGlow />
         {data && <GlobalMarquee name={data.name} />}
 
-        <MotionConfig transition={{ type: "spring", stiffness: 70, damping: 20, mass: 0.8 }}>
+        <MotionConfig transition={{ type: "spring", stiffness: 45, damping: 25, mass: 0.5, restDelta: 0.001 }}>
           <AnimatePresence mode="wait">
             {!isAppReady && (
               <Loader
