@@ -16,12 +16,18 @@ const images = [
 ];
 
 const INTERVAL = 8000;
-const TRANSITION = { 
+const TRANSITION_SPRING = { 
     type: "spring", 
     stiffness: 40, 
     damping: 20, 
     mass: 0.8,
     restDelta: 0.001 
+};
+
+const TRANSITION_TWEEN = {
+    type: "tween",
+    duration: 0.4,
+    ease: "easeOut"
 };
 
 const IS_MOBILE =
@@ -68,22 +74,24 @@ const ImageCarousel = () => {
             style={{ willChange: 'contents' }}
         >
             {/* Immersive Background Blur - Cinematic bleeding light */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={currentIndex}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.35 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
-                    className="absolute inset-0 z-0 pointer-events-none blur-[100px] scale-150"
-                    style={{
-                        backgroundImage: `url(${images[currentIndex]})`,
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-                        willChange: 'opacity'
-                    }}
-                />
-            </AnimatePresence>
+            {!IS_MOBILE && (
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentIndex}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.35 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1.2, ease: "easeInOut" }}
+                        className="absolute inset-0 z-0 pointer-events-none blur-[100px] scale-150"
+                        style={{
+                            backgroundImage: `url(${images[currentIndex]})`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                            willChange: 'opacity'
+                        }}
+                    />
+                </AnimatePresence>
+            )}
 
             {/* Premium Header Overlay */}
             <div className="absolute top-8 left-8 right-8 z-30 flex items-center justify-between pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700">
@@ -126,7 +134,7 @@ const ImageCarousel = () => {
                                 translateZ,
                                 zIndex,
                             }}
-                            transition={TRANSITION}
+                            transition={IS_MOBILE ? TRANSITION_TWEEN : TRANSITION_SPRING}
                             drag={isActive ? "x" : false}
                             dragConstraints={{ left: 0, right: 0 }}
                             dragElastic={0.2}

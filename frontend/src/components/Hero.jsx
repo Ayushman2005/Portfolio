@@ -72,8 +72,8 @@ const Hero = ({ data }) => {
                     className="absolute w-[600px] h-[600px] rounded-full blur-[140px] opacity-30 pointer-events-none -z-10 mix-blend-screen"
                     style={{
                         background: 'radial-gradient(circle, rgba(167,139,250,0.4) 0%, rgba(59,130,246,0.1) 50%, transparent 80%)',
-                        left: useTransform(smoothX, x => x - 300),
-                        top: useTransform(smoothY, y => y - 300)
+                        x: useTransform(smoothX, val => val - 300),
+                        y: useTransform(smoothY, val => val - 300)
                     }}
                 />
             )}
@@ -191,8 +191,8 @@ const Hero = ({ data }) => {
                             <motion.img 
                                 src="https://github.com/Ayushman2005.png" 
                                 alt={data.name} 
-                                animate={{ rotate: [0, 360] }}
-                                transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
+                                animate={{ rotate: isMobile() ? 0 : [0, 360] }}
+                                transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
                                 className="w-full h-full object-cover object-top opacity-100 transition-all duration-700 group-hover:scale-105"
                             />
                             {/* Bottom Fade Overlay for sleek text integration */}

@@ -140,6 +140,11 @@ function App() {
   const [terminalFinished, setTerminalFinished] = useState(false);
   const [introFinished, setIntroFinished] = useState(false);
   const location = useLocation();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+  }, []);
 
   // Scroll to top with delay to match transition and update document title
   useEffect(() => {
@@ -217,7 +222,7 @@ function App() {
         <GlobalMouseGlow />
         {data && <GlobalMarquee name={data.name} />}
 
-        <MotionConfig transition={{ type: "spring", stiffness: 45, damping: 25, mass: 0.5, restDelta: 0.001 }}>
+        <MotionConfig transition={{ type: "tween", duration: 0.4, ease: "easeOut" }}>
           <AnimatePresence mode="wait">
             {!isAppReady && (
               <Loader
