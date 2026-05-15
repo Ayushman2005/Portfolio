@@ -57,6 +57,10 @@ const Hero = ({ data }) => {
     const rotateX = useTransform(smoothY, [0, typeof window !== 'undefined' ? window.innerHeight : 1000], isMobile() ? [0, 0] : [12, -12]);
     const rotateY = useTransform(smoothX, [0, typeof window !== 'undefined' ? window.innerWidth : 1000], isMobile() ? [0, 0] : [-12, 12]);
 
+    // Flashlight glow transforms
+    const glowX = useTransform(smoothX, val => val - 300);
+    const glowY = useTransform(smoothY, val => val - 300);
+
     const firstName = data.name.split(' ')[0] || "Portfolio";
     const lastName = data.name.split(' ').slice(1).join(' ');
 
@@ -72,8 +76,8 @@ const Hero = ({ data }) => {
                     className="absolute w-[600px] h-[600px] rounded-full blur-[140px] opacity-30 pointer-events-none -z-10 mix-blend-screen"
                     style={{
                         background: 'radial-gradient(circle, rgba(167,139,250,0.4) 0%, rgba(59,130,246,0.1) 50%, transparent 80%)',
-                        x: useTransform(smoothX, val => val - 300),
-                        y: useTransform(smoothY, val => val - 300)
+                        x: glowX,
+                        y: glowY
                     }}
                 />
             )}

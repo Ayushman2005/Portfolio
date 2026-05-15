@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, MotionConfig, useMotionValue, useTransform } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Analytics } from "@vercel/analytics/react";
@@ -32,6 +32,8 @@ const GlobalMouseGlow = () => {
   const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
   const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+  const transformX = useTransform(smoothX, x => x - 300);
+  const transformY = useTransform(smoothY, y => y - 300);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -49,8 +51,8 @@ const GlobalMouseGlow = () => {
       className="fixed top-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-[1]"
       style={{
         background: 'radial-gradient(circle, rgba(167,139,250,0.15) 0%, rgba(59,130,246,0.05) 50%, transparent 70%)',
-        x: useTransform(smoothX, x => x - 300),
-        y: useTransform(smoothY, y => y - 300),
+        x: transformX,
+        y: transformY,
         willChange: 'transform'
       }}
     />
@@ -140,10 +142,9 @@ function App() {
   const [terminalFinished, setTerminalFinished] = useState(false);
   const [introFinished, setIntroFinished] = useState(false);
   const location = useLocation();
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setIsMobile(isMobileDevice());
+    // isMobile is unused, removed the state
   }, []);
 
   // Scroll to top with delay to match transition and update document title
