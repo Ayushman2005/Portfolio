@@ -45,38 +45,23 @@ const Guestbook = ({ ownerEmail = "karayushman736@gmail.com" }) => {
         return unsubscribe;
     }, []);
 
-    // Listen for approved comments
+    // Listen for all comments and filter client-side to avoid Firebase composite index errors
     useEffect(() => {
         const q = query(
             collection(db, "guestbook"), 
-            where("status", "==", "approved"),
             orderBy("timestamp", "desc")
         );
         
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            setComments(docs);
-        });
-        
-        return unsubscribe;
-    }, []);
-
-    // Listen for pending comments (only for Admin)
-    useEffect(() => {
-        if (!isAdmin) {
-            setPendingComments([]);
-            return;
-        }
-
-        const q = query(
-            collection(db, "guestbook"), 
-            where("status", "==", "pending"),
-            orderBy("timestamp", "desc")
-        );
-        
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            setPendingComments(docs);
+            setComments(docs.filter(d => d.status === "approved"));
+            if (isAdmin) {
+                setPendingComments(docs.filter(d => d.status === "pending"));
+            } else {
+                setPendingComments([]);
+            }
+        }, (error) => {
+            console.error("Guestbook subscription error:", error);
         });
         
         return unsubscribe;
@@ -317,11 +302,11 @@ const Guestbook = ({ ownerEmail = "karayushman736@gmail.com" }) => {
                                                 <div>
                                                     <p className="text-lg font-black text-white">{comment.author}</p>
                                                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">
-                                                        {comment.timestamp?.toDate().toLocaleDateString(undefined, { 
+                                                        {comment.timestamp ? comment.timestamp.toDate().toLocaleDateString(undefined, { 
                                                             month: 'long', 
                                                             day: 'numeric', 
                                                             year: 'numeric' 
-                                                        })}
+                                                        }) : "Just now"}
                                                     </p>
                                                 </div>
                                                 {isAdmin && (

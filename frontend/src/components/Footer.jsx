@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUp, Github, Linkedin, Mail, MoveUpRight } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Mail, MoveUpRight, Instagram, Facebook } from 'lucide-react';
 
 const Footer = ({ data }) => {
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -10,6 +10,8 @@ const Footer = ({ data }) => {
     const socials = [
         { icon: Github, href: data.github || "https://github.com/Ayushman2005", label: 'GitHub' },
         { icon: Linkedin, href: data.linkedin || "https://www.linkedin.com/in/ayushman-kar-08370634b/", label: 'LinkedIn' },
+        { icon: Instagram, href: "https://www.instagram.com/ayushman_kar.2712/", label: 'Instagram' },
+        { icon: Facebook, href: "https://www.facebook.com/ayushman.kar.3367", label: 'Facebook' },
         { icon: Mail, href: `mailto:${data.email}`, label: 'Email' },
     ];
 
