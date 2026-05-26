@@ -28,6 +28,12 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages, isTyping, isOpen]);
 
+  useEffect(() => {
+    const handleClose = () => setIsOpen(false);
+    window.addEventListener('close-chatbot', handleClose);
+    return () => window.removeEventListener('close-chatbot', handleClose);
+  }, []);
+
   const handleSendMessage = async (e) => {
     if (e) e.preventDefault();
     if (!inputValue.trim() || isTyping) return;
@@ -100,7 +106,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
+    <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end max-w-[calc(100vw-2rem)]">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -108,7 +114,7 @@ const Chatbot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="mb-4 w-[320px] md:w-[380px] h-[500px] max-h-[70vh] glass-card shadow-2xl overflow-hidden flex flex-col border border-white/10"
+            className="mb-4 w-[320px] md:w-[380px] max-w-[calc(100vw-3rem)] h-[500px] max-h-[70vh] glass-card shadow-2xl overflow-hidden flex flex-col border border-white/10"
           >
             {/* Header */}
             <div className="bg-[#050505] border-b border-white/10 p-4 flex justify-between items-center relative overflow-hidden">
@@ -219,7 +225,10 @@ const Chatbot = () => {
         animate={isOpen ? { scale: 0, opacity: 0 } : { scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+          window.dispatchEvent(new CustomEvent('close-spotify'));
+        }}
         className="flex items-center justify-center w-14 h-14 rounded-full shadow-2xl transition-all duration-300 relative bg-violet-600 shadow-violet-600/40 hover:shadow-violet-600/60 z-10"
       >
         <MessageSquare className="w-6 h-6 text-white absolute" />

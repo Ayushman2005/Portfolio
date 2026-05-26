@@ -43,11 +43,20 @@ const SpotifyMusicCard = () => {
 
     updateSong();
   }, []);
+
+  useEffect(() => {
+    const handleClose = () => setIsHovered(false);
+    window.addEventListener('close-spotify', handleClose);
+    return () => window.removeEventListener('close-spotify', handleClose);
+  }, []);
   
   return (
     <div 
-      className="fixed bottom-6 left-6 z-[100] flex flex-col items-start drop-shadow-2xl"
-      onMouseEnter={() => setIsHovered(true)}
+      className="fixed bottom-6 left-6 z-[100] flex flex-col items-start drop-shadow-2xl max-w-[calc(100vw-2rem)]"
+      onMouseEnter={() => {
+        setIsHovered(true);
+        window.dispatchEvent(new CustomEvent('close-chatbot'));
+      }}
       onMouseLeave={() => setIsHovered(false)}
     >
       <AnimatePresence>
@@ -57,7 +66,7 @@ const SpotifyMusicCard = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="mb-4 w-[320px] origin-bottom-left relative group select-none cursor-pointer"
+            className="mb-4 w-[320px] max-w-[calc(100vw-3rem)] origin-bottom-left relative group select-none cursor-pointer"
           >
             <a href={currentSong.url} target="_blank" rel="noopener noreferrer" className="block relative">
               <div className="glass-card w-full p-5 shadow-xl overflow-hidden">
@@ -166,7 +175,13 @@ const SpotifyMusicCard = () => {
       <motion.button
         animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => setIsHovered(!isHovered)}
+        onClick={() => {
+          const nextHovered = !isHovered;
+          setIsHovered(nextHovered);
+          if (nextHovered) {
+            window.dispatchEvent(new CustomEvent('close-chatbot'));
+          }
+        }}
         className={`flex items-center justify-center w-14 h-14 rounded-full shadow-2xl transition-all duration-300 relative ${
           isHovered ? 'bg-[#1DB954] shadow-[#1DB954]/40 hover:shadow-[#1DB954]/60' : 'bg-slate-900/80 backdrop-blur-md border border-transparent hover:border-[#1DB954]/50'
         }`}

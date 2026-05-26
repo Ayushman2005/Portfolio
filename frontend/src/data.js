@@ -31,6 +31,30 @@ export const portfolioData = {
   ],
   "projects": [
     {
+      "title": "Krishi Sakhi AI — Smart Precision Farming Suite",
+      "type": "AI / ML Ecosystem",
+      "description": "An enterprise-grade precision agriculture assistant integrating RAG-based Generative AI with 10 specialized machine learning engines and interactive geospatial market dashboards.",
+      "problem": "Modern agronomists and farmers struggle with highly fragmented agricultural advice, lack of access to predictive modeling, and manual commodity forecasting.",
+      "solution": "Developed a dark-mode glassmorphic web ecosystem powered by a FastAPI Python backend and React 19, incorporating 10 custom precision ML simulators and Google Gemini 2.0 Flash RAG.",
+      "results": "Created a unified farming cockpit delivering real-time plant disease detection, bio-acoustic canopy diagnostics, crop yield forecasting, and custom carbon credit transactions.",
+      "highlights": [
+        "10 integrated agronomic ML simulators",
+        "RAG agronomic assistant using Gemini 2.0",
+        "OpenStreetMap keyless location tracking",
+        "Carbon credit sequestration ledger simulator"
+      ],
+      "technologies": [
+        "React",
+        "Tailwind CSS",
+        "Python",
+        "FastAPI",
+        "Gemini AI"
+      ],
+      "image": "/images/Krishi_Sakhi.png",
+      "github": "https://github.com/Ayushman2005/Krishi-Sakhi.git",
+      "demo": ""
+    },
+    {
       "title": "NeuralNotes — Syllabus-Aware AI Doubt Solver",
       "type": "AI / ML System",
       "description": "A production-ready, full-stack AI learning assistant built during the PS-HK19 Hackathon. Uses custom RAG to answer questions strictly from curriculum PDFs.",
@@ -52,7 +76,7 @@ export const portfolioData = {
       ],
       "image": "/images/Neural_Notes.png",
       "github": "https://github.com/Ayushman2005/PS-HK19_TECHIEDOMINATORS_EDUTECH.git",
-      "demo": "https://neuralnotes-site.netlify.app/"
+      "demo": ""
     },
     {
       "title": "Society Management System (SocietyPro)",
@@ -75,7 +99,7 @@ export const portfolioData = {
       ],
       "image": "/images/Society_Pro.png",
       "github": "https://github.com/Ayushman2005/SocietyPro",
-      "demo": "https://society-pro-beige.vercel.app/"
+      "demo": ""
     },
     {
       "title": "Campus Insights Dashboard",
@@ -98,7 +122,7 @@ export const portfolioData = {
       ],
       "image": "/images/Campus_Insights.png",
       "github": "https://github.com/Ayushman2005/campus-insight",
-      "demo": "https://campus-insights.netlify.app/"
+      "demo": ""
     }
   ],
   "certifications": [

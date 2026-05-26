@@ -83,10 +83,10 @@ const Experience = ({ experience, summary = false }) => {
                                         {/* Center marker */}
                                         <motion.div
                                             whileHover={{ scale: 1.15, rotate: 5 }}
-                                            className="absolute left-6 md:left-1/2 -translate-x-1/2 z-30 w-16 h-16 rounded-[1.5rem] border-[4px] border-transparent bg-[#121212] shadow-[0_15px_35px_-5px_rgba(124,58,237,0.3)] flex items-center justify-center flex-shrink-0"
+                                            className="absolute left-6 md:left-1/2 -translate-x-1/2 z-30 w-12 h-12 md:w-16 md:h-16 rounded-[1rem] md:rounded-[1.5rem] border-[3px] md:border-[4px] border-transparent bg-[#121212] shadow-[0_15px_35px_-5px_rgba(124,58,237,0.3)] flex items-center justify-center flex-shrink-0"
                                         >
-                                            <div className="w-10 h-10 rounded-2xl bg-violet-600 flex items-center justify-center text-white shadow-inner">
-                                                <Briefcase className="w-5 h-5" />
+                                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-violet-600 flex items-center justify-center text-white shadow-inner">
+                                                <Briefcase className="w-4 h-4 md:w-5 md:h-5" />
                                             </div>
                                         </motion.div>
 
@@ -94,7 +94,7 @@ const Experience = ({ experience, summary = false }) => {
                                         <div className="hidden md:block w-[calc(50%-4rem)]" />
 
                                         {/* Card Container */}
-                                        <div className={`w-full md:w-[calc(50%-4rem)] pl-24 md:pl-0`}>
+                                        <div className={`w-full md:w-[calc(50%-4rem)] pl-16 md:pl-0`}>
                                             <motion.div
                                                 whileHover={{ y: -8, x: isEven ? -4 : 4 }}
                                                 className="glass-card p-8 md:p-12 group"

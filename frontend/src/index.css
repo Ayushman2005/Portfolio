@@ -143,17 +143,27 @@
   html {
     background-attachment: scroll !important;
     overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .glass-card {
-    background: rgba(15, 15, 15, 0.95) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
+    background: rgba(10, 10, 10, 0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.6) !important;
     transform: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
   }
 
-  .glass-card:hover { transform: none !important; }
+  .glass-card:hover { 
+    transform: none !important;
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Optimize touch scrolling */
+  .custom-scrollbar, * {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Highly Optimized Keyframe Animations */

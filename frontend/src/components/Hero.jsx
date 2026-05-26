@@ -188,15 +188,16 @@ const Hero = ({ data }) => {
                         className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[380px] lg:h-[380px] rounded-full mx-auto lg:mx-0 group"
                     >
                         {/* Huge Ambient Glow behind the card */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-transparent to-blue-600 rounded-full opacity-20 blur-3xl group-hover:opacity-40 transition-opacity duration-700"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-transparent to-blue-600 rounded-full opacity-20 blur-3xl group-hover:opacity-40 transition-opacity duration-700 animate-pulse"></div>
+                        
+                        {/* Glowing elegant pulsing ring */}
+                        <div className="absolute -inset-1.5 rounded-full bg-gradient-to-tr from-violet-500/30 to-blue-500/30 opacity-60 blur-[3px] group-hover:opacity-80 transition-opacity duration-700"></div>
                         
                         <div className="absolute inset-0 border border-white/10 bg-[#0a0a0a]/60 backdrop-blur-3xl rounded-full overflow-hidden flex items-center justify-center shadow-2xl transition-all duration-700">
                             {/* Inner Profile Image with cinematic styling */}
                             <motion.img 
                                 src="https://github.com/Ayushman2005.png" 
                                 alt={data.name} 
-                                animate={{ rotate: isMobile() ? 0 : [0, 360] }}
-                                transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
                                 className="w-full h-full object-cover object-top opacity-100 transition-all duration-700 group-hover:scale-105"
                             />
                             {/* Bottom Fade Overlay for sleek text integration */}
