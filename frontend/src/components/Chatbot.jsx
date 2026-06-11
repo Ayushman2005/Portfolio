@@ -18,7 +18,15 @@ const Chatbot = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [expandedThoughts, setExpandedThoughts] = useState({});
   const messagesEndRef = useRef(null);
+
+  const toggleThought = (msgId) => {
+    setExpandedThoughts(prev => ({
+      ...prev,
+      [msgId]: !prev[msgId]
+    }));
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -55,10 +63,22 @@ const Chatbot = () => {
         return;
       }
 
-      const history = messages.slice(1).map(m => ({
-        role: m.type === 'bot' ? 'model' : 'user',
-        parts: [{ text: m.text }]
-      }));
+      const history = messages.slice(1).map(m => {
+        if (m.type === 'bot') {
+          const parts = [];
+          if (m.thought) {
+            parts.push({ text: m.thought, thought: true });
+          }
+          const textPart = { text: m.text };
+          if (m.thoughtSignature) {
+            textPart.thoughtSignature = m.thoughtSignature;
+          }
+          parts.push(textPart);
+          return { role: 'model', parts };
+        } else {
+          return { role: 'user', parts: [{ text: m.text }] };
+        }
+      });
       history.push({ role: 'user', parts: [{ text: userText }] });
 
       const payload = {
@@ -67,11 +87,15 @@ const Chatbot = () => {
         },
         contents: history,
         generationConfig: {
-          maxOutputTokens: 800,
+          maxOutputTokens: 1000,
+          thinkingConfig: {
+            thinkingLevel: "HIGH",
+            includeThoughts: true
+          }
         }
       };
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -83,9 +107,32 @@ const Chatbot = () => {
         throw new Error(data.error.message);
       }
 
-      const responseText = data.candidates[0].content.parts[0].text;
+      const parts = data.candidates[0].content.parts;
+      let thoughtText = '';
+      let responseText = '';
+      let thoughtSignature = '';
+
+      parts.forEach(part => {
+        if (part.thought) {
+          thoughtText += part.text;
+        } else {
+          responseText += part.text;
+        }
+        if (part.thoughtSignature) {
+          thoughtSignature = part.thoughtSignature;
+        }
+      });
       
-      setMessages(prev => [...prev, { id: Date.now(), type: 'bot', text: responseText }]);
+      setMessages(prev => [
+        ...prev, 
+        { 
+          id: Date.now(), 
+          type: 'bot', 
+          text: responseText || "I've processed your request.",
+          thought: thoughtText || null,
+          thoughtSignature: thoughtSignature || null
+        }
+      ]);
     } catch (error) {
       console.error('Gemini API Error:', error);
       setMessages(prev => [...prev, { id: Date.now(), type: 'bot', text: "Sorry, I encountered an error connecting to the AI. Please check your API key." }]);
@@ -166,6 +213,40 @@ const Chatbot = () => {
                         ? 'bg-indigo-600 text-white rounded-tr-sm' 
                         : 'bg-white/5 border border-white/5 text-slate-300 rounded-tl-sm'
                     }`}>
+                      {msg.thought && (
+                        <div className="mb-2 border-b border-white/10 pb-2">
+                          <button
+                            type="button"
+                            onClick={() => toggleThought(msg.id)}
+                            className="flex items-center gap-1 text-[11px] font-semibold text-violet-400 hover:text-violet-300 transition-colors focus:outline-none"
+                          >
+                            <Sparkles className="w-3.5 h-3.5" />
+                            <span>{expandedThoughts[msg.id] ? 'Hide thinking process' : 'View thinking process'}</span>
+                            <motion.span
+                              animate={{ rotate: expandedThoughts[msg.id] ? 90 : 0 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <ChevronRight className="w-3.5 h-3.5" />
+                            </motion.span>
+                          </button>
+                          
+                          <AnimatePresence initial={false}>
+                            {expandedThoughts[msg.id] && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                                animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
+                                exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                                transition={{ duration: 0.25, ease: "easeInOut" }}
+                                className="overflow-hidden"
+                              >
+                                <div className="text-[11px] leading-relaxed text-slate-400 bg-white/5 border-l-2 border-violet-500/50 p-2 rounded-r-lg italic select-none whitespace-pre-wrap">
+                                  {msg.thought}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      )}
                       <div className="whitespace-pre-wrap font-medium">
                         {renderTextWithFormatting(msg.text)}
                       </div>
