@@ -302,7 +302,7 @@ const Guestbook = ({ ownerEmail = "karayushman736@gmail.com" }) => {
                                                 <div>
                                                     <p className="text-lg font-black text-white">{comment.author}</p>
                                                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">
-                                                        {comment.timestamp ? comment.timestamp.toDate().toLocaleDateString(undefined, { 
+                                                        {comment.timestamp && typeof comment.timestamp.toDate === 'function' ? comment.timestamp.toDate().toLocaleDateString(undefined, { 
                                                             month: 'long', 
                                                             day: 'numeric', 
                                                             year: 'numeric' 

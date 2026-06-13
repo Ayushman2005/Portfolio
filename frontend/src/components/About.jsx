@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, MapPin, Heart, Coffee, Sparkles, ArrowRight, Loader2 } from 'lucide-react';
+import { GraduationCap, MapPin, Heart, Coffee, Sparkles, ArrowRight, Loader2, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ImageCarousel from './ImageCarousel';
 import KineticText from './KineticText';
@@ -158,15 +158,41 @@ const About = ({ data, summary = false }) => {
                     <div className="space-y-3">
                         <p className="text-[10px] font-black tracking-widest text-slate-400 uppercase mb-2">Location</p>
 
-                        <div className="border-l-2 border-violet-200 pl-4 space-y-0.5">
-                            <p className="text-sm font-black text-white">Bargarh, Odisha</p>
-                            <p className="text-xs font-bold text-slate-400">Hometown · 768028, India</p>
-                        </div>
+                        <a 
+                            href="https://maps.app.goo.gl/ddNhABi76rPQCUhD6" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="relative block p-4 pl-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-violet-500/5 hover:border-violet-500/30 transition-all duration-300 group/loc cursor-pointer overflow-hidden shadow-sm hover:shadow-[0_0_20px_rgba(124,58,237,0.1)] hover:-translate-y-0.5"
+                        >
+                            {/* Accent line on left (always active for hometown) */}
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-violet-500 transition-all duration-300 rounded-l-2xl" />
+                            
+                            <div className="flex items-center justify-between">
+                                <p className="text-sm font-black text-white group-hover/loc:text-violet-400 transition-colors">
+                                    Bargarh, Odisha
+                                </p>
+                                <ArrowUpRight className="w-4 h-4 opacity-40 group-hover/loc:opacity-100 group-hover/loc:translate-x-0.5 group-hover/loc:-translate-y-0.5 transition-all duration-300 text-slate-500 group-hover/loc:text-violet-400" />
+                            </div>
+                            <p className="text-xs font-bold text-slate-400 mt-1">Hometown · 768028, India</p>
+                        </a>
 
-                        <div className="border-l-2 border-transparent pl-4 space-y-0.5">
-                            <p className="text-sm font-black text-white">Gunupur, Odisha</p>
-                            <p className="text-xs font-bold text-slate-400">Current · 765022, India</p>
-                        </div>
+                        <a 
+                            href="https://maps.app.goo.gl/jZCrpYbz63fp3Jg3A" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="relative block p-4 pl-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-violet-500/5 hover:border-violet-500/30 transition-all duration-300 group/loc cursor-pointer overflow-hidden shadow-sm hover:shadow-[0_0_20px_rgba(124,58,237,0.1)] hover:-translate-y-0.5"
+                        >
+                            {/* Accent line on left (lights up on hover for current) */}
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover/loc:bg-violet-500/50 transition-all duration-300 rounded-l-2xl" />
+                            
+                            <div className="flex items-center justify-between">
+                                <p className="text-sm font-black text-white group-hover/loc:text-violet-400 transition-colors">
+                                    Gunupur, Odisha
+                                </p>
+                                <ArrowUpRight className="w-4 h-4 opacity-40 group-hover/loc:opacity-100 group-hover/loc:translate-x-0.5 group-hover/loc:-translate-y-0.5 transition-all duration-300 text-slate-500 group-hover/loc:text-violet-400" />
+                            </div>
+                            <p className="text-xs font-bold text-slate-400 mt-1">Current · 765022, India</p>
+                        </a>
                     </div>
                 </BentoCard>
 

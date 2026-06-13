@@ -263,16 +263,16 @@ const Clock = () => {
           {/* Glowing Digital Dashboard Counter Cards */}
           <div className="grid grid-cols-3 gap-4 md:gap-6 w-full mt-4 perspective-[1000px]">
             {[
-              { label: 'Hours', val: hours, color: 'blue' },
-              { label: 'Minutes', val: minutes, color: 'indigo' },
-              { label: 'Seconds', val: seconds, color: 'violet' }
+              { label: 'Hours', val: hours, colorClass: 'text-blue-400', glowClass: 'from-blue-600/0 via-blue-600/30', insetBg: 'from-blue-600/10' },
+              { label: 'Minutes', val: minutes, colorClass: 'text-indigo-400', glowClass: 'from-indigo-600/0 via-indigo-600/30', insetBg: 'from-indigo-600/10' },
+              { label: 'Seconds', val: seconds, colorClass: 'text-violet-400', glowClass: 'from-violet-600/0 via-violet-600/30', insetBg: 'from-violet-600/10' }
             ].map((item, idx) => (
-              <motion.div key={item.label} whileHover={{ y: -5, scale: 1.05, rotateX: 10, translateZ: 20 }} className={`group/card flex flex-col p-6 rounded-3xl glass-card border border-white/5 backdrop-blur-md shadow-xl transition-all duration-300 relative overflow-hidden`} style={{ willChange: "transform" }}>
+              <motion.div key={item.label} whileHover={{ y: -5, scale: 1.05, rotateX: 10, translateZ: 20 }} className="group/card flex flex-col p-6 rounded-3xl glass-card border border-white/5 backdrop-blur-md shadow-xl transition-all duration-300 relative overflow-hidden" style={{ willChange: "transform" }}>
                 {/* Glow ring */}
-                <div className={`absolute -inset-0.5 bg-gradient-to-br from-${item.color}-600/0 via-${item.color}-600/30 to-transparent rounded-3xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`} />
-                <div className={`absolute inset-0 bg-gradient-to-br from-${item.color}-600/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`}></div>
+                <div className={`absolute -inset-0.5 bg-gradient-to-br ${item.glowClass} to-transparent rounded-3xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.insetBg} to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500`} />
                 
-                <span className={`text-[11px] uppercase tracking-[0.3em] text-${item.color}-400 font-black mb-2 relative z-10 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]`}>{item.label}</span>
+                <span className={`text-[11px] uppercase tracking-[0.3em] ${item.colorClass} font-black mb-2 relative z-10 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]`}>{item.label}</span>
                 <span className="text-4xl md:text-5xl font-black text-white tabular-nums drop-shadow-2xl relative z-10" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{item.val}</span>
               </motion.div>
             ))}

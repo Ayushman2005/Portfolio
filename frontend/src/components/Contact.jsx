@@ -75,7 +75,7 @@ const Contact = ({ data }) => {
 
     const contacts = [
         { icon: Mail, label: 'Deep Connect', value: data.email, href: `mailto:${data.email}`, color: '#7c3aed' },
-        { icon: MapPin, label: 'HQ Base', value: data.location, href: null, color: '#4f46e5' },
+        { icon: MapPin, label: 'HQ Base', value: data.location, href: "https://maps.app.goo.gl/ddNhABi76rPQCUhD6", color: '#4f46e5' },
         { icon: MessageSquare, label: 'Response Slot', value: '2-4 Response Window', href: null, color: '#ec4899' },
     ];
 
@@ -134,7 +134,12 @@ const Contact = ({ data }) => {
                                     transition={{ delay: 0.1 * i }}
                                 >
                                     {href ? (
-                                        <a href={href} className="glass-card p-6 md:p-8 flex items-center gap-6 group">
+                                        <a 
+                                            href={href} 
+                                            target={href.startsWith('mailto:') ? undefined : '_blank'} 
+                                            rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'} 
+                                            className="glass-card p-6 md:p-8 flex items-center gap-6 group"
+                                        >
                                             <div className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110" style={{ background: `${color}15`, border: `1.5px solid ${color}25` }}>
                                                 <Icon className="w-7 h-7" style={{ color }} />
                                             </div>

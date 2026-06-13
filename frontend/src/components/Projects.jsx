@@ -261,7 +261,7 @@ const Projects = ({ projects, summary = false }) => {
                 </motion.p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
+            <div className={`grid grid-cols-1 md:grid-cols-2 ${summary ? 'lg:grid-cols-2 max-w-5xl mx-auto' : 'lg:grid-cols-2 xl:grid-cols-3'} gap-8 md:gap-12`}>
                 {displayedProjects.map((project, index) => (
                     <ProjectCard key={index} project={project} index={index} />
                 ))}
